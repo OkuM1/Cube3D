@@ -6,7 +6,7 @@
 /*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:16:09 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/11/14 17:05:00 by mokutucu         ###   ########.fr       */
+/*   Updated: 2024/11/14 18:17:41 by mokutucu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,17 @@ void    render(t_game *game)
     mlx_put_image_to_window(game->img.mlx, game->img.mlx_win, game->img.img, 0, 0);
     mlx_loop(game->img.mlx);
 }
-int main(void)
+int main(int ac, char **av)
 {
+    if (ac != 2)
+    {
+        printf("Wrong arg count!\n");
+        return (0);
+    }
+    (void) av;
+    
     t_game game;
-    
+
     render(&game);
-    
     return 0;
 }
