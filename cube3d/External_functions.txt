@@ -1,0 +1,27 @@
+This is a helpfile and can be deleted at the end
+
+open, close, read, write,
+printf, malloc, free, perror,
+strerror, exit, gettimeofday
+
+• All functions of the math
+library (-lm man man 3 math)
+ <math.h>
+
+• All functions of the MinilibX
+<minilibx-linux/mlx.h>
+
+
+Function	  |  Library
+--------------------------------------
+open	      | <fcntl.h> / <unistd.h>
+close	      | <unistd.h>
+read	      | <unistd.h>
+write	      | <unistd.h>
+printf	      | <stdio.h>
+malloc	      | <stdlib.h>
+free	      | <stdlib.h>
+perror	      | <stdio.h>
+strerror	  | <string.h>
+exit	      | <stdlib.h>
+gettimeofday  | <sys/time.h>

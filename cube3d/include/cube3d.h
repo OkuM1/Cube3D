@@ -1,18 +1,17 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:20:48 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/11/14 18:11:08 by mokutucu         ###   ########.fr       */
+/*   Updated: 2024/11/16 14:11:41 by chris            ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
-#ifndef CUB3D_H
-# define CUB3D_H
-
+#ifndef CUBE3D_H
+# define CUBE3D_H
 
 #include "../libs/libft/libft.h"
 #include "../libs/minilibx-linux/mlx.h"
@@ -20,6 +19,9 @@
 #include <math.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <fcntl.h>
+#include <sys/time.h>
+#include <string.h>
 
 typedef struct s_img
 {
@@ -43,5 +45,13 @@ typedef struct s_game
     t_img img;
     t_player player;
 } t_game;
+
+// Main
+int main(int ac, char **av);
+
+// Map checker
+int	check_input(int ac, char **av);
+int	check_datatyp(char *file_name, char *datatype);
+
 
 #endif

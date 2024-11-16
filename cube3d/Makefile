@@ -1,16 +1,16 @@
-# **************************************************************************** #
+#******************************************************************************#
 #                                                                              #
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+         #
+#    By: chris <chris@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/07 14:51:22 by mokutucu          #+#    #+#              #
-#    Updated: 2024/11/14 16:27:02 by mokutucu         ###   ########.fr        #
+#    Updated: 2024/11/16 14:07:42 by chris            ###   ########.fr        #
 #                                                                              #
-# **************************************************************************** #
+#******************************************************************************#
 
-NAME    = cub3D
+NAME    = cube3D
 
 # Directories
 OBJDIR  = obj
@@ -27,7 +27,7 @@ LDFLAGS = -lreadline -L$(LIBDIR) -lft -L$(MLX_DIR) -lmlx -lm -lX11 -lXext
 RM      = rm -rf
 
 # Source files and objects
-SRCS    = src/main.c
+SRCS    = src/main.c src/map_checker/check_input.c
 OBJS    = $(patsubst $(SRC_DIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
 
 # External libraries
@@ -36,7 +36,14 @@ MLX     = $(MLX_DIR)/libmlx.a
 MLX_REPO = https://github.com/42Paris/minilibx-linux.git
 
 # Targets
-all: $(LIBFT) $(MLX) $(NAME)
+all: $(MLX) $(LIBFT) $(NAME)
+
+# Check if MLX_DIR exits, if not download from MLX_REPO
+check_directory:
+	@if [ ! -d "$(MLX_DIR)" ]; then \
+		echo "Directory does not exist, downloading file..."; \
+		git clone $(MLX_REPO) $(MLX_DIR); \
+	fi
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LDFLAGS)
@@ -49,8 +56,8 @@ $(OBJDIR)/%.o: $(SRC_DIR)/%.c
 $(LIBFT):
 	make -C $(LIBDIR)
 
-$(MLX):
-	git -C $(MLX_DIR) pull || git clone $(MLX_REPO) $(MLX_DIR)
+$(MLX): check_directory
+#	git -C $(MLX_DIR) pull || git clone $(MLX_REPO) $(MLX_DIR)
 	make -C $(MLX_DIR)
 
 # Clean up
