@@ -1,16 +1,16 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   check_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 13:50:04 by chris             #+#    #+#             */
-/*   Updated: 2024/11/16 14:17:09 by chris            ###   ########.fr       */
+/*   Updated: 2024/11/16 20:44:13 by mokutucu         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
-#include "../../include/cube3d.h"
+#include "../../include/cub3d.h"
 
 int	check_input(int ac, char **av)
 {
@@ -24,8 +24,7 @@ int	check_input(int ac, char **av)
 	fd = open(av[1], O_RDONLY);
 	if (fd < 0)
 	{
-		ft_printf("File not found!\n");
-		return (1);
+		error("FD open failed.");
 	}
 	close(fd);
 	if (check_datatyp(av[1], ".cub") == 1)

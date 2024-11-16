@@ -1,16 +1,16 @@
-#******************************************************************************#
+# **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: chris <chris@student.42.fr>                +#+  +:+       +#+         #
+#    By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/07 14:51:22 by mokutucu          #+#    #+#              #
-#    Updated: 2024/11/16 14:07:42 by chris            ###   ########.fr        #
+#    Updated: 2024/11/16 20:43:36 by mokutucu         ###   ########.fr        #
 #                                                                              #
-#******************************************************************************#
+# **************************************************************************** #
 
-NAME    = cube3D
+NAME    = cub3D
 
 # Directories
 OBJDIR  = obj
@@ -27,7 +27,8 @@ LDFLAGS = -lreadline -L$(LIBDIR) -lft -L$(MLX_DIR) -lmlx -lm -lX11 -lXext
 RM      = rm -rf
 
 # Source files and objects
-SRCS    = src/main.c src/map_checker/check_input.c
+SRCS    = src/main.c src/map_checker/check_input.c src/map_checker/parse_file.c src/exit/exit.c src/hooks/key_hook.c src/hooks/refresh.c
+
 OBJS    = $(patsubst $(SRC_DIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
 
 # External libraries
