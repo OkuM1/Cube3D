@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:16:09 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/11/16 20:44:04 by mokutucu         ###   ########.fr       */
+/*   Updated: 2024/11/18 15:40:55 by chris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,15 @@ void    render(t_game *game)
 	mlx_expose_hook(game->img.mlx_win, refresh_game, game);
     mlx_loop(game->img.mlx);
 }
+
 int main(int ac, char **av)
 {
-    t_game game;
-    
-    if (check_input(ac, av) != 0)
-        return (0);
-    if (parse_file(av, &game) != 0)
-        return (0);
-
-    render(&game);
-    return 0;
+	t_game game;
+	
+	if (check_input(ac, av) == 1)
+		return (1);
+	if (parse_file(av, &game) != 0)
+		return (1);
+	render(&game);
+	return 0;
 }

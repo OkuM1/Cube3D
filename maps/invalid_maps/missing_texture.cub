@@ -1,0 +1,14 @@
+NO ./textures/dark_texture.xpm
+SO ./textures/green_texture.xpm
+WE ./textures/orange_texture.xpm
+
+F 225, 252, 225
+C 168, 168, 168
+
+1111111111
+1000000001
+1011111101
+1011111101
+1011111101
+10000E0001
+1111111111

@@ -6,7 +6,7 @@
 /*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:20:48 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/11/18 10:02:21 by chris            ###   ########.fr       */
+/*   Updated: 2024/11/18 15:16:05 by chris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,11 @@ typedef struct s_game
 // Map checker
 int	check_input(int ac, char **av);
 int	check_datatyp(char *file_name, char *datatype);
+int check_map_args(int fd);
+int	check_textures(int fd);
+int	check_floor(int fd);
+int	check_ceiling(int fd);
+int	check_RGB_values(char *line, int *i);
 
 // Parser
 int parse_file(char **av, t_game *game);

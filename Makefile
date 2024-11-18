@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+         #
+#    By: chris <chris@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/07 14:51:22 by mokutucu          #+#    #+#              #
-#    Updated: 2024/11/16 20:43:36 by mokutucu         ###   ########.fr        #
+#    Updated: 2024/11/18 13:15:13 by chris            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ LIBDIR  = libs/libft
 MLX_DIR = libs/minilibx-linux
 
 # Compiler and flags
-CC      = cc
+CC		= cc
 CFLAGS  = -Wall -Wextra -Werror -g
 LDFLAGS = -lreadline -L$(LIBDIR) -lft -L$(MLX_DIR) -lmlx -lm -lX11 -lXext
 
@@ -27,9 +27,11 @@ LDFLAGS = -lreadline -L$(LIBDIR) -lft -L$(MLX_DIR) -lmlx -lm -lX11 -lXext
 RM      = rm -rf
 
 # Source files and objects
-SRCS    = src/main.c src/map_checker/check_input.c src/map_checker/parse_file.c src/exit/exit.c src/hooks/key_hook.c src/hooks/refresh.c
+SRCS	= src/main.c src/input_check/check_input.c src/input_check/parse_file.c \
+			src/exit/exit.c src/hooks/key_hook.c src/hooks/refresh.c \
+			src/input_check/check_map_args.c
 
-OBJS    = $(patsubst $(SRC_DIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
+OBJS	= $(patsubst $(SRC_DIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
 
 # External libraries
 LIBFT   = $(LIBDIR)/libft.a
