@@ -6,7 +6,7 @@
 #    By: chris <chris@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/07 14:51:22 by mokutucu          #+#    #+#              #
-#    Updated: 2024/11/18 15:57:38 by chris            ###   ########.fr        #
+#    Updated: 2024/11/18 18:38:15 by chris            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,9 +27,15 @@ LDFLAGS = -lreadline -L$(LIBDIR) -lft -L$(MLX_DIR) -lmlx -lm -lX11 -lXext
 RM      = rm -rf
 
 # Source files and objects
-SRCS	= src/main.c src/input_check/check_input.c src/input_check/parse_file.c \
-			src/exit/exit.c src/hooks/key_hook.c src/hooks/refresh.c \
-			src/input_check/check_map_args.c
+SRCS	= src/main.c \
+		src/exit/exit.c \
+		src/hooks/key_hook.c \
+		src/hooks/refresh.c \
+		src/input_check/check_input.c \
+		src/input_check/check_map_args.c \
+		src/input_check/check_and_save_textures.c \
+		src/input_check/check_and_save_floor_and_ceiling.c \
+		src/parser/parse_file.c \
 
 OBJS	= $(patsubst $(SRC_DIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
 

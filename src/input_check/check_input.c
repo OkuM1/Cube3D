@@ -6,7 +6,7 @@
 /*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 13:50:04 by chris             #+#    #+#             */
-/*   Updated: 2024/11/18 13:08:48 by chris            ###   ########.fr       */
+/*   Updated: 2024/11/18 18:48:46 by chris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,8 @@ int	check_datatyp(char *file_name, char *datatype)
 	return (0);
 }
 
-int	check_input(int ac, char **av)
+int	check_input(int ac, char **av, t_game *game, t_map *map)
 {
-	int		fd;
-
 	if (ac != 2)
 	{
 		ft_printf("[%d] = Invalid number of arguments!\n", ac);
@@ -48,14 +46,7 @@ int	check_input(int ac, char **av)
 	}
 	if (check_datatyp(av[1], ".cub") == 1)
 		return (1);
-	fd = open(av[1], O_RDONLY);
-	if (fd < 0)
-		error("FD open failed.");
-	if (check_map_args(fd) == 1)
-	{
-		close(fd);
+	if (check_and_save_map_args(av,game, map) == 1)
 		return (1);
-	}
-	close(fd);
 	return (0);
 }
