@@ -36,6 +36,8 @@ EA ./textures/...
 F RGB Colour (floor)
 C RGB Colour (ceiling)
 
+F 127,123,354
+
 111111
 100101
 101001

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cube3d.h                                           :+:      :+:    :+:   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:20:48 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/11/16 20:43:56 by mokutucu         ###   ########.fr       */
+/*   Updated: 2024/11/18 15:17:45 by mokutucu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ typedef struct s_map
     char *S_text;
     char *W_text;
     char *E_text;
-    int *floor_color;
-    int *ceiling_color;
+    int floor_color[3];
+    int ceiling_color[3];
 }   t_map;
 
 typedef struct s_player

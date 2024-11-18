@@ -6,7 +6,7 @@
 #    By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/07 14:51:22 by mokutucu          #+#    #+#              #
-#    Updated: 2024/11/16 20:43:36 by mokutucu         ###   ########.fr        #
+#    Updated: 2024/11/18 11:56:44 by mokutucu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ LDFLAGS = -lreadline -L$(LIBDIR) -lft -L$(MLX_DIR) -lmlx -lm -lX11 -lXext
 RM      = rm -rf
 
 # Source files and objects
-SRCS    = src/main.c src/map_checker/check_input.c src/map_checker/parse_file.c src/exit/exit.c src/hooks/key_hook.c src/hooks/refresh.c
+SRCS    = src/main.c src/map_checker/check_input.c src/parser/parse_file.c src/exit/exit.c src/hooks/key_hook.c src/hooks/refresh.c
 
 OBJS    = $(patsubst $(SRC_DIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
 

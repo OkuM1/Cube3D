@@ -6,7 +6,7 @@
 /*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:16:09 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/11/16 20:44:04 by mokutucu         ###   ########.fr       */
+/*   Updated: 2024/11/18 14:44:17 by mokutucu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,10 @@ int main(int ac, char **av)
     if (parse_file(av, &game) != 0)
         return (0);
 
+    printf("%s\n", game.map.S_text);
+    printf("Floor :%d\n", game.map.floor_color[0]);
+    printf("Ceiling %d\n", game.map.ceiling_color[1]);
+    
     render(&game);
     return 0;
 }
