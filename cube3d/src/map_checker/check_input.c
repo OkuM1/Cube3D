@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 13:50:04 by chris             #+#    #+#             */
-/*   Updated: 2024/11/16 20:44:13 by mokutucu         ###   ########.fr       */
+/*   Updated: 2024/11/18 10:15:35 by chris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,7 @@ int	check_input(int ac, char **av)
 	}
 	fd = open(av[1], O_RDONLY);
 	if (fd < 0)
-	{
 		error("FD open failed.");
-	}
 	close(fd);
 	if (check_datatyp(av[1], ".cub") == 1)
 	{
