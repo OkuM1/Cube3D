@@ -6,7 +6,7 @@
 /*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:16:09 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/11/18 15:40:55 by chris            ###   ########.fr       */
+/*   Updated: 2024/11/18 15:59:42 by chris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,17 @@ void    render(t_game *game)
 
 int main(int ac, char **av)
 {
-	t_game game;
-	
-	if (check_input(ac, av) == 1)
-		return (1);
-	if (parse_file(av, &game) != 0)
-		return (1);
-	render(&game);
-	return 0;
+    t_game game;
+    
+    if (check_input(ac, av) != 0)
+        return (0);
+    if (parse_file(av, &game) != 0)
+        return (0);
+
+    printf("%s\n", game.map.S_text);
+    printf("Floor :%d\n", game.map.floor_color[0]);
+    printf("Ceiling %d\n", game.map.ceiling_color[1]);
+    
+    render(&game);
+    return 0;
 }

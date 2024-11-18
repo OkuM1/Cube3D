@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug C Program",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "/home/mokutucu/Documents/cube3d/cube3d/cub3D", // Replace with your executable name
+            "args": ["/home/mokutucu/Documents/cube3d/cube3d/maps/small_map.cub"], // Optional: Add any command-line arguments for your program
+            "stopAtEntry": false, // Change to true if you want to pause at main()
+            "cwd": "${workspaceFolder}", // Working directory
+            "environment": [],
+            "externalConsole": false, // Set to true if you prefer debugging in an external terminal
+            "MIMode": "gdb" // Use GDB for debugging
+        }
+    ]
+}

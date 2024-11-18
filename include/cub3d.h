@@ -6,7 +6,7 @@
 /*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:20:48 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/11/18 15:16:05 by chris            ###   ########.fr       */
+/*   Updated: 2024/11/18 15:59:07 by chris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ typedef struct s_map
     char *S_text;
     char *W_text;
     char *E_text;
-    int *floor_color;
-    int *ceiling_color;
+    int floor_color[3];
+    int ceiling_color[3];
 }   t_map;
 
 typedef struct s_player
