@@ -6,7 +6,7 @@
 #    By: chris <chris@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/07 14:51:22 by mokutucu          #+#    #+#              #
-#    Updated: 2024/11/18 13:15:13 by chris            ###   ########.fr        #
+#    Updated: 2024/11/18 15:55:08 by chris            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,6 +72,7 @@ clean:
 fclean: clean
 	$(RM) $(NAME)
 	@make -C $(LIBDIR) fclean
+	@make -C $(LIBFT) fclean
 
 re: fclean all
 
