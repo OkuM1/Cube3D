@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:16:09 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/11/18 18:46:49 by chris            ###   ########.fr       */
+/*   Updated: 2024/11/19 13:41:35 by mokutucu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,10 @@ int main(int ac, char **av)
 	// init_structs(game, map);
 	if (check_input(ac, av, &game, &map) != 0)
 		return (0);
-	if (parse_file(av, &game) != 0)
-		return (0);
+	/* if (parse_file(av, &game) != 0)
+		return (0); */
+	printf("--------TEST VALUES---------\n");
+	printf("Map size: %d\n", map.map_size);
 	printf("%s\n", game.map.s_text);
 	printf("Floor :%d\n", game.map.floor_color[0]);
 	printf("Ceiling %d\n", game.map.ceiling_color[1]);

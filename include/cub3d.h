@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:20:48 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/11/18 19:02:09 by chris            ###   ########.fr       */
+/*   Updated: 2024/11/19 13:56:49 by mokutucu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,13 @@ int		create_file_arr(char **av, t_map *map);
 int		open_fd(char **av, int *fd);
 int		get_arr_size_and_malloc(int fd, t_map *map);
 int		check_and_save_textures(t_game *game, t_map *map);
-int		check_and_save_floor(t_map *map);
-int		check_and_save_ceiling(t_map *map);
+int		check_and_save_floor(t_game *game, t_map *map);
+int		check_and_save_ceiling(t_game *game, t_map *map);
 int		check_RGB_values(t_map *map, int *i);
 
 // Parser
 int		parse_file(char **av, t_game *game);
-void	save_color(t_game *game, t_map *map);
+void	save_color(t_game *game, t_map *map, int index);
 void	save_texture(t_game *game, t_map *map);
 
 // Hooks

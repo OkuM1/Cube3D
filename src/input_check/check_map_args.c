@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map_args.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 10:03:52 by chris             #+#    #+#             */
-/*   Updated: 2024/11/18 19:11:50 by chris            ###   ########.fr       */
+/*   Updated: 2024/11/19 14:41:03 by mokutucu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,14 +82,19 @@ int check_and_save_map_args(char **av, t_game *game, t_map *map)
 		return (1);
 	if (create_file_arr(av, map) == 1)
 		return (1);
+	
+	/* int i = 0;
+	while (map->map[i])
+	{
+		printf("%s\n", map->map[i]);
+		i++;
+	} */
 	if (check_and_save_textures(game, map) == 1)
 		return (1);
-	if ((check_and_save_floor(map)
-		&& check_and_save_ceiling(map)) == 0)
-	{
-		save_color(game, map);
+	if (check_and_save_floor(game, map) == 1)
 		return (1);
-	}
+	if (check_and_save_ceiling(game, map) == 1)
+		return (1);
 	// if(check_map(file_arr))
 		//save map
 	return (0);
