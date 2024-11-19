@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_and_save_floor_and_ceiling.c                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 18:22:06 by chris             #+#    #+#             */
-/*   Updated: 2024/11/18 19:03:38 by chris            ###   ########.fr       */
+/*   Updated: 2024/11/19 13:32:16 by mokutucu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	check_and_save_ceiling(t_map *map)
 	int		C_found;
 	
 	C_found = 0;
+	i = 0;
 	while (map->map[i])
 	{
 		if (strncmp(map->map[i], "C ", 2) == 0)
@@ -89,6 +90,7 @@ int	check_and_save_floor(t_map *map)
 	int		F_found;
 	
 	F_found = 0;
+	i = 0;
 	while (map->map[i])
 	{
 		if (strncmp(map->map[i], "F ", 2) == 0)
