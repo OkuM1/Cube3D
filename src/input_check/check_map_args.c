@@ -6,7 +6,7 @@
 /*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 10:03:52 by chris             #+#    #+#             */
-/*   Updated: 2024/11/19 14:41:03 by mokutucu         ###   ########.fr       */
+/*   Updated: 2024/11/20 15:16:55 by mokutucu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,11 @@ int	create_file_arr(char **av, t_map *map)
 	return (0);
 }
 
-int check_and_save_map_args(char **av, t_game *game, t_map *map)
+int check_and_save_map_args(char **av, t_game *game)
 {
 	if (av[1] == NULL)
 		return (1);
-	if (create_file_arr(av, map) == 1)
+	if (create_file_arr(av, &game->map) == 1)
 		return (1);
 	
 	/* int i = 0;
@@ -89,13 +89,13 @@ int check_and_save_map_args(char **av, t_game *game, t_map *map)
 		printf("%s\n", map->map[i]);
 		i++;
 	} */
-	if (check_and_save_textures(game, map) == 1)
+	if (check_and_save_textures(game, &game->map) == 1)
 		return (1);
-	if (check_and_save_floor(game, map) == 1)
+	if (check_and_save_color(game, &game->map, 'F') == 1)
 		return (1);
-	if (check_and_save_ceiling(game, map) == 1)
+	if (check_and_save_color(game, &game->map, 'C') == 1)
+		return (1);;
+	if(check_and_save_level(&game->map) == 1)
 		return (1);
-	// if(check_map(file_arr))
-		//save map
 	return (0);
 }

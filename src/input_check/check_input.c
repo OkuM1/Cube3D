@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 13:50:04 by chris             #+#    #+#             */
-/*   Updated: 2024/11/18 18:48:46 by chris            ###   ########.fr       */
+/*   Updated: 2024/11/20 14:09:04 by mokutucu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	check_datatyp(char *file_name, char *datatype)
 	return (0);
 }
 
-int	check_input(int ac, char **av, t_game *game, t_map *map)
+int	check_input(int ac, char **av, t_game *game)
 {
 	if (ac != 2)
 	{
@@ -46,7 +46,7 @@ int	check_input(int ac, char **av, t_game *game, t_map *map)
 	}
 	if (check_datatyp(av[1], ".cub") == 1)
 		return (1);
-	if (check_and_save_map_args(av,game, map) == 1)
+	if (check_and_save_map_args(av, game) == 1)
 		return (1);
 	return (0);
 }

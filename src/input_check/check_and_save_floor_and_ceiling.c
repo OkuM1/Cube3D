@@ -6,7 +6,7 @@
 /*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 18:22:06 by chris             #+#    #+#             */
-/*   Updated: 2024/11/19 14:35:14 by mokutucu         ###   ########.fr       */
+/*   Updated: 2024/11/20 14:10:07 by mokutucu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,143 +14,99 @@
 
 void free_array(char **arr)
 {
-    int i;
+    int i = 0;
 
-    if (!arr) // Check for null pointer
+    if (!arr) 
         return;
 
-    i = 0;
     while (arr[i])
-    {
-        free(arr[i]); // Free each string
-        i++;
-    }
-    free(arr); // Free the array itself
+        free(arr[i++]);
+    free(arr);
 }
 
-void save_color(t_game *game, t_map *map, int index)
+int is_valid_digits(char *str)
 {
-    char **nums;
-    int  i;
+    int i = 0;
 
-    nums = ft_split((map->map[index] + 2), ',');
+    if (!str || str[0] == '\0')
+        return (0); // Empty string is invalid
+
+    while (str[i] != '\0')
+    {
+        if (!ft_isdigit(str[i]))
+            return (0); // Non-digit character found
+        i++;
+    }
+
+    return (1); // All characters are digits
+}
+
+int validate_and_save_color(t_game *game, char *line, char identifier)
+{
+    printf("Validating color: %s\n", line);
+    char **nums;
+    int i;
+    int value;
+
+    nums = ft_split(line + 2, ',');
+	printf("nums: %s\n", nums[0]);
     if (!nums)
     {
-        error("Memory allocation failed for RGB values.");
-        return;
-    }
-
-    // Validate the number of RGB components
-    i = 0;
-    while (nums[i])
-        i++;
-    if (i != 3)
-    {
-        error("Invalid RGB format: requires 3 components.");
+        error("Error: Failed to split color string.");
         free_array(nums);
-        return;
+        return (1);
     }
-
-    // Assign colors to floor or ceiling
+	
     i = 0;
-    while (i < 3)
+    while (nums[i] && i < 3)
     {
-        if (ft_strncmp(map->map[index], "F", 1) == 0)
-            game->map.floor_color[i] = ft_atoi(nums[i]);
-        else
-            game->map.ceiling_color[i] = ft_atoi(nums[i]);
+        value = ft_atoi(nums[i]);
+		printf("value: %d\n", value);
+        if (value < 0 || value > 255)
+        {
+            error("RGB value is out of range (0-255)!");
+            free_array(nums);
+            return (1);
+        }
+
+        // Save the value
+        if (identifier == 'F')
+        {
+            game->map.floor_color[i] = value;
+			//printf("game->map.floor_color[%d]: %d\n", i, game->map.floor_color[i]);
+        }
+        else if (identifier == 'C')
+		{
+            game->map.ceiling_color[i] = value;
+			//printf("game->map.ceiling_color[%d]: %d\n", i, game->map.ceiling_color[i]);
+		}
         i++;
     }
 
     free_array(nums);
+    return (0);
 }
 
-
-
-int	check_RGB_values(t_map *map, int *i)
+int check_and_save_color(t_game *game, t_map *map, char identifier)
 {
-	int value;
-	int	j;
+    int i;
 
-	value = 0;
-	j = 0;
-	while (map->map[*i][j] == ' ')
-		j++;
-	while (ft_isdigit(map->map[*i][j]))
-	{
-		value = value * 10 + (map->map[*i][j] - '0');
-		if (value > 255)
-		{
-			error("Floor or ceiling value is out of RGB Range!");
-			return (1);
-		}
-		j++;
-	}
-	while (map->map[*i][j] == ' ' || map->map[*i][j] == ',')
-		j++;
-		
-	*i += 1;
-	return (0);
-}
+    if (!map || !map->map)
+    {
+        error("Error: Null map structure!");
+        return (1);
+    }
 
-int	check_and_save_ceiling(t_game *game, t_map *map)
-{
-	int		i;
-	int		C_found;
-	
-	C_found = 0;
-	i = 0;
-	while (map->map[i])
-	{
-		if (ft_strncmp(map->map[i], "C ", 2) == 0)
-		{
-			i = 2;
-			while (map->map[i])
-			{
-				if (check_RGB_values(map, &i) == 1)
-				{
-					error ("Error: Wrong value for ceiling!");
-					return (1);
-				}
-				save_color(game, map, i);
-				C_found = 1;
-				break;
-			}
-		}
-		i++;
-	}
-	if (C_found == 0)
-		return (1);
-	return (0);
-}
+    i = 0;
+    while (map->map[i])
+    {
+        // Check if the line starts with the identifier F or C
+        if (ft_strncmp(map->map[i], &identifier, 1) == 0)
+        {
+            return validate_and_save_color(game, map->map[i], identifier);
+        }
+        i++;
+    }
 
-int	check_and_save_floor(t_game *game, t_map *map)
-{
-	int		i;
-	int		F_found;
-	
-	F_found = 0;
-	i = 0;
-	while (map->map[i])
-	{
-		if (ft_strncmp(map->map[i], "F ", 2) == 0)
-		{
-			i = 2;
-			while (map->map[i])
-			{
-				if (check_RGB_values(map, &i) == 1)
-				{
-					error ("Error: Wrong value for floor!");
-					return (1);
-				}
-				save_color(game, map, i);
-				F_found = 1;
-				break;
-			}
-		}
-		i++;
-	}
-	if (F_found == 0)
-		return (1);
-	return (0);
+    return (1);
 }

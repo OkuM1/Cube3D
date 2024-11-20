@@ -6,7 +6,7 @@
 /*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:20:48 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/11/19 13:56:49 by mokutucu         ###   ########.fr       */
+/*   Updated: 2024/11/20 15:16:00 by mokutucu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_img
 typedef struct s_map
 {
 	char	**map;
+	char	**level;
 	char	*n_text;	//must be lowercase for norminette
 	char	*s_text;	//must be lowercase for norminette
 	char	*w_text;	//must be lowercase for norminette
@@ -50,6 +51,8 @@ typedef struct s_map
 	int		floor_color[3];
 	int		ceiling_color[3];
 	int		map_size;
+	int		level_length;
+	int		level_width;
 }	t_map;
 
 typedef struct s_player
@@ -65,20 +68,18 @@ typedef struct s_game
 }	t_game;
 
 // Map checker
-int		check_input(int ac, char **av, t_game *game, t_map *map);
+int		check_input(int ac, char **av, t_game *game);
 int		check_datatyp(char *file_name, char *datatype);
-int		check_and_save_map_args(char **av, t_game *game, t_map *map);
+int		check_and_save_map_args(char **av, t_game *game);
 int		create_file_arr(char **av, t_map *map);
 int		open_fd(char **av, int *fd);
 int		get_arr_size_and_malloc(int fd, t_map *map);
 int		check_and_save_textures(t_game *game, t_map *map);
-int		check_and_save_floor(t_game *game, t_map *map);
-int		check_and_save_ceiling(t_game *game, t_map *map);
-int		check_RGB_values(t_map *map, int *i);
+int		check_and_save_color(t_game *game, t_map *map, char identifier);
+int		check_and_save_level(t_map *map);
+
 
 // Parser
-int		parse_file(char **av, t_game *game);
-void	save_color(t_game *game, t_map *map, int index);
 void	save_texture(t_game *game, t_map *map);
 
 // Hooks
