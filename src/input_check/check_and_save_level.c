@@ -43,43 +43,50 @@ int is_level_line(char *line)
     return 1;
 }
 
-int extract_level(char **map, char ***level, int level_start, int level_end)
+static int count_level_lines(char **map, int start, int end)
 {
-    int i;
-    int level_size = 0;
-
-    i = level_start;
-    while (i <= level_end)
+    int count = 0;
+    while (start <= end)
     {
-        if (is_level_line(map[i]))
-            level_size++;
-        i++;
+        if (is_level_line(map[start]))
+            count++;
+        start++;
     }
+    return count;
+}
 
-    *level = (char **)malloc(sizeof(char *) * (level_size + 1));
-    if (!(*level))
-        return 1;
-
-    i = level_start;
-    int j = 0;
-    while (i <= level_end)
+static int copy_level_lines(char **map, char **level, int start, int end)
+{
+    int index = 0;
+    while (start <= end)
     {
-        if (is_level_line(map[i]))
+        if (is_level_line(map[start]))
         {
-            (*level)[j] = ft_strdup(map[i]);
-            if (!(*level)[j])
+            level[index] = ft_strdup(map[start]);
+            if (!level[index])
             {
-                while (j > 0)
-                    free((*level)[--j]);
-                free(*level);
+                while (index > 0)
+                    free(level[--index]);
                 return 1;
             }
-            j++;
+            index++;
         }
-        i++;
+        start++;
     }
+    level[index] = NULL;
+    return 0;
+}
 
-    (*level)[level_size] = NULL;
+int extract_level(char **map, char ***level, int start, int end)
+{
+    int level_size = count_level_lines(map, start, end);
+    *level = (char **)malloc(sizeof(char *) * (level_size + 1));
+    if (!*level)
+        return 1;
+
+    if (copy_level_lines(map, *level, start, end))
+        return 1;
+
     return 0;
 }
 
