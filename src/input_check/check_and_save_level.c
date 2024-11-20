@@ -106,13 +106,5 @@ int check_and_save_level(t_map *map)
         error("Error: Failed to extract the level data!");
         return 1;
     }
-
-    int i = 0;
-    while (map->level[i])
-    {
-        printf("Level line: %s", map->level[i]);
-        i++;
-    }
-
     return 0;
 }

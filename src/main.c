@@ -6,7 +6,7 @@
 /*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:16:09 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/11/20 15:38:09 by mokutucu         ###   ########.fr       */
+/*   Updated: 2024/11/20 18:08:40 by mokutucu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,9 @@ void init_all(t_game *game)
 	game->map.ceiling_color[1] = -1;
 	game->map.ceiling_color[2] = -1;
 	game->map.map_size = 0;
+	game->map.level = NULL;
 	game->player.player_id = 0;
+	
 }
 
 int main(int ac, char **av)
@@ -50,6 +52,15 @@ int main(int ac, char **av)
 	init_all(&game);
 	if (check_input(ac, av, &game) != 0)
 		return (0);
+	
+	int i = 0;
+    while (game.map.level[i])
+    {
+        printf("%s", game.map.level[i]);
+        i++;
+    }
+	printf("\n");
+
 	
 	render(&game);
 	return 0;
