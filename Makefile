@@ -6,7 +6,7 @@
 #    By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/07 14:51:22 by mokutucu          #+#    #+#              #
-#    Updated: 2024/11/20 15:16:36 by mokutucu         ###   ########.fr        #
+#    Updated: 2024/11/21 16:23:42 by mokutucu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,8 @@ SRCS	= src/main.c \
 		src/input_check/check_map_args.c \
 		src/input_check/check_and_save_textures.c \
 		src/input_check/check_and_save_floor_and_ceiling.c \
-		src/input_check/check_and_save_level.c
+		src/input_check/check_and_save_level.c \
+		src/init/init.c
 
 OBJS	= $(patsubst $(SRC_DIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
 

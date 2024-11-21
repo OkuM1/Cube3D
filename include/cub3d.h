@@ -6,7 +6,7 @@
 /*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:20:48 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/11/20 15:16:00 by mokutucu         ###   ########.fr       */
+/*   Updated: 2024/11/21 16:09:41 by mokutucu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 # define A		97
 # define S		115
 # define D		100
+# define WIN_WIDTH	800
+# define WIN_HEIGHT	600
 
 typedef struct s_img
 {
@@ -40,6 +42,15 @@ typedef struct s_img
 	int		endian;
 }	t_img;
 
+typedef struct s_view
+{
+	double	x;
+	double	y;
+	double	height;
+	double	width;
+	double	zoom;
+}	t_view;
+
 typedef struct s_map
 {
 	char	**map;
@@ -51,7 +62,7 @@ typedef struct s_map
 	int		floor_color[3];
 	int		ceiling_color[3];
 	int		map_size;
-	int		level_length;
+	int		level_height;
 	int		level_width;
 }	t_map;
 
@@ -62,10 +73,15 @@ typedef struct s_player
 
 typedef struct s_game
 {
+	t_view		view;
 	t_img		img;
 	t_map		map;
 	t_player	player;
 }	t_game;
+
+
+// Init
+void	init_all(t_game *game);
 
 // Map checker
 int		check_input(int ac, char **av, t_game *game);
@@ -77,6 +93,7 @@ int		get_arr_size_and_malloc(int fd, t_map *map);
 int		check_and_save_textures(t_game *game, t_map *map);
 int		check_and_save_color(t_game *game, t_map *map, char identifier);
 int		check_and_save_level(t_map *map);
+
 
 
 // Parser

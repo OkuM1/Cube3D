@@ -90,6 +90,31 @@ int extract_level(char **map, char ***level, int start, int end)
     return 0;
 }
 
+void find_level_dimensions(t_map *map)
+{
+    int i = 0;
+    int j = 0;
+    int max = 0;
+    int len = 0;
+
+    while (map->level[i])
+    {
+        j = 0;
+        len = 0;
+        while (map->level[i][j])
+        {
+            if (map->level[i][j] == ' ')
+                len++;
+            j++;
+        }
+        if (len > max)
+            max = len;
+        i++;
+    }
+    map->level_height = max;
+    map->level_width = i;
+}
+
 int check_and_save_level(t_map *map)
 {
     int level_start = find_level_start(map->map);
@@ -106,5 +131,6 @@ int check_and_save_level(t_map *map)
         error("Error: Failed to extract the level data!");
         return 1;
     }
+    find_level_dimensions(map);
     return 0;
 }
