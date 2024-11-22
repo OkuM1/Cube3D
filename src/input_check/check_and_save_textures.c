@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   check_and_save_textures.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 18:14:15 by chris             #+#    #+#             */
-/*   Updated: 2024/11/18 19:03:28 by chris            ###   ########.fr       */
+/*   Updated: 2024/11/22 16:24:31 by mokutucu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"../../include/cub3d.h"
+
+char *remove_newline(char *string)
+{
+	int i;
+
+	i = 0;
+	while (string[i] != '\n')
+		i++;
+	
+	if (string[i] == '\n')
+		string [i] = '\0';
+	return (string);
+}
 
 void save_texture(t_game *game, t_map *map)
 {
@@ -20,7 +33,7 @@ void save_texture(t_game *game, t_map *map)
 	while (map->map[i])
 	{
 		if (ft_strncmp(map->map[i], "NO", 2) == 0)
-			game->map.n_text = ft_strdup(map->map[i] + 3);
+			game->map.n_text = remove_newline(ft_strdup(map->map[i] + 3));
 		else if (ft_strncmp(map->map[i], "SO", 2) == 0)
 			game->map.s_text = ft_strdup(map->map[i] + 3);
 		else if (ft_strncmp(map->map[i], "WE", 2) == 0)
@@ -30,6 +43,7 @@ void save_texture(t_game *game, t_map *map)
 		i++;
 	}
 }
+
 
 int	check_and_save_textures(t_game *game, t_map *map)
 {
