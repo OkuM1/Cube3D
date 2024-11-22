@@ -6,7 +6,7 @@
 /*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:20:48 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/11/21 16:09:41 by mokutucu         ###   ########.fr       */
+/*   Updated: 2024/11/22 15:47:06 by mokutucu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@
 # define A		97
 # define S		115
 # define D		100
-# define WIN_WIDTH	800
-# define WIN_HEIGHT	600
+# define WIN_WIDTH	1920
+# define WIN_HEIGHT	1080
 
 typedef struct s_img
 {
@@ -40,28 +40,30 @@ typedef struct s_img
 	int		bpp;
 	int		line_length;
 	int		endian;
+	int		width;
+	int		height;
 }	t_img;
 
 typedef struct s_view
 {
 	double	x;
 	double	y;
-	double	height;
-	double	width;
+	int		height;
+	int		width;
 	double	zoom;
 }	t_view;
 
 typedef struct s_map
 {
 	char	**map;
-	char	**level;
+	int		map_size;
 	char	*n_text;	//must be lowercase for norminette
 	char	*s_text;	//must be lowercase for norminette
 	char	*w_text;	//must be lowercase for norminette
 	char	*e_text;	//must be lowercase for norminette
 	int		floor_color[3];
 	int		ceiling_color[3];
-	int		map_size;
+	char	**level;
 	int		level_height;
 	int		level_width;
 }	t_map;

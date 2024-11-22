@@ -92,27 +92,19 @@ int extract_level(char **map, char ***level, int start, int end)
 
 void find_level_dimensions(t_map *map)
 {
-    int i = 0;
-    int j = 0;
-    int max = 0;
-    int len = 0;
+    int i;
+    int j;
 
+    i = 0;
+    j = 0;
     while (map->level[i])
     {
-        j = 0;
-        len = 0;
         while (map->level[i][j])
-        {
-            if (map->level[i][j] == ' ')
-                len++;
             j++;
-        }
-        if (len > max)
-            max = len;
         i++;
     }
-    map->level_height = max;
-    map->level_width = i;
+    map->level_height = i;
+    map->level_width = j;
 }
 
 int check_and_save_level(t_map *map)
