@@ -1,0 +1,28 @@
+Notes for ray cating:
+
+Steps for the loop:
+	1_find the angle for the first ray
+	2_Loop for each ray.
+	3_Get the horizontal intersection
+	4_Get the vertical interception
+	5_Calculate the distance
+	6_Take the closest distance
+
+1_find the angle for the first ray:
+
+the ray angle depends on the player’s angle and the FOV
+so if the player’s angle is “PI / 2 ” and the FOV is 60 the ray angle should be “(PI / 2) - FOV/2”
+we going to begin with the most left angle and go ray by ray to cast all of them,
+“p_x” and “p_y” refer to the player's position.
+
+first ray = players angle (pi / 2) - (FOV / 2)
+
+2_Looo for each ray
+
+The player's field of view is 60 degrees.
+We will expand it to fill the entire screen. that’s why we gonna cast (S_W ray).
+
+Our increment will be equal to the sum of the current angle and the field of view divided by the S_W.
+
+increment = (current angle + FOV) / Screen width
+
