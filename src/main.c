@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: cwick <cwick@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:16:09 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/11/22 16:43:28 by mokutucu         ###   ########.fr       */
+/*   Updated: 2024/11/22 17:12:33 by cwick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	put_image(t_game *game, int i, int j)
 {
 	if (game->map.level[i][j] == '1')
 		mlx_put_image_to_window(game->img.mlx, game->img.mlx_win,
-			game->map.n_text, j * 64, i * 64);
+			game->img.n_texture_add, j * 64, i * 64);
 }
 void	loading_graphics(t_game *game)
 {
@@ -52,16 +52,24 @@ void    render_game(t_game *game)
     // print return value of mlx_xpm_file_to_image(game->img.mlx, game->map.n_text, &width, &height)
     printf("Return value: %p\n", mlx_xpm_file_to_image(game->img.mlx, game->map.n_text, &width, &height));
 	// TODO: LOAD ALL INTO IMG BUFFER HERE			
-	game->map.n_text = mlx_xpm_file_to_image(game->img.mlx, game->map.n_text, &width, &height);
-
-    game->img.img_address = mlx_get_data_addr(game->img.img, &game->img.bpp,
-			    &game->img.line_length,  &game->img.endian);
-    
+	game->img.n_texture_add = mlx_xpm_file_to_image(game->img.mlx, game->map.n_text, &width, &height);
+    if (!game->img.n_texture_add)
+    {
+        printf("ERROR:");
+        return ;
+    }
+    game->img.img_address = mlx_get_data_addr(game->img.n_texture_add, &game->img.bpp,
+			    &game->img.line_length, &game->img.endian);
+    if (!game->img.img_address)
+    {
+        printf("ERROR:");
+        return ;
+    }
     //mlx_put_image_to_window(game->img.mlx, game->img.mlx_win, game->img.img, 0, 0);
     loading_graphics(game);
     mlx_key_hook(game->img.mlx_win, key_hook, game);
     mlx_hook(game->img.mlx_win, 17, 1L << 0, game_exit, game);
-	mlx_expose_hook(game->img.mlx_win, refresh_game, game);
+	// mlx_expose_hook(game->img.mlx_win, refresh_game, game);
     mlx_loop(game->img.mlx);
 }
 
@@ -73,12 +81,12 @@ int main(int ac, char **av)
 	if (check_input(ac, av, &game) != 0)
 		return (0);
 	
-	int i = 0;
-    while (game.map.level[i])
-    {
-        printf("%s", game.map.level[i]);
-        i++;
-    }
+	// int i = 0;
+    // while (game.map.level[i])
+    // {
+    //     // printf("%s", game.map.level[i]);
+    //     i++;
+    // }
 	printf("\n");
 	printf("-----GAME STARTED-----\n");
 

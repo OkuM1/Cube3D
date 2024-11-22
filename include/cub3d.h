@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: cwick <cwick@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:20:48 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/11/22 16:35:29 by mokutucu         ###   ########.fr       */
+/*   Updated: 2024/11/22 17:11:46 by cwick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,10 @@ typedef struct s_img
 	int		endian;
 	int		width;
 	int		height;
+	char	*n_texture_add;
+	char	*s_texture_add;
+	char	*w_texture_add;
+	char	*e_texture_add;
 }	t_img;
 
 typedef struct s_view
@@ -57,10 +61,10 @@ typedef struct s_map
 {
 	char	**map;
 	int		map_size;
-	char	*n_text;	//must be lowercase for norminette
-	char	*s_text;	//must be lowercase for norminette
-	char	*w_text;	//must be lowercase for norminette
-	char	*e_text;	//must be lowercase for norminette
+	char	*n_text;
+	char	*s_text;
+	char	*w_text;
+	char	*e_text;
 	int		floor_color[3];
 	int		ceiling_color[3];
 	char	**level;
