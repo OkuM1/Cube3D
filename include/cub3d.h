@@ -6,7 +6,7 @@
 /*   By: cwick <cwick@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:20:48 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/11/22 17:11:46 by cwick            ###   ########.fr       */
+/*   Updated: 2024/11/22 17:45:07 by cwick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,11 @@
 # define A		97
 # define S		115
 # define D		100
+
+# define TILE_SIZE 30
+# define FOV 60
+# define ROTATION_SPEED 0.045
+# define PLAYER_SPEED 4
 # define WIN_WIDTH	800
 # define WIN_HEIGHT	600
 
@@ -47,6 +52,13 @@ typedef struct s_img
 	char	*w_texture_add;
 	char	*e_texture_add;
 }	t_img;
+
+typedef struct s_ray
+{
+ double		ray_angle;
+ double		wall_dist;
+ int		wall_flag;		//flag for wall
+}	t_ray;
 
 typedef struct s_view
 {
@@ -83,6 +95,7 @@ typedef struct s_game
 	t_img		img;
 	t_map		map;
 	t_player	player;
+	t_ray		ray;
 }	t_game;
 
 
