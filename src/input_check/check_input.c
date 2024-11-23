@@ -6,7 +6,7 @@
 /*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 13:50:04 by chris             #+#    #+#             */
-/*   Updated: 2024/11/20 14:09:04 by mokutucu         ###   ########.fr       */
+/*   Updated: 2024/11/23 15:14:20 by mokutucu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ int	check_input(int ac, char **av, t_game *game)
 	if (check_datatyp(av[1], ".cub") == 1)
 		return (1);
 	if (check_and_save_map_args(av, game) == 1)
+		return (1);
+	if (find_player_start(game) == 1)
 		return (1);
 	return (0);
 }

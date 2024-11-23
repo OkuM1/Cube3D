@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwick <cwick@student.42berlin.de>          +#+  +:+       +#+        */
+/*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:20:48 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/11/22 17:45:07 by cwick            ###   ########.fr       */
+/*   Updated: 2024/11/23 16:16:51 by mokutucu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include "../libs/libft/libft.h"
 # include "../libs/minilibx-linux/mlx.h"
 # include <stdio.h>
-# include <math.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
@@ -29,7 +28,11 @@
 # define S		115
 # define D		100
 
-# define TILE_SIZE 30
+# define _USE_MATH_DEFINES  // Ensure M_PI is defined
+# include <math.h>
+
+# define TILE_SIZE 64
+
 # define FOV 60
 # define ROTATION_SPEED 0.045
 # define PLAYER_SPEED 4
@@ -55,9 +58,9 @@ typedef struct s_img
 
 typedef struct s_ray
 {
- double		ray_angle;
- double		wall_dist;
- int		wall_flag;		//flag for wall
+	double		ray_angle;
+	double		wall_dist;
+	int			wall_flag;
 }	t_ray;
 
 typedef struct s_view
@@ -87,6 +90,11 @@ typedef struct s_map
 typedef struct s_player
 {
 	int		player_id;
+	double	x;
+	double	y;
+	double	rotation_angle;
+	double	move_speed;
+	double	rotation_speed;
 }	t_player;
 
 typedef struct s_game
@@ -112,6 +120,7 @@ int		get_arr_size_and_malloc(int fd, t_map *map);
 int		check_and_save_textures(t_game *game, t_map *map);
 int		check_and_save_color(t_game *game, t_map *map, char identifier);
 int		check_and_save_level(t_map *map);
+int		find_player_start(t_game *game);
 
 
 

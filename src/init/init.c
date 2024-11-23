@@ -6,20 +6,12 @@
 /*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 15:32:57 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/11/21 16:23:48 by mokutucu         ###   ########.fr       */
+/*   Updated: 2024/11/23 16:14:51 by mokutucu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-void    init_view(t_game *game)
-{
-    game->view.x = 0;
-    game->view.y = 0;
-    game->view.height = WIN_HEIGHT;
-    game->view.width = WIN_WIDTH;
-    game->view.zoom = 1.0;
-}
 void init_mlx(t_game *game)
 {
 	game->img.mlx = NULL;
@@ -54,5 +46,4 @@ void	init_all(t_game *game)
 {
 	init_game(game);
 	init_mlx(game);
-	init_view(game);
 }
