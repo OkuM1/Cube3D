@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:20:48 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/11/23 16:16:51 by mokutucu         ###   ########.fr       */
+/*   Updated: 2024/11/24 14:51:03 by chris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <fcntl.h>
 # include <sys/time.h>
 # include <string.h>
+# include <math.h>
 
 # define ESC	65307
 # define W		119
@@ -28,8 +29,11 @@
 # define S		115
 # define D		100
 
-# define _USE_MATH_DEFINES  // Ensure M_PI is defined
-# include <math.h>
+// # define _USE_MATH_DEFINES  // Ensure M_PI is defined
+
+# ifndef M_PI
+#  define M_PI 3.14159265358979323846
+# endif
 
 # define TILE_SIZE 64
 
@@ -74,7 +78,7 @@ typedef struct s_view
 
 typedef struct s_map
 {
-	char	**map;
+	char	**file;
 	int		map_size;
 	char	*n_text;
 	char	*s_text;

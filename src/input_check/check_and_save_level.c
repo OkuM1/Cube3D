@@ -34,9 +34,12 @@ int is_level_line(char *line)
     if (line[i] == '\0' || line[i] == '\n')
         return 0;
 
+    // printf("%s", line);
     while (line[i])
     {
-        if (line[i] != '1' && line[i] != '0' && line[i] != ' ' && line[i] != '\n')
+        if (line[i] != '1' && line[i] != '0' && line[i] != ' ' 
+            && line[i] != '\n' && line[i] != 'N' && line[i] != 'E'
+            && line[i] != 'S' && line[i] != 'W' && line[i] != '\0')
             return 0;
         i++;
     }
@@ -109,16 +112,16 @@ void find_level_dimensions(t_map *map)
 
 int check_and_save_level(t_map *map)
 {
-    int level_start = find_level_start(map->map);
+    int level_start = find_level_start(map->file);
     if (level_start == -1)
     {
         error("Error: No map found in map file.");
         return 1;
     }
 
-    int level_end = find_level_end(map->map);
+    int level_end = find_level_end(map->file);
 
-    if (extract_level(map->map, &map->level, level_start, level_end) != 0)
+    if (extract_level(map->file, &map->level, level_start, level_end) != 0)
     {
         error("Error: Failed to extract the level data!");
         return 1;

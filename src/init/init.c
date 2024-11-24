@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 15:32:57 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/11/23 16:14:51 by mokutucu         ###   ########.fr       */
+/*   Updated: 2024/11/24 14:51:29 by chris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void init_mlx(t_game *game)
 
 void init_game(t_game *game)
 {
-	game->map.map = NULL;
+	game->map.file = NULL;
 	game->map.n_text = NULL;
 	game->map.s_text = NULL;
 	game->map.w_text = NULL;

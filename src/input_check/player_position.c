@@ -3,17 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   player_position.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 15:07:33 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/11/23 16:18:39 by mokutucu         ###   ########.fr       */
+/*   Updated: 2024/11/24 14:31:53 by chris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-void    set_player_angle(t_game *game, char cardinal_direction)
+int    set_player_angle(t_game *game, char cardinal_direction)
 {
+    if (cardinal_direction != 'N' && cardinal_direction != 'E'
+        && cardinal_direction != 'S' && cardinal_direction != 'W')
+        return (1);
     if (cardinal_direction == 'N')
         game->player.rotation_angle = M_PI / 2;  // Facing North (90 degrees)
     else if (cardinal_direction == 'S')
@@ -22,6 +25,7 @@ void    set_player_angle(t_game *game, char cardinal_direction)
         game->player.rotation_angle = M_PI;  // Facing West (180 degrees)
     else if (cardinal_direction == 'E')
         game->player.rotation_angle = 0;
+    return (0);
 }
 int find_player_start(t_game *game)
 {
@@ -39,8 +43,8 @@ int find_player_start(t_game *game)
             {
                 game->player.x = j * TILE_SIZE + TILE_SIZE / 2;
                 game->player.y = i * TILE_SIZE + TILE_SIZE / 2;
-                set_player_angle(game, game->map.level[i][j]);
-                return (1);
+                if (set_player_angle(game, game->map.level[i][j]) == 1)
+                    return (1);
             }
             j++;
         }

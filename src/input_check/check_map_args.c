@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map_args.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 10:03:52 by chris             #+#    #+#             */
-/*   Updated: 2024/11/20 15:16:55 by mokutucu         ###   ########.fr       */
+/*   Updated: 2024/11/24 14:50:18 by chris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ int	get_arr_size_and_malloc(int fd, t_map *map)
 		arr_size++;
 		free(line);
 	}
-	map->map = (char **)malloc(sizeof(char *) * (arr_size + 1));
-	if (!map->map)
+	map->file = (char **)malloc(sizeof(char *) * (arr_size + 1));
+	if (!map->file)
 	{
 		error("Malloc failed for creating file_arr!");
 		return (1);
@@ -62,16 +62,16 @@ int	create_file_arr(char **av, t_map *map)
 	close(fd);
 	if (open_fd(av, &fd) == 1)
 	{
-		free(map->map);
+		free(map->file);
 		return (1);
 	}
 	i = 0;
 	while ((line = get_next_line(fd)) != NULL)
 	{
-		map->map[i] = line;
+		map->file[i] = line;
 		i++;
 	}
-	map->map[i] = NULL;
+	map->file[i] = NULL;
 	close (fd);
 	return (0);
 }
@@ -83,12 +83,12 @@ int check_and_save_map_args(char **av, t_game *game)
 	if (create_file_arr(av, &game->map) == 1)
 		return (1);
 	
-	/* int i = 0;
-	while (map->map[i])
+	int i = 0;
+	while (game->map.file[i])
 	{
-		printf("%s\n", map->map[i]);
+		// printf("%s\n", map->file[i]);
 		i++;
-	} */
+	}
 	if (check_and_save_textures(game, &game->map) == 1)
 		return (1);
 	if (check_and_save_color(game, &game->map, 'F') == 1)

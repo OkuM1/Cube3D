@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_and_save_floor_and_ceiling.c                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 18:22:06 by chris             #+#    #+#             */
-/*   Updated: 2024/11/20 14:10:07 by mokutucu         ###   ########.fr       */
+/*   Updated: 2024/11/24 14:52:45 by chris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,13 @@ int is_valid_digits(char *str)
 
 int validate_and_save_color(t_game *game, char *line, char identifier)
 {
-    printf("Validating color: %s\n", line);
+    // printf("Validating color: %s\n", line);
     char **nums;
     int i;
     int value;
 
     nums = ft_split(line + 2, ',');
-	printf("nums: %s\n", nums[0]);
+	// printf("nums: %s\n", nums[0]);
     if (!nums)
     {
         error("Error: Failed to split color string.");
@@ -61,7 +61,7 @@ int validate_and_save_color(t_game *game, char *line, char identifier)
     while (nums[i] && i < 3)
     {
         value = ft_atoi(nums[i]);
-		printf("value: %d\n", value);
+		// printf("value: %d\n", value);
         if (value < 0 || value > 255)
         {
             error("RGB value is out of range (0-255)!");
@@ -91,19 +91,19 @@ int check_and_save_color(t_game *game, t_map *map, char identifier)
 {
     int i;
 
-    if (!map || !map->map)
+    if (!map || !map->file)
     {
         error("Error: Null map structure!");
         return (1);
     }
 
     i = 0;
-    while (map->map[i])
+    while (map->file[i])
     {
         // Check if the line starts with the identifier F or C
-        if (ft_strncmp(map->map[i], &identifier, 1) == 0)
+        if (ft_strncmp(map->file[i], &identifier, 1) == 0)
         {
-            return validate_and_save_color(game, map->map[i], identifier);
+            return validate_and_save_color(game, map->file[i], identifier);
         }
         i++;
     }

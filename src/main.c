@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:16:09 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/11/23 16:26:23 by mokutucu         ###   ########.fr       */
+/*   Updated: 2024/11/24 16:58:58 by chris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,12 +89,12 @@ int main(int ac, char **av)
 	if (check_input(ac, av, &game) != 0)
 		return (0);
 	
-	int i = 0;
-    while (game.map.level[i])
-    {
-        printf("%s", game.map.level[i]);
-        i++;
-    }
+	// int i = 0;
+    // while (game.map.level[i])
+    // {
+    //     printf("%s", game.map.level[i]);
+    //     i++;
+    // }
 	printf("\n");
 	printf("-----GAME STARTED-----\n");
     printf("Player starting position: x = %f, y = %f\n", game.player.x, game.player.y);
