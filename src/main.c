@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwick <cwick@student.42berlin.de>          +#+  +:+       +#+        */
+/*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:16:09 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/12/09 12:35:52 by cwick            ###   ########.fr       */
+/*   Updated: 2024/12/09 16:51:52 by mokutucu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,19 +46,38 @@ void    init_view(t_game *game)
     game->view.zoom = 1.0;
 }
 
+void game_loop(void *data) // Game loop for rendering and updating the game
+{
+    t_game *game;
+
+    game = (t_game *)data; // Cast the passed data to the game structure
+    
+    // Clear previous frame image
+    mlx_clear_window(game->img.mlx, game->img.mlx_win);
+    
+    // Cast rays for rendering the 3D scene
+    cast_rays(game);
+    
+    // Draw the new frame to the window
+    mlx_put_image_to_window(game->img.mlx, game->img.mlx_win, game->img.img, 0, 0);
+
+    // Destroy the image buffer after use to prevent memory leaks
+    mlx_destroy_image(game->img.mlx, game->img.img);
+}
+
+
 void    render_game(t_game *game)
 {    
     int width;
     int height;
 
-    
     game->img.mlx = mlx_init();
     game->img.mlx_win = mlx_new_window(game->img.mlx, WIN_WIDTH, WIN_HEIGHT, "cub3d");
     //game->img.img = mlx_new_image(game->img.mlx, WIN_WIDTH, WIN_HEIGHT);
 
     init_view(game);
 	// TODO: LOAD ALL INTO IMG BUFFER HERE			
-	game->img.n_texture_add = mlx_xpm_file_to_image(game->img.mlx, game->map.n_text, &width, &height);
+	/* game->img.n_texture_add = mlx_xpm_file_to_image(game->img.mlx, game->map.n_text, &width, &height);
     if (!game->img.n_texture_add)
     {
         printf("ERROR:");
@@ -72,9 +91,10 @@ void    render_game(t_game *game)
         printf("ERROR:");
         return ;
     }
-    
+     */
     //mlx_put_image_to_window(game->img.mlx, game->img.mlx_win, game->img.img, 0, 0);
-    loading_graphics(game);
+    //loading_graphics(game);
+    mlx_loop_hook(game->img.mlx, game_loop, game);
     mlx_key_hook(game->img.mlx_win, key_hook, game);
     mlx_hook(game->img.mlx_win, 17, 1L << 0, game_exit, game);
 	//mlx_expose_hook(game->img.mlx_win, refresh_game, game);

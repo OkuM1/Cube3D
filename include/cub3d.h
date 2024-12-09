@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwick <cwick@student.42berlin.de>          +#+  +:+       +#+        */
+/*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:20:48 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/12/09 12:41:12 by cwick            ###   ########.fr       */
+/*   Updated: 2024/12/09 16:33:08 by mokutucu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "../libs/libft/libft.h"
 # include "../libs/minilibx-linux/mlx.h"
+//# include "../libs/minilibx-linux/mlx_int.h"
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -137,6 +138,10 @@ int		find_player_start(t_game *game);
 
 // Parser
 void	save_texture(t_game *game, t_map *map);
+
+float nor_angle(float angle);
+void render_wall(t_game *game, int ray);
+void	cast_rays(t_game *game);
 
 // Hooks
 int		key_hook(int keycode, t_game *game);
