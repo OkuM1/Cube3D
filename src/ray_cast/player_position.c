@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player_position.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cwick <cwick@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 15:07:33 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/11/24 14:31:53 by chris            ###   ########.fr       */
+/*   Updated: 2024/12/09 12:35:52 by cwick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ int    set_player_angle(t_game *game, char cardinal_direction)
         && cardinal_direction != 'S' && cardinal_direction != 'W')
         return (1);
     if (cardinal_direction == 'N')
-        game->player.rotation_angle = M_PI / 2;  // Facing North (90 degrees)
+        game->player.player_angle = M_PI / 2;  // Facing North (90 degrees)
     else if (cardinal_direction == 'S')
-        game->player.rotation_angle = 3 * M_PI / 2;  // Facing South (270 degrees)
+        game->player.player_angle = 3 * M_PI / 2;  // Facing South (270 degrees)
     else if (cardinal_direction == 'W')
-        game->player.rotation_angle = M_PI;  // Facing West (180 degrees)
+        game->player.player_angle = M_PI;  // Facing West (180 degrees)
     else if (cardinal_direction == 'E')
-        game->player.rotation_angle = 0;
+        game->player.player_angle = 0;
     return (0);
 }
 int find_player_start(t_game *game)

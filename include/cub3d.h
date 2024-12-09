@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cwick <cwick@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:20:48 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/11/24 14:51:03 by chris            ###   ########.fr       */
+/*   Updated: 2024/12/09 12:41:12 by cwick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,14 @@
 # include <string.h>
 # include <math.h>
 
-# define ESC	65307
-# define W		119
-# define A		97
-# define S		115
-# define D		100
+# define ESC		65307
+# define W			119
+# define A			97
+# define S			115
+# define D			100
+# define L_ARROW	37
+# define R_ARROW	39
+# define SHIFT		16
 
 // # define _USE_MATH_DEFINES  // Ensure M_PI is defined
 
@@ -37,7 +40,6 @@
 
 # define TILE_SIZE 64
 
-# define FOV 60
 # define ROTATION_SPEED 0.045
 # define PLAYER_SPEED 4
 # define WIN_WIDTH	800
@@ -62,13 +64,18 @@ typedef struct s_img
 
 typedef struct s_ray
 {
-	double		ray_angle;
-	double		wall_dist;
-	int			wall_flag;
+	double	ray_angle;
+	double	wall_dist;
+	double	hor_x;
+	double	hor_y;
+	double	vert_x;
+	double	vert_y;
+	int		wall_flag;
 }	t_ray;
 
 typedef struct s_view
 {
+	double	fov;
 	double	x;
 	double	y;
 	int		height;
@@ -96,7 +103,7 @@ typedef struct s_player
 	int		player_id;
 	double	x;
 	double	y;
-	double	rotation_angle;
+	double	player_angle;
 	double	move_speed;
 	double	rotation_speed;
 }	t_player;

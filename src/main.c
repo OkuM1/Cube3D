@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cwick <cwick@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:16:09 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/11/24 16:58:58 by chris            ###   ########.fr       */
+/*   Updated: 2024/12/09 12:35:52 by cwick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int main(int ac, char **av)
 	printf("\n");
 	printf("-----GAME STARTED-----\n");
     printf("Player starting position: x = %f, y = %f\n", game.player.x, game.player.y);
-    printf("Player starting angle: %f radians\n", game.player.rotation_angle);
+    printf("Player starting angle: %f radians\n", game.player.player_angle);
 	render_game(&game);
 	
 	return 0;
