@@ -6,7 +6,7 @@
       "request": "launch",
       "program": "${workspaceFolder}/cub3D",
       "args": [
-        "${workspaceFolder}/maps/invalid_maps/small_map.cub"
+        "${workspaceFolder}/maps/small_map.cub"
       ],
       "stopAtEntry": true,
       "cwd": "${workspaceFolder}",

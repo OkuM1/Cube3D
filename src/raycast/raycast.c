@@ -3,56 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:02:18 by chris             #+#    #+#             */
-/*   Updated: 2024/12/09 16:26:06 by mokutucu         ###   ########.fr       */
+/*   Updated: 2024/12/10 17:46:35 by cwick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
-
-/* float get_x_hit(t_game *game, float angle)
-{
-	float	hor_x;
-	float	hor_y;
-	float	dist_x;
-	float	dist_y;
-	int		pixel;
-
-	dist_y = TILE_SIZE;
-	dist_x = TILE_SIZE / tan(angle);
-	
-	hor_y = floor(game->player.y / TILE_SIZE) * TILE_SIZE;
-	pixel = 
-}
-
-float	normalize_angle(float angle)
-{
-	if (angle < 0)
-		angle += (2 * M_PI);
-	if (angle > (2 * M_PI))
-		angle -= (2 * M_PI);
-	return (angle);
-}
-
-void cast_rays (t_game *game)
-{
-	double x_hit;
-	double y_hit;
-	int		ray_counter;
-
-	ray_counter = 0;
-	game->ray.ray_angle = game->player.player_angle - (game->view.fov / 2);
-	while (ray_counter < WIN_WIDTH)
-	{
-		game->ray.wall_flag = 0;
-		x_hit = get_x_hit(game, normalize_angle(game->ray.ray_angle));
-		y_hit = get_y_hit(game, normalize_angle(game->ray.ray_angle));
-	}
-	
-	
-} */
 
 int	unit_circle(float angle, char c) // Check if the angle intersects with the unit circle
 {
@@ -103,9 +61,11 @@ int	wall_hit(float x, float y, t_game *game)
 	y_map = floor(y / TILE_SIZE); // Get the y position on the map
 	if (y_map >= game->map.level_height || x_map >= game->map.level_width)
 		return (0);
-	if (game->map.level[y_map] && x_map <= (int)strlen(game->map.level[y_map]))
+	if (game->map.level[y_map] != NULL && x_map < (int)strlen(game->map.level[y_map]))
+	{
 		if (game->map.level[y_map][x_map] == '1')
 			return (0);
+	}
 	return (1);
 }
 
@@ -120,8 +80,8 @@ float	get_h_intersection(t_game *game, float angle)
 	y_step = TILE_SIZE;
 	x_step = TILE_SIZE / tan(angle);
 	hor_y = floor(game->player.y / TILE_SIZE) * TILE_SIZE;
+	hor_x = game->player.x + (hor_y - game->player.y) / (tan(angle) + 1e-6);
 	pixel = intersection_check(angle, &hor_y, &y_step, 1);
-	hor_x = game->player.x + (hor_y - game->player.y) / tan(angle);
 	if ((unit_circle(angle, 'y') && x_step > 0) || (!unit_circle(angle, 'y') && x_step < 0))
 		x_step *= -1;
 	while (wall_hit(hor_x, hor_y - pixel, game))
@@ -129,7 +89,15 @@ float	get_h_intersection(t_game *game, float angle)
 		hor_x += x_step;
 		hor_y += y_step;
 	}
+	printf("Horizontal: X: %f, Y: %f, X_Step: %f, Y_Step: %f\n", hor_x, hor_y, x_step, y_step);
 	return (sqrt(pow(hor_x - game->player.x, 2) + pow(hor_y - game->player.y, 2)));
+}
+
+double capped_tan(double angle) {
+    double tan_value = tan(angle);
+    if (fabs(tan_value) > 1e6)
+        tan_value = tan_value > 0 ? 1e6 : -1e6;
+    return tan_value;
 }
 
 float	get_v_intersection(t_game *game, float angle)
@@ -141,17 +109,23 @@ float	get_v_intersection(t_game *game, float angle)
 	int		pixel;
 
 	x_step = TILE_SIZE;
-	y_step = TILE_SIZE * tan(angle);
+	y_step = TILE_SIZE * capped_tan(angle);
 	ver_x = floor(game->player.x / TILE_SIZE) * TILE_SIZE;
+	ver_y = 0;
 	pixel = intersection_check(angle, &ver_x, &x_step, 0);
-	ver_y = game->player.y + (ver_x - game->player.x) * tan(angle);
+	if (angle == M_PI / 2 || angle == 3 * M_PI / 2)
+    	ver_y = game->player.y;  // Set Y to player Y for vertical angles
+	else
+        ver_y = game->player.y + (ver_x - game->player.x) * capped_tan(angle);  // Calculate vertical intersection
 	if ((unit_circle(angle, 'x') && y_step < 0) || (!unit_circle(angle, 'x') && y_step > 0))
 		y_step *= -1;
+	printf("Initial Vertical Intersection: Ver_X: %f, Ver_Y: %f, Angle: %f\n", ver_x, ver_y, angle);
 	while (wall_hit(ver_x - pixel, ver_y, game))
 	{
 		ver_x += x_step;
 		ver_y += y_step;
 	}
+	printf("Vertical: X: %f, Y: %f, X_Step: %f, Y_Step: %f\n", ver_x, ver_y, x_step, y_step);
 	return (sqrt(pow(ver_x - game->player.x, 2) + pow(ver_y - game->player.y, 2)));
 }
 
@@ -162,13 +136,15 @@ void	cast_rays(t_game *game)
 	int		ray;
 
 	ray = 0;
+	game->ray.ray_angle = nor_angle(game->ray.ray_angle);
 	game->ray.ray_angle = game->player.player_angle - (game->view.fov / 2); // Initial ray angle
 	while (ray < WIN_WIDTH)
 	{
 		game->ray.wall_flag = 0;
 		h_inter = get_h_intersection(game, nor_angle(game->ray.ray_angle)); // Get horizontal intersection
 		v_inter = get_v_intersection(game, nor_angle(game->ray.ray_angle)); // Get vertical intersection
-		if (v_inter <= h_inter) // Check the shorter distance
+
+		if (v_inter <= h_inter)
 			game->ray.wall_dist = v_inter;
 		else
 		{

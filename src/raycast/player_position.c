@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   player_position.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 15:07:33 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/12/09 15:50:25 by mokutucu         ###   ########.fr       */
+/*   Updated: 2024/12/10 16:11:04 by cwick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
+
+// int    set_player_angle(t_game *game, char cardinal_direction)
+// {
+//     if (cardinal_direction != 'N' && cardinal_direction != 'E'
+//         && cardinal_direction != 'S' && cardinal_direction != 'W')
+//         return (1);
+//     if (cardinal_direction == 'N')
+//         game->player.player_angle = M_PI / 2;  // Facing North (90 degrees)
+//     else if (cardinal_direction == 'S')
+//         game->player.player_angle = 3 * M_PI / 2;  // Facing South (270 degrees)
+//     else if (cardinal_direction == 'W')
+//         game->player.player_angle = M_PI;  // Facing West (180 degrees)
+//     else if (cardinal_direction == 'E')
+//         game->player.player_angle = 0;
+//     return (0);
+// }
 
 int    set_player_angle(t_game *game, char cardinal_direction)
 {
@@ -18,9 +34,9 @@ int    set_player_angle(t_game *game, char cardinal_direction)
         && cardinal_direction != 'S' && cardinal_direction != 'W')
         return (1);
     if (cardinal_direction == 'N')
-        game->player.player_angle = M_PI / 2;  // Facing North (90 degrees)
+        game->player.player_angle = 3 * M_PI / 2;  // Facing North (270 degrees)
     else if (cardinal_direction == 'S')
-        game->player.player_angle = 3 * M_PI / 2;  // Facing South (270 degrees)
+        game->player.player_angle = M_PI / 2;  // Facing South (90 degrees)
     else if (cardinal_direction == 'W')
         game->player.player_angle = M_PI;  // Facing West (180 degrees)
     else if (cardinal_direction == 'E')

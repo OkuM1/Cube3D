@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:20:48 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/12/09 16:33:08 by mokutucu         ###   ########.fr       */
+/*   Updated: 2024/12/10 14:32:38 by cwick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@
 # define L_ARROW	37
 # define R_ARROW	39
 # define SHIFT		16
-
-// # define _USE_MATH_DEFINES  // Ensure M_PI is defined
 
 # ifndef M_PI
 #  define M_PI 3.14159265358979323846
@@ -139,9 +137,10 @@ int		find_player_start(t_game *game);
 // Parser
 void	save_texture(t_game *game, t_map *map);
 
-float nor_angle(float angle);
-void render_wall(t_game *game, int ray);
+float	nor_angle(float angle);
+void	render_wall(t_game *game, int ray);
 void	cast_rays(t_game *game);
+void	my_mlx_pixel_put(t_game *game, int x, int y, unsigned int color);
 
 // Hooks
 int		key_hook(int keycode, t_game *game);
