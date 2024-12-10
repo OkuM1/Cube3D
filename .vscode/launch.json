@@ -6,7 +6,7 @@
       "request": "launch",
       "program": "${workspaceFolder}/cub3D",
       "args": [
-        "${workspaceFolder}/maps/invalid_maps/wrong_floor_ceiling.cub"
+        "${workspaceFolder}/maps/invalid_maps/small_map.cub"
       ],
       "stopAtEntry": true,
       "cwd": "${workspaceFolder}",
@@ -20,25 +20,5 @@
           "ignoreFailures": true
         }
       ]
-    },
-    {
-      "name": "C/C++ Runner: Debug Session",
-      "type": "cppdbg",
-      "request": "launch",
-      "args": [],
-      "stopAtEntry": false,
-      "externalConsole": false,
-      "cwd": ".",
-      "program": "build/Debug/outDebug",
-      "MIMode": "gdb",
-      "miDebuggerPath": "gdb",
-      "setupCommands": [
-        {
-          "description": "Enable pretty-printing for gdb",
-          "text": "-enable-pretty-printing",
-          "ignoreFailures": true
-        }
-      ]
     }
-  ]
 }
