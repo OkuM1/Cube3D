@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+         #
+#    By: chris <chris@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/07 14:51:22 by mokutucu          #+#    #+#              #
-#    Updated: 2024/12/09 16:23:36 by mokutucu         ###   ########.fr        #
+#    Updated: 2024/12/19 14:20:54 by chris            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,8 @@ SRCS	= src/main.c \
 		src/raycast/player_position.c \
 		src/raycast/raycast.c \
 		src/raycast/walls.c \
-		src/init/init.c
+		src/init/init.c \
+		src/movement/controls.c
 
 OBJS	= $(patsubst $(SRC_DIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
 

@@ -3,16 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
+/*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 15:32:57 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/12/10 16:04:55 by cwick            ###   ########.fr       */
+/*   Updated: 2024/12/19 12:31:38 by chris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-void init_mlx(t_game *game)
+void	init_player(t_game *game)
+{
+	game->player.x = game->view.x * TILE_SIZE + TILE_SIZE / 2;
+	game->player.y = game->view.y * TILE_SIZE + TILE_SIZE / 2;
+	game->view.fov = (60 * M_PI) / 180.0;
+	game->player.player_angle = 0;
+}
+
+void	init_mlx(t_game *game)
 {
 	game->img.mlx = NULL;
 	game->img.mlx_win = NULL;
@@ -23,7 +31,7 @@ void init_mlx(t_game *game)
 	game->img.endian = 0;
 }
 
-void init_game(t_game *game)
+void	init_game(t_game *game)
 {
 	game->map.file = NULL;
 	game->map.n_text = NULL;
@@ -42,9 +50,20 @@ void init_game(t_game *game)
 	game->map.level_width = 0;
 }
 
+void    init_view(t_game *game)
+{
+    game->view.x = 0;
+    game->view.y = 0;
+    game->view.height = WIN_HEIGHT;
+    game->view.width = WIN_WIDTH;
+    game->view.zoom = 1.0;
+}
+
+
 void	init_all(t_game *game)
 {
+	init_view(game);
 	init_game(game);
 	init_mlx(game);
-	game->view.fov = 60 * (M_PI / 180.0);
+	init_player(game);
 }
