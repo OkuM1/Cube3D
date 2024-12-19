@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:02:18 by chris             #+#    #+#             */
-/*   Updated: 2024/12/10 17:46:35 by cwick            ###   ########.fr       */
+/*   Updated: 2024/12/19 11:54:07 by mokutucu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,9 @@ float	get_h_intersection(t_game *game, float angle)
 	y_step = TILE_SIZE;
 	x_step = TILE_SIZE / tan(angle);
 	hor_y = floor(game->player.y / TILE_SIZE) * TILE_SIZE;
-	hor_x = game->player.x + (hor_y - game->player.y) / (tan(angle) + 1e-6);
+	if (angle > 0 && angle < M_PI)
+    	hor_y += TILE_SIZE;
+	hor_x = game->player.x + (hor_y - game->player.y) / tan(angle);
 	pixel = intersection_check(angle, &hor_y, &y_step, 1);
 	if ((unit_circle(angle, 'y') && x_step > 0) || (!unit_circle(angle, 'y') && x_step < 0))
 		x_step *= -1;
@@ -116,7 +118,7 @@ float	get_v_intersection(t_game *game, float angle)
 	if (angle == M_PI / 2 || angle == 3 * M_PI / 2)
     	ver_y = game->player.y;  // Set Y to player Y for vertical angles
 	else
-        ver_y = game->player.y + (ver_x - game->player.x) * capped_tan(angle);  // Calculate vertical intersection
+        ver_y = game->player.y + (ver_x - game->player.x) * tan(angle);  // Calculate vertical intersection
 	if ((unit_circle(angle, 'x') && y_step < 0) || (!unit_circle(angle, 'x') && y_step > 0))
 		y_step *= -1;
 	printf("Initial Vertical Intersection: Ver_X: %f, Ver_Y: %f, Angle: %f\n", ver_x, ver_y, angle);
@@ -153,6 +155,6 @@ void	cast_rays(t_game *game)
 		}
 		render_wall(game, ray); // Render the wall
 		ray++; // Move to the next ray
-		game->ray.ray_angle += (game->view.fov / WIN_WIDTH); // Increment the angle
+		game->ray.ray_angle += nor_angle(game->view.fov / WIN_WIDTH); // Increment the angle
 	}
 }
