@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player_position.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
+/*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 15:07:33 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/12/10 16:11:04 by cwick            ###   ########.fr       */
+/*   Updated: 2024/12/19 10:54:29 by chris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int    set_player_angle(t_game *game, char cardinal_direction)
         game->player.player_angle = 0;
     return (0);
 }
+
 int find_player_start(t_game *game)
 {
     int i;
