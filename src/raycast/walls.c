@@ -6,7 +6,7 @@
 /*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 16:12:34 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/12/19 11:46:05 by chris            ###   ########.fr       */
+/*   Updated: 2024/12/19 11:55:14 by chris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,71 @@ int get_color(t_game *game, int flag) // get the color of the wall
 		else
 			return (rgba_to_int(128,57,30,255)); // north wall
 	}
+}
+
+void draw_wall(t_game *game, int ray, int top_pix, int bottom_pix) // draw the wall
+{
+	int	y;
+	unsigned int	color;
+	// int	texture;
+	y = top_pix;
+	color = 0;
+	// texture = get_texture(game, game->ray.wall_flag);
+	color = get_color(game, game->ray.wall_flag);
+	if (y < bottom_pix)
+	{
+		while (y < bottom_pix)
+		{
+			my_mlx_pixel_put(game, ray, y, color);
+			y++;
+		}
+	}
+	printf("Ray: %d, Top: %d, Bottom: %d, Color: %u\n", ray, top_pix, bottom_pix, color);
+}
+
+void draw_sky(t_game *game, int ray, int top_pix)
+{
+    int y = 0;
+    while (y < top_pix)
+    {
+        my_mlx_pixel_put(game, ray, y, SKY_COLOR);
+        y++;
+    }
+}
+
+void draw_ground(t_game *game, int ray, int bottom_pix)
+{
+    int y = bottom_pix;
+    while (y < WIN_HEIGHT)
+    {
+        my_mlx_pixel_put(game, ray, y, GROUND_COLOR);
+        y++;
+    }
+}
+
+void render_wall(t_game *game, int ray) // render the wall
+{
+	double wall_h;
+	double bottom_pix;
+	double top_pix;
+
+	game->ray.wall_dist *= cos(nor_angle(game->ray.ray_angle - game->player.player_angle)); // fix the fisheye
+	wall_h = (TILE_SIZE / game->ray.wall_dist) * ((WIN_WIDTH / 2) / tan(game->view.fov / 2)); // get the wall height
+	printf("wall_h: %lf\n", wall_h);
+	bottom_pix = (WIN_HEIGHT / 2) + (wall_h / 2); // get the bottom pixel
+	top_pix = (WIN_HEIGHT / 2) - (wall_h / 2); // get the top pixel
+	printf("Ray: %d, Top: %f, Bottom: %f, Wall_H: %f\n", ray, top_pix, bottom_pix, wall_h);
+	if (bottom_pix > WIN_HEIGHT)
+		bottom_pix = WIN_HEIGHT;
+	if (top_pix < 0)
+		top_pix = 0;
+
+	// Draw the sky and ground
+    draw_sky(game, ray, top_pix);
+    draw_ground(game, ray, bottom_pix);
+	
+	draw_wall(game, ray, top_pix, bottom_pix);
+	// draw_floor_ceiling(game, ray, top_pix, bottom_pix); // draw the floor and the ceiling
 }
 
 // rgb(234,182,118) //beige
