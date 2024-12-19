@@ -6,25 +6,20 @@
 /*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:16:09 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/12/19 14:19:26 by chris            ###   ########.fr       */
+/*   Updated: 2024/12/19 17:25:05 by chris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-
-
 int	game_loop(t_game *game) // Game loop for rendering and updating the game
 {
 	// Clear previous frame image
 	mlx_clear_window(game->img.mlx, game->img.mlx_win);
-		
 	// Setup Controls for player
 	controls(game, 0, 0);
-
 	// Cast rays for rendering the 3D scene
 	cast_rays(game);
-
 	// Draw the new frame to the window
 	mlx_put_image_to_window(game->img.mlx, game->img.mlx_win, game->img.img, 0, 0);
 	return (0);
@@ -52,10 +47,6 @@ int main(int ac, char **av)
 	init_all(&game);
 	if (check_input(ac, av, &game) != 0)
 		return (0);
-	printf("\n");
-	printf("-----GAME STARTED-----\n");
-    printf("Player starting position: x = %d, y = %d\n", game.player.x, game.player.y);
-    printf("Player starting angle: %f radians\n", game.player.player_angle);
 	render_game(&game);
 	return 0;
 }

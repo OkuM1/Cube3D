@@ -6,7 +6,7 @@
 #    By: chris <chris@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/07 14:51:22 by mokutucu          #+#    #+#              #
-#    Updated: 2024/12/19 14:20:54 by chris            ###   ########.fr        #
+#    Updated: 2024/12/19 17:16:22 by chris            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,8 @@ SRCS	= src/main.c \
 		src/raycast/raycast.c \
 		src/raycast/walls.c \
 		src/init/init.c \
-		src/movement/controls.c
+		src/movement/controls.c \
+		debugger.c
 
 OBJS	= $(patsubst $(SRC_DIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
 

@@ -34,7 +34,6 @@ int is_level_line(char *line)
     if (line[i] == '\0' || line[i] == '\n')
         return 0;
 
-    // printf("%s", line);
     while (line[i])
     {
         if (line[i] != '1' && line[i] != '0' && line[i] != ' ' 

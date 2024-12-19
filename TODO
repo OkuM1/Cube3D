@@ -1,3 +1,9 @@
 Implemnted file parser.
 
 now : Save textures, save colours, parse map and save into **map
+
+
+render issue
+
+just the south wall (blue)
+other walls seem fine

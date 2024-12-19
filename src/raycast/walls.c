@@ -6,7 +6,7 @@
 /*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 16:12:34 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/12/19 11:55:14 by chris            ###   ########.fr       */
+/*   Updated: 2024/12/19 17:30:06 by chris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,29 +33,7 @@ float nor_angle(float angle) // normalize the angle
 }
 
 int rgba_to_int(int r, int g, int b, int a) {
-    return (a << 24) | (r << 16) | (g << 8) | b;
-}
-
-void draw_floor_ceiling(t_game *game, int ray, int t_pix, int b_pix)
-{
-	int	i;
-	int	floor_color;
-	int	ceiling_color;
-
-	i = b_pix;
-	floor_color = rgba_to_int(95,203,249,255);
-	ceiling_color = rgba_to_int(69,123,5,255);
-	while (i > WIN_HEIGHT / 2)
-	{
-		my_mlx_pixel_put(game->img.mlx, ray, i, floor_color); //floor
-		i++;
-	}
-	i = t_pix;
-	while (i < b_pix / 2)
-	{
-		my_mlx_pixel_put(game->img.mlx, ray, i, ceiling_color); // ceiling
-		i++;
-	}
+	return (a << 24) | (r << 16) | (g << 8) | b;
 }
 
 int get_color(t_game *game, int flag) // get the color of the wall
@@ -77,11 +55,30 @@ int get_color(t_game *game, int flag) // get the color of the wall
 	}
 }
 
+// int	*get_texture(t_game *game, int flag)
+// {
+// 	if (flag == 0)
+// 	{
+// 		if (game->ray.ray_angle > M_PI / 2 && game->ray.ray_angle < 3 * (M_PI / 2))
+// 			return (game->img.w_texture_add); // west wall
+// 		else
+// 			return (game->img.e_texture_add); // east wall
+// 	}
+// 	else
+// 	{
+// 		if (game->ray.ray_angle > 0 && game->ray.ray_angle < M_PI)
+// 			return (game->img.s_texture_add);	// south wall
+// 		else
+// 			return (game->img.n_texture_add);	// north wall
+// 	}
+// }
+
 void draw_wall(t_game *game, int ray, int top_pix, int bottom_pix) // draw the wall
 {
 	int	y;
 	unsigned int	color;
-	// int	texture;
+	// int	*texture;
+	
 	y = top_pix;
 	color = 0;
 	// texture = get_texture(game, game->ray.wall_flag);
@@ -94,52 +91,49 @@ void draw_wall(t_game *game, int ray, int top_pix, int bottom_pix) // draw the w
 			y++;
 		}
 	}
-	printf("Ray: %d, Top: %d, Bottom: %d, Color: %u\n", ray, top_pix, bottom_pix, color);
-}
-
-void draw_sky(t_game *game, int ray, int top_pix)
-{
-    int y = 0;
-    while (y < top_pix)
-    {
-        my_mlx_pixel_put(game, ray, y, SKY_COLOR);
-        y++;
-    }
 }
 
 void draw_ground(t_game *game, int ray, int bottom_pix)
 {
-    int y = bottom_pix;
-    while (y < WIN_HEIGHT)
-    {
-        my_mlx_pixel_put(game, ray, y, GROUND_COLOR);
-        y++;
-    }
+	int y = bottom_pix;
+
+	while (y < WIN_HEIGHT)
+	{
+		my_mlx_pixel_put(game, ray, y, GROUND_COLOR);
+		y++;
+	}
 }
 
-void render_wall(t_game *game, int ray) // render the wall
+void draw_sky(t_game *game, int ray, int top_pix)
+{
+	int y = 0;
+
+	while (y < top_pix)
+	{
+		my_mlx_pixel_put(game, ray, y, SKY_COLOR);
+		y++;
+	}
+}
+
+void render_wall(t_game *game, int ray)
 {
 	double wall_h;
-	double bottom_pix;
 	double top_pix;
+	double bottom_pix;
 
+	top_pix = 0;
+	bottom_pix = 0;
 	game->ray.wall_dist *= cos(nor_angle(game->ray.ray_angle - game->player.player_angle)); // fix the fisheye
 	wall_h = (TILE_SIZE / game->ray.wall_dist) * ((WIN_WIDTH / 2) / tan(game->view.fov / 2)); // get the wall height
-	printf("wall_h: %lf\n", wall_h);
 	bottom_pix = (WIN_HEIGHT / 2) + (wall_h / 2); // get the bottom pixel
 	top_pix = (WIN_HEIGHT / 2) - (wall_h / 2); // get the top pixel
-	printf("Ray: %d, Top: %f, Bottom: %f, Wall_H: %f\n", ray, top_pix, bottom_pix, wall_h);
 	if (bottom_pix > WIN_HEIGHT)
 		bottom_pix = WIN_HEIGHT;
 	if (top_pix < 0)
 		top_pix = 0;
-
-	// Draw the sky and ground
-    draw_sky(game, ray, top_pix);
-    draw_ground(game, ray, bottom_pix);
-	
+	draw_sky(game, ray, top_pix);
+	draw_ground(game, ray, bottom_pix);
 	draw_wall(game, ray, top_pix, bottom_pix);
-	// draw_floor_ceiling(game, ray, top_pix, bottom_pix); // draw the floor and the ceiling
 }
 
 // rgb(234,182,118) //beige

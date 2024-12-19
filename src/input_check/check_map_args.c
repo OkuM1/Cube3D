@@ -6,7 +6,7 @@
 /*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 10:03:52 by chris             #+#    #+#             */
-/*   Updated: 2024/11/24 14:50:18 by chris            ###   ########.fr       */
+/*   Updated: 2024/12/19 17:12:00 by chris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ int check_and_save_map_args(char **av, t_game *game)
 	int i = 0;
 	while (game->map.file[i])
 	{
-		// printf("%s\n", map->file[i]);
 		i++;
 	}
 	if (check_and_save_textures(game, &game->map) == 1)

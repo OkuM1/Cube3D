@@ -6,7 +6,7 @@
 /*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:20:48 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/12/19 15:40:17 by chris            ###   ########.fr       */
+/*   Updated: 2024/12/19 17:57:09 by chris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,10 @@ typedef struct s_ray
 {
 	double	ray_angle;
 	double	wall_dist;
-	double	hor_x;
-	double	hor_y;
-	double	vert_x;
-	double	vert_y;
+	// double	hor_x;
+	// double	hor_y;
+	// double	vert_x;
+	// double	vert_y;
 	int		wall_flag;
 }	t_ray;
 
@@ -161,5 +161,6 @@ int		game_exit(t_game *game);
 
 // Error
 int		error(char *message);
+void	debugger(t_game *game, char *struct_name);
 
 #endif
