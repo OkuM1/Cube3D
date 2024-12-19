@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:20:48 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/12/10 14:32:38 by cwick            ###   ########.fr       */
+/*   Updated: 2024/12/19 10:16:42 by mokutucu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@
 # define PLAYER_SPEED 4
 # define WIN_WIDTH	800
 # define WIN_HEIGHT	600
+# define SKY_COLOR 0x87CEEB  // Light blue 
+# define GROUND_COLOR 0x800111  // Brown
 
 typedef struct s_img
 {

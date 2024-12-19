@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   walls.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 16:12:34 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/12/10 17:45:04 by cwick            ###   ########.fr       */
+/*   Updated: 2024/12/19 10:14:57 by mokutucu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,26 @@ void draw_wall(t_game *game, int ray, int top_pix, int bottom_pix) // draw the w
 	printf("Ray: %d, Top: %d, Bottom: %d, Color: %u\n", ray, top_pix, bottom_pix, color);
 }
 
+void draw_sky(t_game *game, int ray, int top_pix)
+{
+    int y = 0;
+    while (y < top_pix)
+    {
+        my_mlx_pixel_put(game, ray, y, SKY_COLOR);
+        y++;
+    }
+}
+
+void draw_ground(t_game *game, int ray, int bottom_pix)
+{
+    int y = bottom_pix;
+    while (y < WIN_HEIGHT)
+    {
+        my_mlx_pixel_put(game, ray, y, GROUND_COLOR);
+        y++;
+    }
+}
+
 void render_wall(t_game *game, int ray) // render the wall
 {
 	double wall_h;
@@ -113,6 +133,11 @@ void render_wall(t_game *game, int ray) // render the wall
 		bottom_pix = WIN_HEIGHT;
 	if (top_pix < 0)
 		top_pix = 0;
+
+	// Draw the sky and ground
+    draw_sky(game, ray, top_pix);
+    draw_ground(game, ray, bottom_pix);
+	
 	draw_wall(game, ray, top_pix, bottom_pix);
 	// draw_floor_ceiling(game, ray, top_pix, bottom_pix); // draw the floor and the ceiling
 }
