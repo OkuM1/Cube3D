@@ -6,7 +6,7 @@
 /*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:14:29 by chris             #+#    #+#             */
-/*   Updated: 2024/12/19 15:40:44 by chris            ###   ########.fr       */
+/*   Updated: 2025/01/05 18:09:51 by chris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,64 +15,67 @@
 void	rotate_player(t_game *game, int direction)
 {
 	if (direction == 1)		//rotate right
-	{
-		game->player.player_angle += ROTATION_SPEED;
-		if (game->player.player_angle > 2 * M_PI)
-			game->player.player_angle -= 2 * M_PI;
-	}
-	else					//rotate left
-	{
-		game->player.player_angle -= ROTATION_SPEED;
-		if (game->player.player_angle < 0)
-			game->player.player_angle += 2 * M_PI;
-	}
+		game->player.angle += ROTATION_SPEED;
+	if (direction == -1)	// rotate left
+		game->player.angle -= ROTATION_SPEED;
+	nor_angle(&game->player.angle);
+	game->player.dir_x = cos(game->player.angle);
+	game->player.dir_y = sin(game->player.angle);
 }
 
 void	move_player(t_game *game, double move_x, double move_y)
 {
-	int	new_x;
-	int	new_y;
 	int	map_pos_x;
 	int	map_pos_y;
 
-	new_x = game->player.x + move_x;
-	new_y = game->player.y + move_y;
-	map_pos_x = new_x / TILE_SIZE;
-	map_pos_y = new_y / TILE_SIZE;
-	if (game->map.level[map_pos_y][map_pos_x] != '1' &&
-		game->map.level[map_pos_y][game->player.x / TILE_SIZE] != '1' &&
-		game->map.level[game->player.y / TILE_SIZE][map_pos_x] != '1')
+	map_pos_x = move_x / TILE_SIZE;
+	map_pos_y = move_y / TILE_SIZE;
+	if (map_pos_x >= 0 && map_pos_x < game->map.level_width
+		&& map_pos_y >= 0 && map_pos_y < game->map.level_height)
 	{
-		game->player.x = new_x;
-		game->player.y = new_y;
+		if (game->map.level[map_pos_y][map_pos_x] != '1') // Wall collision
+		{
+			game->player.x = move_x;
+			game->player.y = move_y;
+		}
 	}
+	game->player.x_grid = game->player.x / TILE_SIZE;
+	game->player.y_grid = game->player.y / TILE_SIZE;
+	debugger(game, "player");
 }
 
-void	controls(t_game *game, double move_x, double move_y)
+void	controls(t_game *game)
 {
-	if (game->player.rot == 1) //rotate right
+	double	move_x;
+	double	move_y;
+
+	move_x = game->player.x;
+	move_y = game->player.y;
+	// printf("move_x = %lf move_y = %lf\n", move_x, move_y);
+	if (game->player.rot == 1) //rotate left
 		rotate_player(game, 1);
-	if (game->player.rot == -1) //rotate left
-		rotate_player(game, 0);
-	if (game->player.l_r == 1) //move right
+	if (game->player.rot == -1) //rotate right
+		rotate_player(game, -1);
+	if (game->player.u_d == 1) // Move forward
 	{
-		move_x = -sin(game->player.player_angle) * PLAYER_SPEED;
-		move_y = cos(game->player.player_angle) * PLAYER_SPEED;
+		move_x += game->player.dir_x * PLAYER_SPEED;
+		move_y += game->player.dir_y * PLAYER_SPEED;
 	}
-	if (game->player.l_r == -1) //move left
+	if (game->player.u_d == -1) // Move backward
 	{
-		move_x = sin(game->player.player_angle) * PLAYER_SPEED;
-		move_y = -cos(game->player.player_angle) * PLAYER_SPEED;
+		move_x -= game->player.dir_x * PLAYER_SPEED;
+		move_y -= game->player.dir_y * PLAYER_SPEED;
 	}
-	if (game->player.u_d == 1) //move up
+	if (game->player.l_r == 1) // move right
 	{
-		move_x = cos(game->player.player_angle) * PLAYER_SPEED;
-		move_y = sin(game->player.player_angle) * PLAYER_SPEED;
+		move_x -= game->player.dir_y * PLAYER_SPEED;
+		move_y += game->player.dir_x * PLAYER_SPEED;
 	}
-	if (game->player.u_d == -1) //move down
+	if (game->player.l_r == -1) // move left
 	{
-		move_x = -cos(game->player.player_angle) * PLAYER_SPEED;
-		move_y = -sin(game->player.player_angle) * PLAYER_SPEED;
+		move_x += game->player.dir_y * PLAYER_SPEED;
+		move_y -= game->player.dir_x * PLAYER_SPEED;
 	}
-	move_player(game, move_x, move_y); // move the player
+	// printf("move_x = %lf move_y = %lf\n", move_x, move_y);
+	move_player(game, move_x, move_y);	
 }

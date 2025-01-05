@@ -4,6 +4,73 @@ now : Save textures, save colours, parse map and save into **map
 
 
 render issue
+is solved
 
-just the south wall (blue)
-other walls seem fine
+logic for wall wall detection works.
+need to be implemented in 3D raycaster.
+
+Floodfill from Playerposition is nessessary
+To check if there is a hole in the boundary
+or if the player is outside
+
+11  S11
+1001111
+1000001
+1111111
+
+
+
+#######################BACKUP#########################
+
+// double	calc_dist(t_game *game, double ray_x, double ray_y)
+// {
+// 	double	delta_x;
+// 	double	delta_y;
+// 	double	angle;
+// 	double	dist;
+// 	double	fix_dist;
+
+// 	delta_x = ray_x - game->player.x;
+// 	delta_y = ray_y - game->player.y;
+// 	angle = atan2(delta_y, delta_x) - game->player.player_angle;	//arctangent to compute angle in Radians
+// 	dist = sqrt(delta_x * delta_x + delta_y * delta_y);
+// 	fix_dist = dist * cos(angle);		
+// 	return (fix_dist);							// fix fisheye
+// }
+
+// 	while (wall_hit(ver_x - v_direction, ver_y, game) == 0)
+// 	{
+// 		ver_x += x_step;
+// 		ver_y += y_step;
+// 	}
+// 	return (calc_dist(game, ver_x, ver_y));
+// }
+
+// void	cast_rays(t_game *game)
+// {
+// 	double	h_inter;
+// 	double	v_inter;
+// 	int		ray;
+
+// 	ray = 0;
+// 	game->ray.ray_angle = nor_angle(game->ray.ray_angle);
+// 	game->ray.ray_angle = game->player.player_angle - (game->view.fov / 2); // Initial ray angle
+// 	while (ray < WIN_WIDTH)
+// 	{
+// 		game->ray.wall_flag = 0;
+// 		h_inter = get_h_intersection(game, nor_angle(game->ray.ray_angle)); // Get horizontal intersection
+// 		v_inter = get_v_intersection(game, nor_angle(game->ray.ray_angle)); // Get vertical intersection
+// 		printf("h_inter= %f v_inter= %f\n", h_inter, v_inter);
+// 		if (v_inter <= h_inter)
+// 			game->ray.wall_dist = v_inter;
+// 		else
+// 		{
+// 			game->ray.wall_dist = h_inter;
+// 			game->ray.wall_flag = 1; // Flag for horizontal wall hit
+// 		}
+// 		debugger(game, "ray");
+// 		render_wall(game, ray); // Render the wall
+// 		ray++; // Move to the next ray
+// 		game->ray.ray_angle += (game->view.fov / WIN_WIDTH); // Increment the angle
+// 	}
+// }

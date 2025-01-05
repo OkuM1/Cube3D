@@ -101,7 +101,7 @@ void find_level_dimensions(t_map *map)
     j = 0;
     while (map->level[i])
     {
-        while (map->level[i][j])
+        while (map->level[i][j] && map->level[i][j] != '\n')
             j++;
         i++;
     }

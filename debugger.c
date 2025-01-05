@@ -21,12 +21,14 @@ void print_img(t_game *game) {
 void print_ray(t_game *game) {
     t_ray *ray = &game->ray;
     printf("\n--- RAY ---\n");
-    printf("ray_angle: %f\n", ray->ray_angle);
+    printf("ray_angle: %f\n", ray->angle);
     printf("wall_dist: %f\n", ray->wall_dist);
-    // printf("hor_x: %f\n", ray->hor_x);
-    // printf("hor_y: %f\n", ray->hor_y);
-    // printf("vert_x: %f\n", ray->vert_x);
-    // printf("vert_y: %f\n", ray->vert_y);
+	printf("dir_x: %f\n", ray->dir_x);
+	printf("dir_y: %f\n", ray->dir_y);
+    printf("hor_x: %f\n", ray->hor_x);
+    printf("hor_y: %f\n", ray->hor_y);
+    printf("vert_x: %f\n", ray->vert_x);
+    printf("vert_y: %f\n", ray->vert_y);
     printf("wall_flag: %d\n", ray->wall_flag);
 }
 
@@ -59,27 +61,20 @@ void print_map(t_game *game) {
 }
 
 void print_player(t_game *game) {
-    t_player *player = &game->player;
-    printf("\n--- PLAYER ---\n");
-    printf("player_id: %d\n", player->player_id);
-    printf("x: %d\n", player->x);
-    printf("y: %d\n", player->y);
-    printf("player_angle: %f\n", player->player_angle);
-    printf("move_speed: %f\n", player->move_speed);
-    printf("rotation_speed: %f\n", player->rotation_speed);
-    printf("l_r: %d\n", player->l_r);
-    printf("u_d: %d\n", player->u_d);
-    printf("rot: %d\n", player->rot);
+	t_player *player = &game->player;
+	printf("\n--- PLAYER ---\n");
+	printf("player_id: %d\n", player->player_id);
+	printf("player_angle: %lf\n", player->angle);
+	printf("x: %lf\n", player->x);
+	printf("y: %lf\n", player->y);
+	printf("dir x: %lf\n", player->dir_x);
+	printf("dir y: %lf\n", player->dir_y);
+	printf("x in mapgrid: %d\n", player->x_grid);
+	printf("y in mapgrid: %d\n", player->y_grid);
+	printf("l_r: %d\n", player->l_r);
+	printf("u_d: %d\n", player->u_d);
+	printf("rot: %d\n", player->rot);
 }
-
-// void print_game(t_game *game) {
-//     printf("\n--- GAME ---\n");
-//     print_view(game);
-//     print_img(game);
-//     print_map(game);
-//     print_player(game);
-//     print_ray(game);
-// }
 
 void	debugger(t_game *game, char *struct_name)
 {

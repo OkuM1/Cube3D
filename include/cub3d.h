@@ -6,7 +6,7 @@
 /*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:20:48 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/12/19 17:57:09 by chris            ###   ########.fr       */
+/*   Updated: 2025/01/04 14:24:45 by chris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@
 
 # define TILE_SIZE 64
 
-# define ROTATION_SPEED 0.1
-# define PLAYER_SPEED 6
+# define ROTATION_SPEED 0.01
+# define PLAYER_SPEED 1
 # define WIN_WIDTH	800
 # define WIN_HEIGHT	600
+# define PLAYER_COLOR 0x5cf700
 # define SKY_COLOR 0x87CEEB  // Light blue 
-// # define GROUND_COLOR 0x800111  // Red
 # define GROUND_COLOR 0x778899	// grey
 
 typedef struct s_img
@@ -66,13 +66,26 @@ typedef struct s_img
 
 typedef struct s_ray
 {
-	double	ray_angle;
+	double	angle;
 	double	wall_dist;
-	// double	hor_x;
-	// double	hor_y;
-	// double	vert_x;
-	// double	vert_y;
+	double	hor_x;
+	double	hor_y;
+	double	vert_x;
+	double	vert_y;
+	double	dir_x;
+	double	dir_y;
+	int		delta_x;
+	int		delta_y;
+	int		hor_x_map;
+	int		hor_y_map;
+	int		vert_x_map;
+	int		vert_y_map;
+	double	step_x;
+	double	step_y;
+	double	plane_x;
+	double	plane_y;
 	int		wall_flag;
+	double	wall_heigt;
 }	t_ray;
 
 typedef struct s_view
@@ -103,11 +116,13 @@ typedef struct s_map
 typedef struct s_player
 {
 	int		player_id;
-	int		x;
-	int		y;
-	double	player_angle;
-	double	move_speed;
-	double	rotation_speed;
+	double	x;
+	double	y;
+	double	angle;
+	double	dir_x;
+	double	dir_y;
+	int		x_grid;
+	int		y_grid;
 	int		l_r;
 	int		u_d;
 	int		rot;
@@ -141,10 +156,12 @@ int		find_player_start(t_game *game);
 // Parser
 void	save_texture(t_game *game, t_map *map);
 
-float	nor_angle(float angle);
+void	create_image(t_game *game);
+void	cast_ray(t_game *game, int *side);
 void	render_wall(t_game *game, int ray);
-void	cast_rays(t_game *game);
 void	my_mlx_pixel_put(t_game *game, int x, int y, unsigned int color);
+void	clear_image(t_game *game);
+void	nor_angle(double *angle);
 
 // Hooks
 int		refresh_game(void *param);
@@ -152,7 +169,7 @@ int		handle_keypress(int keycode, void *param);
 int		handle_keyrelease(int keycode, void *param);
 
 // Controls
-void	controls(t_game *game, double move_x, double move_y);
+void	controls(t_game *game);
 void	move_player(t_game *game, double move_x, double move_y);
 void	rotate_player(t_game *game, int direction);
 

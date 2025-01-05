@@ -6,7 +6,7 @@
 /*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 16:12:34 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/12/19 17:30:06 by chris            ###   ########.fr       */
+/*   Updated: 2025/01/04 05:00:20 by chris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,13 @@
 
 void my_mlx_pixel_put(t_game *game, int x, int y, unsigned int color) // put the pixel
 {
-	char	*dst;
+	char	*pixel_buffer;
 
 	if (x < 0 || x >= WIN_WIDTH || y < 0 || y >= WIN_HEIGHT)
 		return ;
-	dst = game->img.img_address + (y * game->img.line_length) + (x * (game->img.bpp / 8));
-	if (dst)
-		*(unsigned int *)dst = color;
-}
-
-float nor_angle(float angle) // normalize the angle
-{
-	if (angle < 0)
-		angle += (2 * M_PI);
-	if (angle > (2 * M_PI))
-		angle -= (2 * M_PI);
-	return (angle);
+	pixel_buffer = game->img.img_address + (y * game->img.line_length) + (x * game->img.bpp / 8);
+	if (pixel_buffer)
+		*(unsigned int *)pixel_buffer = color;
 }
 
 int rgba_to_int(int r, int g, int b, int a) {
@@ -38,17 +29,16 @@ int rgba_to_int(int r, int g, int b, int a) {
 
 int get_color(t_game *game, int flag) // get the color of the wall
 {
-	game->ray.ray_angle = nor_angle(game->ray.ray_angle); // normalize the angle
 	if (flag == 0)
 	{
-		if (game->ray.ray_angle > M_PI / 2 && game->ray.ray_angle < 3 * (M_PI / 2))
+		if (game->ray.angle > M_PI / 2 && game->ray.angle < 3 * (M_PI / 2))
 			return (rgba_to_int(234,182,118,255)); // west wall
 		else
 			return (rgba_to_int(238,238,228,255)); // east wall
 	}
 	else
 	{
-		if (game->ray.ray_angle > 0 && game->ray.ray_angle < M_PI)
+		if (game->ray.angle > 0 && game->ray.angle < M_PI)
 			return (rgba_to_int(25,118,162,255)); // south wall
 		else
 			return (rgba_to_int(128,57,30,255)); // north wall
@@ -59,14 +49,14 @@ int get_color(t_game *game, int flag) // get the color of the wall
 // {
 // 	if (flag == 0)
 // 	{
-// 		if (game->ray.ray_angle > M_PI / 2 && game->ray.ray_angle < 3 * (M_PI / 2))
+// 		if (game->ray.angle > M_PI / 2 && game->ray.angle < 3 * (M_PI / 2))
 // 			return (game->img.w_texture_add); // west wall
 // 		else
 // 			return (game->img.e_texture_add); // east wall
 // 	}
 // 	else
 // 	{
-// 		if (game->ray.ray_angle > 0 && game->ray.ray_angle < M_PI)
+// 		if (game->ray.angle > 0 && game->ray.angle < M_PI)
 // 			return (game->img.s_texture_add);	// south wall
 // 		else
 // 			return (game->img.n_texture_add);	// north wall
@@ -117,20 +107,20 @@ void draw_sky(t_game *game, int ray, int top_pix)
 
 void render_wall(t_game *game, int ray)
 {
-	double wall_h;
 	double top_pix;
 	double bottom_pix;
 
 	top_pix = 0;
 	bottom_pix = 0;
-	game->ray.wall_dist *= cos(nor_angle(game->ray.ray_angle - game->player.player_angle)); // fix the fisheye
-	wall_h = (TILE_SIZE / game->ray.wall_dist) * ((WIN_WIDTH / 2) / tan(game->view.fov / 2)); // get the wall height
-	bottom_pix = (WIN_HEIGHT / 2) + (wall_h / 2); // get the bottom pixel
-	top_pix = (WIN_HEIGHT / 2) - (wall_h / 2); // get the top pixel
-	if (bottom_pix > WIN_HEIGHT)
-		bottom_pix = WIN_HEIGHT;
+	// game->ray.wall_dist *= cos(game->ray.angle - game->player.angle); // fix the fisheye
+	game->ray.wall_heigt = (TILE_SIZE * WIN_HEIGHT) / (game->ray.wall_dist * tan(game->view.fov / 2));
+	// game->ray.wall_heigt = (TILE_SIZE / game->ray.wall_dist) * ((WIN_WIDTH / 2) / tan(game->view.fov / 2)); // get the wall height
+	top_pix = (WIN_HEIGHT / 2) - (game->ray.wall_heigt / 2); // get the top pixel
+	bottom_pix = (WIN_HEIGHT / 2) + (game->ray.wall_heigt / 2); // get the bottom pixel
 	if (top_pix < 0)
 		top_pix = 0;
+	if (bottom_pix > WIN_HEIGHT)
+		bottom_pix = WIN_HEIGHT;
 	draw_sky(game, ray, top_pix);
 	draw_ground(game, ray, bottom_pix);
 	draw_wall(game, ray, top_pix, bottom_pix);

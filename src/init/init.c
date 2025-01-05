@@ -6,18 +6,48 @@
 /*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 15:32:57 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/12/19 12:31:38 by chris            ###   ########.fr       */
+/*   Updated: 2025/01/04 13:45:35 by chris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
+void	init_ray(t_game *game)
+{
+	game->ray.angle = 0;
+	game->ray.delta_x = 0;
+	game->ray.delta_y = 0;
+	game->ray.dir_x = 0;
+	game->ray.dir_y = 0;
+	game->ray.hor_x = 0;
+	game->ray.hor_y = 0;
+	game->ray.vert_x = 0;
+	game->ray.vert_y = 0;
+	game->ray.plane_x = 0;
+	game->ray.plane_y = 0;
+	game->ray.wall_dist = 0;
+	game->ray.wall_flag = 0;
+	game->ray.wall_heigt = 0;
+	game->ray.hor_x_map = 0;
+	game->ray.hor_y_map = 0;
+	game->ray.vert_x_map = 0;
+	game->ray.vert_y_map = 0;
+	game->ray.step_x = 0;
+	game->ray.step_y = 0;
+}
+
 void	init_player(t_game *game)
 {
-	game->player.x = game->view.x * TILE_SIZE + TILE_SIZE / 2;
-	game->player.y = game->view.y * TILE_SIZE + TILE_SIZE / 2;
-	game->view.fov = (60 * M_PI) / 180.0;
-	game->player.player_angle = 0;
+	game->player.x = 0;
+	game->player.y = 0;
+	game->player.dir_x = 0;
+	game->player.dir_y = 0;
+	game->player.x_grid = 0;
+	game->player.y_grid = 0;
+	game->player.angle = 0;
+	game->player.l_r = 0;
+	game->player.u_d = 0;
+	game->player.rot = 0;
 }
 
 void	init_mlx(t_game *game)
@@ -52,13 +82,13 @@ void	init_game(t_game *game)
 
 void    init_view(t_game *game)
 {
-    game->view.x = 0;
-    game->view.y = 0;
+	game->view.fov = M_PI / 3;
+	game->view.x = WIN_WIDTH / 2;
+	game->view.y = WIN_HEIGHT / 2;
     game->view.height = WIN_HEIGHT;
     game->view.width = WIN_WIDTH;
     game->view.zoom = 1.0;
 }
-
 
 void	init_all(t_game *game)
 {
@@ -66,4 +96,5 @@ void	init_all(t_game *game)
 	init_game(game);
 	init_mlx(game);
 	init_player(game);
+	init_ray(game);
 }
