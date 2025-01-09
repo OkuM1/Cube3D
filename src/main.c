@@ -6,7 +6,7 @@
 /*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:16:09 by mokutucu          #+#    #+#             */
-/*   Updated: 2025/01/09 14:24:15 by cwick            ###   ########.fr       */
+/*   Updated: 2025/01/09 16:16:32 by cwick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	game_loop(t_game *game)
 {
 	create_image(game);
 	controls(game);
-	// mlx_put_image_to_window(game->img.mlx, game->img.mlx_win, game->img.img, 0, 0);
+	mlx_put_image_to_window(game->img.mlx, game->img.mlx_win, game->img.img, 0, 0);
 	return (0);
 }
 

@@ -155,8 +155,7 @@ void	create_image(t_game *game)
 	clear_image(game);
 	cast_rays(game);
 	// create_minimap(game);
-	mlx_put_image_to_window(game->img.mlx, game->img.mlx_win, game->img.img, 0, 0);
-	
+	// mlx_put_image_to_window(game->img.mlx, game->img.mlx_win, game->img.img, 0, 0);
 }
 
 // void	cast_ray(t_game *game, int *side)

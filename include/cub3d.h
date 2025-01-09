@@ -6,7 +6,7 @@
 /*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:20:48 by mokutucu          #+#    #+#             */
-/*   Updated: 2025/01/09 15:37:40 by cwick            ###   ########.fr       */
+/*   Updated: 2025/01/09 16:42:31 by cwick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,9 @@ typedef struct s_img
 	void	*mlx;
 	void	*mlx_win;
 	void	*img;
-	void	*img_texture;
+    void    *textures[4];
+    int     tex_width;
+    int     tex_height; 
 	char	*img_address;
 	int		bpp;
 	int		line_length;

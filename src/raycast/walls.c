@@ -6,7 +6,7 @@
 /*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 16:12:34 by mokutucu          #+#    #+#             */
-/*   Updated: 2025/01/09 16:05:33 by cwick            ###   ########.fr       */
+/*   Updated: 2025/01/09 16:48:30 by cwick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,24 +63,38 @@ void draw_sky(t_game *game, int ray, int top_pix)
 	}
 }
 
-void	get_texture(t_game *game) // get the color of the wall
+void load_textures(t_game *game)
 {
-	int		width;
-	int		height;
+	int i;
 
-	game->img.img_texture = mlx_xpm_file_to_image(game->img.mlx, "textures/green_texture.xpm", &width, &height);
-	// if (game->ray.wall_side == 'w')
-	// 	game->img.img_texture = mlx_xpm_file_to_image(game->img.mlx, "textures/dark_texture.xpm", &width, &height);
-	// else if (game->ray.wall_side == 'e')
-	// 	game->img.img_texture = mlx_xpm_file_to_image(game->img.mlx, "textures/green_texture.xpm", &width, &height);
-	// else if (game->ray.wall_side == 's')
-	// 	game->img.img_texture = mlx_xpm_file_to_image(game->img.mlx, "textures/orange_texture.xpm", &width, &height);
-	// else if (game->ray.wall_side == 'n')
-	// 	game->img.img_texture = mlx_xpm_file_to_image(game->img.mlx, "textures/purple_texture.xpm", &width, &height);
-	if (!game->img.img)
+	i = 0;
+	game->img.textures[0] = mlx_xpm_file_to_image(game->img.mlx, "textures/dark_texture.xpm", &game->img.tex_width, &game->img.tex_height);
+	game->img.textures[1] = mlx_xpm_file_to_image(game->img.mlx, "textures/green_texture.xpm", &game->img.tex_width, &game->img.tex_height);
+	game->img.textures[2] = mlx_xpm_file_to_image(game->img.mlx, "textures/orange_texture.xpm", &game->img.tex_width, &game->img.tex_height);
+	game->img.textures[3] = mlx_xpm_file_to_image(game->img.mlx, "textures/purple_texture.xpm", &game->img.tex_width, &game->img.tex_height);
+	while (i < 4)
 	{
-	    printf("No texture found!\n");
+		if (!game->img.textures[i])
+		{
+			printf("Failed to load texture %d\n", i);
+			exit(EXIT_FAILURE);
+		}
+		i++;
 	}
+}
+
+
+void	*get_texture(t_game *game)
+{	
+	if (game->ray.wall_side == 'w')
+		return game->img.textures[0];
+	else if (game->ray.wall_side == 'e')
+		return game->img.textures[1];
+	else if (game->ray.wall_side == 's')
+		return game->img.textures[2];
+	else if (game->ray.wall_side == 'n')
+		return game->img.textures[3];
+	return (NULL);
 }
 
 void draw_wall(t_game *game, int ray, int top_pix, int bottom_pix)
@@ -89,6 +103,7 @@ void draw_wall(t_game *game, int ray, int top_pix, int bottom_pix)
 	int		y;
 	int		x;
 	char	*addr;
+	void	*texture;
 	int		bpp;
 	int		line_length;
 	int		endian;
@@ -98,17 +113,17 @@ void draw_wall(t_game *game, int ray, int top_pix, int bottom_pix)
 	y = top_pix;
 	x = 0;
 	// color = get_color(game);
-	get_texture(game);
-	addr = mlx_get_data_addr(game->img.img_texture, &bpp, &line_length, &endian);
+	texture = get_texture(game);
+	addr = mlx_get_data_addr(texture, &bpp, &line_length, &endian);
 	if (y < bottom_pix)
 	{
 		while (y < bottom_pix)
 		{
+			y = ((y - top_pix) * game->img.tex_height) / (bottom_pix - top_pix);
+        	// x = (int)(game->ray.wall_hit * game->img.tex_width) % game->img.tex_width;
 			pixel = addr + (y * line_length + x * (bpp / 8));
 			color = *(int *)pixel;
 			my_mlx_pixel_put(game, ray, y, color);
-			y++;
-			x++;
 		}
 	}
 }
@@ -147,7 +162,7 @@ void render_wall(t_game *game, int ray, double h_inter, double v_inter)
 	if (bottom_pix > WIN_HEIGHT)
 		bottom_pix = WIN_HEIGHT;
 	check_wall_dir(game, h_inter, v_inter);
-	// get_texture(game);
+	load_textures(game);
 	draw_wall(game, ray, top_pix, bottom_pix);
 	draw_sky(game, ray, top_pix);
 	draw_ground(game, ray, bottom_pix);
