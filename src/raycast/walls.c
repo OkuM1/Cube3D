@@ -6,7 +6,7 @@
 /*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 16:12:34 by mokutucu          #+#    #+#             */
-/*   Updated: 2025/01/09 17:21:11 by cwick            ###   ########.fr       */
+/*   Updated: 2025/01/09 17:52:41 by cwick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,31 @@ void	*get_texture(t_game *game)
 	return (NULL);
 }
 
+double texture_wall_hit(t_game *game)
+{
+    double wall_hit_x;
+
+    if (game->ray.h_inter < game->ray.v_inter) // Horizontal wall hit
+    {
+        wall_hit_x = game->ray.hor_x / TILE_SIZE; // Normalize to tile space
+        wall_hit_x -= floor(wall_hit_x);         // Get fractional part
+    }
+    else if (game->ray.v_inter < game->ray.h_inter)
+    {
+        wall_hit_x = game->ray.vert_y / TILE_SIZE; // Normalize to tile space
+        wall_hit_x -= floor(wall_hit_x);          // Get fractional part
+    }
+    else
+    {
+        wall_hit_x = 0; // Default, should never reach here if logic is correct
+    }
+
+    return wall_hit_x;
+}
+
+
 void draw_wall(t_game *game, int ray, int top_pix, int bottom_pix)
 {
-	// unsigned int	color;
 	int		y;
 	int		tex_y;
 	int		tex_x;
@@ -110,12 +132,13 @@ void draw_wall(t_game *game, int ray, int top_pix, int bottom_pix)
 	int		endian;
 	int		color;
 	char	*pixel;
+	double	wall_hit_x;
 	
 	y = top_pix;
-	tex_x = 64;
-	// color = get_color(game);
+	wall_hit_x = texture_wall_hit(game);
 	texture = get_texture(game);
 	addr = mlx_get_data_addr(texture, &bpp, &line_length, &endian);
+	tex_x = (int)(wall_hit_x * game->img.tex_width) % game->img.tex_width;
 	while (y < bottom_pix)
 	{
 		tex_y = ((y - top_pix) * game->img.tex_height) / (bottom_pix - top_pix);
