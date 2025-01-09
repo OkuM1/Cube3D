@@ -6,7 +6,7 @@
 /*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 16:12:34 by mokutucu          #+#    #+#             */
-/*   Updated: 2025/01/09 16:48:30 by cwick            ###   ########.fr       */
+/*   Updated: 2025/01/09 17:21:11 by cwick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,8 @@ void draw_wall(t_game *game, int ray, int top_pix, int bottom_pix)
 {
 	// unsigned int	color;
 	int		y;
-	int		x;
+	int		tex_y;
+	int		tex_x;
 	char	*addr;
 	void	*texture;
 	int		bpp;
@@ -111,20 +112,17 @@ void draw_wall(t_game *game, int ray, int top_pix, int bottom_pix)
 	char	*pixel;
 	
 	y = top_pix;
-	x = 0;
+	tex_x = 64;
 	// color = get_color(game);
 	texture = get_texture(game);
 	addr = mlx_get_data_addr(texture, &bpp, &line_length, &endian);
-	if (y < bottom_pix)
+	while (y < bottom_pix)
 	{
-		while (y < bottom_pix)
-		{
-			y = ((y - top_pix) * game->img.tex_height) / (bottom_pix - top_pix);
-        	// x = (int)(game->ray.wall_hit * game->img.tex_width) % game->img.tex_width;
-			pixel = addr + (y * line_length + x * (bpp / 8));
-			color = *(int *)pixel;
-			my_mlx_pixel_put(game, ray, y, color);
-		}
+		tex_y = ((y - top_pix) * game->img.tex_height) / (bottom_pix - top_pix);
+		pixel = addr + (tex_y * line_length + tex_x * (bpp / 8));
+		color = *(int *)pixel;
+		my_mlx_pixel_put(game, ray, y, color);
+		y++;
 	}
 }
 
@@ -146,7 +144,7 @@ void	check_wall_dir(t_game *game, double h_inter, double v_inter)
 	}
 }
 
-void render_wall(t_game *game, int ray, double h_inter, double v_inter)
+void render_wall(t_game *game, int ray)
 {
 	double top_pix;
 	double bottom_pix;
@@ -161,8 +159,7 @@ void render_wall(t_game *game, int ray, double h_inter, double v_inter)
 		top_pix = 0;
 	if (bottom_pix > WIN_HEIGHT)
 		bottom_pix = WIN_HEIGHT;
-	check_wall_dir(game, h_inter, v_inter);
-	load_textures(game);
+	check_wall_dir(game, game->ray.h_inter, game->ray.v_inter);
 	draw_wall(game, ray, top_pix, bottom_pix);
 	draw_sky(game, ray, top_pix);
 	draw_ground(game, ray, bottom_pix);

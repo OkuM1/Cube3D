@@ -6,7 +6,7 @@
 /*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:20:48 by mokutucu          #+#    #+#             */
-/*   Updated: 2025/01/09 16:42:31 by cwick            ###   ########.fr       */
+/*   Updated: 2025/01/09 17:21:38 by cwick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ typedef struct s_ray
 	double	vert_y;
 	double	dir_x;
 	double	dir_y;
+	double	h_inter;
+	double	v_inter;
 	int		delta_x;
 	int		delta_y;
 	int		hor_x_map;
@@ -159,6 +161,7 @@ int		find_player_start(t_game *game);
 
 // Raycaster
 void	save_texture(t_game *game, t_map *map);
+void	load_textures(t_game *game);
 void	create_image(t_game *game);
 double	get_v_inter(t_game *game);
 double	get_h_inter(t_game *game);
@@ -166,7 +169,7 @@ int		check_wall_hit(t_game *game, char c, double ray_y, double ray_x);
 void	nor_angle(double *angle);
 double	deg_to_rad(double a);
 void	cast_ray(t_game *game, int *side);
-void	render_wall(t_game *game, int ray, double h_inter, double v_inter);
+void	render_wall(t_game *game, int ray);
 void	my_mlx_pixel_put(t_game *game, int x, int y, unsigned int color);
 void	clear_image(t_game *game);
 

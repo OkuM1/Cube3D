@@ -122,29 +122,27 @@ void	cast_rays(t_game *game)
 	int		side;
 	double	current_angle;
 	double	camera_x;
-	double	h_inter;
-	double	v_inter;
 
 	ray = 0;
 	side = 0;
 	camera_x = 0;
-	game->ray.plane_x = sin(game->player.angle) * 0.66; // Perpendicular to dirX
-	game->ray.plane_y = -cos(game->player.angle) * 0.66; // Perpendicular to dirY
+	// game->ray.plane_x = sin(game->player.angle) * 0.66; // Perpendicular to dirX
+	// game->ray.plane_y = -cos(game->player.angle) * 0.66; // Perpendicular to dirY
 	game->ray.angle = game->player.angle - (game->view.fov / 2);
 	current_angle = game->ray.angle;
 	while (ray < game->view.width) // Cast one ray for each screen column
 	{
 		game->ray.dir_x = cos(current_angle);
 		game->ray.dir_y = sin(current_angle);
-		h_inter = get_h_inter(game);
-		v_inter = get_v_inter(game);
-		if (v_inter < h_inter)
-			game->ray.wall_dist = v_inter;
-		else if (h_inter < v_inter)
-			game->ray.wall_dist = h_inter;		
+		game->ray.h_inter = get_h_inter(game);
+		game->ray.v_inter = get_v_inter(game);
+		if (game->ray.v_inter < game->ray.h_inter)
+			game->ray.wall_dist = game->ray.v_inter;
+		else if (game->ray.h_inter < game->ray.v_inter)
+			game->ray.wall_dist = game->ray.h_inter;		
 		game->ray.angle = current_angle;
 		nor_angle(&game->ray.angle);
-		render_wall(game, ray, h_inter, v_inter);
+		render_wall(game, ray);
 		current_angle += (game->view.fov / game->view.width);
 		ray++;
 	}

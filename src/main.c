@@ -6,7 +6,7 @@
 /*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:16:09 by mokutucu          #+#    #+#             */
-/*   Updated: 2025/01/09 16:16:32 by cwick            ###   ########.fr       */
+/*   Updated: 2025/01/09 17:06:25 by cwick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ void	render_game(t_game *game)
 	game->img.mlx_win = mlx_new_window(game->img.mlx, WIN_WIDTH, WIN_HEIGHT, "cub3d");
 	game->img.img = mlx_new_image(game->img.mlx, WIN_WIDTH, WIN_HEIGHT);
 	game->img.img_address = mlx_get_data_addr(game->img.img, &game->img.bpp, &game->img.line_length, &game->img.endian);
-    mlx_hook(game->img.mlx_win, 17, 1L << 0, game_exit, game);			//windows is closed with red cross
+    load_textures(game);
+	mlx_hook(game->img.mlx_win, 17, 1L << 0, game_exit, game);			//windows is closed with red cross
 	mlx_hook(game->img.mlx_win, 2, 1L << 0, handle_keypress, game);		//keypress
 	mlx_hook(game->img.mlx_win, 3, 1L << 1, handle_keyrelease, game); 	//keyrelease
 	mlx_expose_hook(game->img.mlx_win, refresh_game, game);
