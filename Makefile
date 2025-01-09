@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: chris <chris@student.42.fr>                +#+  +:+       +#+         #
+#    By: cwick <cwick@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/07 14:51:22 by mokutucu          #+#    #+#              #
-#    Updated: 2024/12/19 17:16:22 by chris            ###   ########.fr        #
+#    Updated: 2025/01/09 11:32:16 by cwick            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,8 @@ SRCS	= src/main.c \
 		src/raycast/walls.c \
 		src/init/init.c \
 		src/movement/controls.c \
-		debugger.c
+		debugger.c \
+		src/raycast/minimap.c
 
 OBJS	= $(patsubst $(SRC_DIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
 
@@ -50,10 +51,12 @@ LIBFT   = $(LIBDIR)/libft.a
 MLX     = $(MLX_DIR)/libmlx.a
 MLX_REPO = https://github.com/42Paris/minilibx-linux.git
 
+
 # Targets
 all: $(MLX) $(LIBFT) $(NAME)
 
-# Check if MLX_DIR exits, if not download from MLX_REPO
+# Check if MLX_DIR exits, if not download from MLX_REPO 
+# We need to check if the folder is empty
 check_directory:
 	@if [ ! -d "$(MLX_DIR)" ]; then \
 		echo "Directory does not exist, downloading file..."; \

@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   walls.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 16:12:34 by mokutucu          #+#    #+#             */
-/*   Updated: 2025/01/04 05:00:20 by chris            ###   ########.fr       */
+/*   Updated: 2025/01/09 16:05:33 by cwick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
+
+// int get_color(t_game *game) // get the color of the wall
+// {
+// 	if (game->ray.wall_side == 'w')
+// 		return (rgba_to_int(234,182,118,255)); // west wall
+// 	else if (game->ray.wall_side == 'e')
+// 		return (rgba_to_int(238,238,228,255)); // east wall
+// 	if (game->ray.wall_side == 's')
+// 		return (rgba_to_int(25,118,162,255)); // south wall
+// 	else if (game->ray.wall_side == 'n')
+// 		return (rgba_to_int(128,57,30,255)); // north wall
+// 	return (0);
+// }
 
 void my_mlx_pixel_put(t_game *game, int x, int y, unsigned int color) // put the pixel
 {
@@ -23,64 +36,9 @@ void my_mlx_pixel_put(t_game *game, int x, int y, unsigned int color) // put the
 		*(unsigned int *)pixel_buffer = color;
 }
 
-int rgba_to_int(int r, int g, int b, int a) {
+int rgba_to_int(int r, int g, int b, int a)
+{
 	return (a << 24) | (r << 16) | (g << 8) | b;
-}
-
-int get_color(t_game *game, int flag) // get the color of the wall
-{
-	if (flag == 0)
-	{
-		if (game->ray.angle > M_PI / 2 && game->ray.angle < 3 * (M_PI / 2))
-			return (rgba_to_int(234,182,118,255)); // west wall
-		else
-			return (rgba_to_int(238,238,228,255)); // east wall
-	}
-	else
-	{
-		if (game->ray.angle > 0 && game->ray.angle < M_PI)
-			return (rgba_to_int(25,118,162,255)); // south wall
-		else
-			return (rgba_to_int(128,57,30,255)); // north wall
-	}
-}
-
-// int	*get_texture(t_game *game, int flag)
-// {
-// 	if (flag == 0)
-// 	{
-// 		if (game->ray.angle > M_PI / 2 && game->ray.angle < 3 * (M_PI / 2))
-// 			return (game->img.w_texture_add); // west wall
-// 		else
-// 			return (game->img.e_texture_add); // east wall
-// 	}
-// 	else
-// 	{
-// 		if (game->ray.angle > 0 && game->ray.angle < M_PI)
-// 			return (game->img.s_texture_add);	// south wall
-// 		else
-// 			return (game->img.n_texture_add);	// north wall
-// 	}
-// }
-
-void draw_wall(t_game *game, int ray, int top_pix, int bottom_pix) // draw the wall
-{
-	int	y;
-	unsigned int	color;
-	// int	*texture;
-	
-	y = top_pix;
-	color = 0;
-	// texture = get_texture(game, game->ray.wall_flag);
-	color = get_color(game, game->ray.wall_flag);
-	if (y < bottom_pix)
-	{
-		while (y < bottom_pix)
-		{
-			my_mlx_pixel_put(game, ray, y, color);
-			y++;
-		}
-	}
 }
 
 void draw_ground(t_game *game, int ray, int bottom_pix)
@@ -105,25 +63,94 @@ void draw_sky(t_game *game, int ray, int top_pix)
 	}
 }
 
-void render_wall(t_game *game, int ray)
+void	get_texture(t_game *game) // get the color of the wall
+{
+	int		width;
+	int		height;
+
+	game->img.img_texture = mlx_xpm_file_to_image(game->img.mlx, "textures/green_texture.xpm", &width, &height);
+	// if (game->ray.wall_side == 'w')
+	// 	game->img.img_texture = mlx_xpm_file_to_image(game->img.mlx, "textures/dark_texture.xpm", &width, &height);
+	// else if (game->ray.wall_side == 'e')
+	// 	game->img.img_texture = mlx_xpm_file_to_image(game->img.mlx, "textures/green_texture.xpm", &width, &height);
+	// else if (game->ray.wall_side == 's')
+	// 	game->img.img_texture = mlx_xpm_file_to_image(game->img.mlx, "textures/orange_texture.xpm", &width, &height);
+	// else if (game->ray.wall_side == 'n')
+	// 	game->img.img_texture = mlx_xpm_file_to_image(game->img.mlx, "textures/purple_texture.xpm", &width, &height);
+	if (!game->img.img)
+	{
+	    printf("No texture found!\n");
+	}
+}
+
+void draw_wall(t_game *game, int ray, int top_pix, int bottom_pix)
+{
+	// unsigned int	color;
+	int		y;
+	int		x;
+	char	*addr;
+	int		bpp;
+	int		line_length;
+	int		endian;
+	int		color;
+	char	*pixel;
+	
+	y = top_pix;
+	x = 0;
+	// color = get_color(game);
+	get_texture(game);
+	addr = mlx_get_data_addr(game->img.img_texture, &bpp, &line_length, &endian);
+	if (y < bottom_pix)
+	{
+		while (y < bottom_pix)
+		{
+			pixel = addr + (y * line_length + x * (bpp / 8));
+			color = *(int *)pixel;
+			my_mlx_pixel_put(game, ray, y, color);
+			y++;
+			x++;
+		}
+	}
+}
+
+void	check_wall_dir(t_game *game, double h_inter, double v_inter)
+{
+	if (h_inter < v_inter)
+	{
+		if (game->ray.angle > 0 && game->ray.angle < M_PI)
+			game->ray.wall_side = 's';
+		else
+			game->ray.wall_side = 'n';
+	}
+	else if (v_inter < h_inter)
+	{
+		if (game->ray.angle > M_PI / 2 && game->ray.angle < 3 * M_PI / 2)
+			game->ray.wall_side = 'w';
+		else
+			game->ray.wall_side = 'e';
+	}
+}
+
+void render_wall(t_game *game, int ray, double h_inter, double v_inter)
 {
 	double top_pix;
 	double bottom_pix;
 
 	top_pix = 0;
 	bottom_pix = 0;
-	// game->ray.wall_dist *= cos(game->ray.angle - game->player.angle); // fix the fisheye
-	game->ray.wall_heigt = (TILE_SIZE * WIN_HEIGHT) / (game->ray.wall_dist * tan(game->view.fov / 2));
-	// game->ray.wall_heigt = (TILE_SIZE / game->ray.wall_dist) * ((WIN_WIDTH / 2) / tan(game->view.fov / 2)); // get the wall height
+	game->ray.wall_dist *= cos(game->ray.angle - game->player.angle); // fix the fisheye
+	game->ray.wall_heigt = (TILE_SIZE / game->ray.wall_dist) * ((WIN_WIDTH / 2) / tan(game->view.fov / 2)); // get the wall height
 	top_pix = (WIN_HEIGHT / 2) - (game->ray.wall_heigt / 2); // get the top pixel
 	bottom_pix = (WIN_HEIGHT / 2) + (game->ray.wall_heigt / 2); // get the bottom pixel
 	if (top_pix < 0)
 		top_pix = 0;
 	if (bottom_pix > WIN_HEIGHT)
 		bottom_pix = WIN_HEIGHT;
+	check_wall_dir(game, h_inter, v_inter);
+	// get_texture(game);
+	draw_wall(game, ray, top_pix, bottom_pix);
 	draw_sky(game, ray, top_pix);
 	draw_ground(game, ray, bottom_pix);
-	draw_wall(game, ray, top_pix, bottom_pix);
 }
 
 // rgb(234,182,118) //beige

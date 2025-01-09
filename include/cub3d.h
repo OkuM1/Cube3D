@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:20:48 by mokutucu          #+#    #+#             */
-/*   Updated: 2025/01/04 14:24:45 by chris            ###   ########.fr       */
+/*   Updated: 2025/01/09 15:37:40 by cwick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@
 #  define M_PI 3.14159265358979323846
 # endif
 
-# define TILE_SIZE 64
+# define TILE_SIZE		64
+# define TILE_SIZE_MM	16
 
 # define ROTATION_SPEED 0.01
 # define PLAYER_SPEED 1
@@ -52,6 +53,7 @@ typedef struct s_img
 	void	*mlx;
 	void	*mlx_win;
 	void	*img;
+	void	*img_texture;
 	char	*img_address;
 	int		bpp;
 	int		line_length;
@@ -84,7 +86,7 @@ typedef struct s_ray
 	double	step_y;
 	double	plane_x;
 	double	plane_y;
-	int		wall_flag;
+	char	wall_side;
 	double	wall_heigt;
 }	t_ray;
 
@@ -153,15 +155,18 @@ int		check_and_save_color(t_game *game, t_map *map, char identifier);
 int		check_and_save_level(t_map *map);
 int		find_player_start(t_game *game);
 
-// Parser
+// Raycaster
 void	save_texture(t_game *game, t_map *map);
-
 void	create_image(t_game *game);
+double	get_v_inter(t_game *game);
+double	get_h_inter(t_game *game);
+int		check_wall_hit(t_game *game, char c, double ray_y, double ray_x);
+void	nor_angle(double *angle);
+double	deg_to_rad(double a);
 void	cast_ray(t_game *game, int *side);
-void	render_wall(t_game *game, int ray);
+void	render_wall(t_game *game, int ray, double h_inter, double v_inter);
 void	my_mlx_pixel_put(t_game *game, int x, int y, unsigned int color);
 void	clear_image(t_game *game);
-void	nor_angle(double *angle);
 
 // Hooks
 int		refresh_game(void *param);
@@ -179,5 +184,13 @@ int		game_exit(t_game *game);
 // Error
 int		error(char *message);
 void	debugger(t_game *game, char *struct_name);
+
+// Bonus Minimap
+void	create_minimap(t_game *game);
+void	draw_map2d(t_game *game);
+void	draw_rectangle(t_game *game, int x_len, int y_len, unsigned int color);
+void	draw_player(t_game *game);
+void	draw_player_direction(t_game *game);
+void	draw_line(t_game *game, int end_x, int end_y, int color);
 
 #endif

@@ -29,7 +29,7 @@ void print_ray(t_game *game) {
     printf("hor_y: %f\n", ray->hor_y);
     printf("vert_x: %f\n", ray->vert_x);
     printf("vert_y: %f\n", ray->vert_y);
-    printf("wall_flag: %d\n", ray->wall_flag);
+    printf("wall_side: %d\n", ray->wall_side);
 }
 
 void print_view(t_game *game) {

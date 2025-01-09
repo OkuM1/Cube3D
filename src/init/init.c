@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 15:32:57 by mokutucu          #+#    #+#             */
-/*   Updated: 2025/01/04 13:45:35 by chris            ###   ########.fr       */
+/*   Updated: 2025/01/09 14:00:51 by cwick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	init_ray(t_game *game)
 	game->ray.plane_x = 0;
 	game->ray.plane_y = 0;
 	game->ray.wall_dist = 0;
-	game->ray.wall_flag = 0;
+	game->ray.wall_side = 0;
 	game->ray.wall_heigt = 0;
 	game->ray.hor_x_map = 0;
 	game->ray.hor_y_map = 0;

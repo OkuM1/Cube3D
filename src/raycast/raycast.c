@@ -34,47 +34,7 @@ void nor_angle(double *angle)
 		*angle -= 2 * M_PI;
 }
 
-// Bresenham's line algorithm
-void draw_line(t_game *game, int end_x, int end_y, int color)
-{
-	int err;
-	int err2;
-	int	current_x;
-	int current_y;
-
-	current_x = (int)game->player.x;
-	current_y = (int)game->player.y;
-	game->ray.delta_x = abs(end_x - current_x);
-	game->ray.delta_y = abs(end_y - current_y);
-	if (current_x < end_x) // Step direction for x
-		game->ray.step_x = 1;
-	else
-		game->ray.step_x = -1;
-	if (current_y < end_y) // Step direction for y
-		game->ray.step_y = 1;
-	else
-		game->ray.step_y = -1;
-	err = game->ray.delta_x - game->ray.delta_y;
-	while (1)
-	{
-		my_mlx_pixel_put(game, current_x, current_y, color);
-		if (current_x == end_x && current_y == end_y)
-			break;
-		err2 = 2 * err;
-		if (err2 > -game->ray.delta_y)
-		{
-			err -= game->ray.delta_y;
-			current_x += game->ray.step_x;
-		}
-		if (err2 < game->ray.delta_x)
-		{
-			err += game->ray.delta_x;
-			current_y += game->ray.step_y;
-		}
-	}
-}
-
-int check_wall_hit(t_game *game, char c, double ray_y, double ray_x)
+int	check_wall_hit(t_game *game, char c, double ray_y, double ray_x)
 {
 	int	map_x;
 	int	map_y;
@@ -104,7 +64,7 @@ int check_wall_hit(t_game *game, char c, double ray_y, double ray_x)
 	return (0);
 }
 
-double get_h_inter(t_game *game)
+double	get_h_inter(t_game *game)
 {
 	if (game->ray.dir_y < 0)
 	{
@@ -130,7 +90,7 @@ double get_h_inter(t_game *game)
 	return (sqrt(pow(game->ray.hor_x - game->player.x, 2) + pow(game->ray.hor_y - game->player.y, 2))); // get the distance
 }
 
-double get_v_inter(t_game *game)
+double	get_v_inter(t_game *game)
 {
 	if (game->ray.dir_x < 0)
 	{
@@ -156,120 +116,47 @@ double get_v_inter(t_game *game)
 	return (sqrt(pow(game->ray.vert_x - game->player.x, 2) + pow(game->ray.vert_y - game->player.y, 2))); // get the distance
 }
 
-void draw_player_direction(t_game *game)
+void	cast_rays(t_game *game)
 {
+	int		ray;
+	int		side;
 	double	current_angle;
-	double	end_angle;
-	double	end_x;
-	double	end_y;
+	double	camera_x;
 	double	h_inter;
 	double	v_inter;
 
-	end_y = 0;
-	end_x = 0;
-	h_inter = 0;
-	v_inter = 0;
+	ray = 0;
+	side = 0;
+	camera_x = 0;
+	game->ray.plane_x = sin(game->player.angle) * 0.66; // Perpendicular to dirX
+	game->ray.plane_y = -cos(game->player.angle) * 0.66; // Perpendicular to dirY
 	game->ray.angle = game->player.angle - (game->view.fov / 2);
 	current_angle = game->ray.angle;
-	end_angle = game->player.angle + (game->view.fov / 2);
-	while (current_angle <= end_angle)
+	while (ray < game->view.width) // Cast one ray for each screen column
 	{
-		game->ray.dir_x = cos(game->ray.angle);
-		game->ray.dir_y = sin(game->ray.angle);
+		game->ray.dir_x = cos(current_angle);
+		game->ray.dir_y = sin(current_angle);
 		h_inter = get_h_inter(game);
 		v_inter = get_v_inter(game);
-		printf("h_inter: %lf v_inter: %lf\n", h_inter, v_inter);
-		if (h_inter < v_inter)
-		{	
-			end_x = game->ray.hor_x;
-			end_y = game->ray.hor_y;
-		}
-		else if (v_inter < h_inter)
-		{
-			end_x = game->ray.vert_x;
-			end_y = game->ray.vert_y;
-		}
-		printf("End X: %lf, End Y: %lf\n", end_x, end_y);
-		draw_line(game, (int)end_x, (int)end_y, 0x00FF00);
-		current_angle += deg_to_rad(0.5);
+		if (v_inter < h_inter)
+			game->ray.wall_dist = v_inter;
+		else if (h_inter < v_inter)
+			game->ray.wall_dist = h_inter;		
 		game->ray.angle = current_angle;
 		nor_angle(&game->ray.angle);
-	}
-}
-
-void	draw_player(t_game *game)
-{
-	int	pl_size;
-	int	x;
-	int	y;
-
-	pl_size = 8;
-	y = game->player.y - pl_size / 2;
-	while (y < game->player.y + pl_size / 2)
-	{
-		x = game->player.x - pl_size / 2;
-		while (x < game->player.x + pl_size / 2)
-		{
-			my_mlx_pixel_put(game, x, y, PLAYER_COLOR);
-			x++;
-		}
-		y++;
-	}
-}
-
-void	draw_rectangle(t_game *game, int x_len, int y_len, unsigned int color)
-{
-	int	rect_x;
-	int	rect_y;
-
-	rect_y = y_len;
-	while (rect_y < y_len + (TILE_SIZE -1))
-	{
-		rect_x = x_len;
-		while (rect_x < x_len + (TILE_SIZE - 1))
-		{
-			my_mlx_pixel_put(game, rect_x, rect_y, color);
-			rect_x++;
-		}
-		rect_y++;
-	}
-}
-
-void	draw_map2d(t_game *game)
-{
-	int				y;
-	int				x;
-	int				x_len;
-	int				y_len;
-	unsigned int	color;
-
-	y = 0;
-	while (y < game->map.level_height)
-	{
-		x = 0;
-		while (x < game->map.level_width)
-		{	
-			if (game->map.level[y][x] == '1')
-				color = 0xFFFFFF;
-			else
-				color = 0x757575;
-			x_len = x * TILE_SIZE;
-			y_len = y * TILE_SIZE;
-			draw_rectangle(game, x_len, y_len, color);
-			x++;
-		}
-		y++;
+		render_wall(game, ray, h_inter, v_inter);
+		current_angle += (game->view.fov / game->view.width);
+		ray++;
 	}
 }
 
 void	create_image(t_game *game)
 {
 	clear_image(game);
-	draw_map2d(game);
-	draw_player(game);
-	draw_player_direction(game);
+	cast_rays(game);
+	// create_minimap(game);
 	mlx_put_image_to_window(game->img.mlx, game->img.mlx_win, game->img.img, 0, 0);
-	// draw_rays(game);
+	
 }
 
 // void	cast_ray(t_game *game, int *side)
