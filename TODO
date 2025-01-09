@@ -21,6 +21,9 @@ or if the player is outside
 Makefile:
 if minilibx-linux is empty --> delete empty folder before checking for folder
 
+TEXTURE:
+gets strong fisheye when close to the wall.
+
 MINIMAP
 need own image to scale it correctly
 // game->img.img = mlx_new_image(game->img.mlx, WIN_WIDTH, WIN_HEIGHT);

@@ -6,7 +6,7 @@
 /*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:20:48 by mokutucu          #+#    #+#             */
-/*   Updated: 2025/01/09 17:21:38 by cwick            ###   ########.fr       */
+/*   Updated: 2025/01/09 17:57:09 by cwick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,13 @@ typedef struct s_ray
 	double	plane_y;
 	char	wall_side;
 	double	wall_heigt;
+	double	wall_hit_x;
 }	t_ray;
+
+typedef struct s_texture
+{
+	
+}	t_texture;
 
 typedef struct s_view
 {
