@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cwick <cwick@student.42.fr>                +#+  +:+       +#+         #
+#    By: chris <chris@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/07 14:51:22 by mokutucu          #+#    #+#              #
-#    Updated: 2025/01/09 11:32:16 by cwick            ###   ########.fr        #
+#    Updated: 2025/01/10 17:04:22 by chris            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,13 +55,18 @@ MLX_REPO = https://github.com/42Paris/minilibx-linux.git
 # Targets
 all: $(MLX) $(LIBFT) $(NAME)
 
-# Check if MLX_DIR exits, if not download from MLX_REPO 
-# We need to check if the folder is empty
 check_directory:
-	@if [ ! -d "$(MLX_DIR)" ]; then \
+	@if [ -d "$(MLX_DIR)" ]; then \
+		if [ -z "$$(find $(MLX_DIR) -type f)" ]; then \
+			echo "minilibx folder is empty"; \
+			rm -rf $(MLX_DIR); \
+		fi; \
+	fi; \
+	if [ ! -d "$(MLX_DIR)" ]; then \
 		echo "Directory does not exist, downloading file..."; \
 		git clone $(MLX_REPO) $(MLX_DIR); \
 	fi
+
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LDFLAGS)
@@ -75,7 +80,6 @@ $(LIBFT):
 	make -C $(LIBDIR)
 
 $(MLX): check_directory
-#	git -C $(MLX_DIR) pull || git clone $(MLX_REPO) $(MLX_DIR)
 	make -C $(MLX_DIR)
 
 # Clean up

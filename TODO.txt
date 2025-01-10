@@ -16,9 +16,8 @@ an error.
 2. Except for the map, each type of information from an element can be separated
 by one or more space(s).
 
-
 MAKEFILE:
-if minilibx-linux is empty --> delete empty folder before checking for folder
+if minilibx-linux is empty --> delete empty folder before checking for folder		//DONE
 
 Texture file should be checked if file exist.
 	open file to check?
