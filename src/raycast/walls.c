@@ -6,7 +6,7 @@
 /*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 16:12:34 by mokutucu          #+#    #+#             */
-/*   Updated: 2025/01/10 14:56:22 by chris            ###   ########.fr       */
+/*   Updated: 2025/01/10 16:12:24 by chris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,13 @@ void my_mlx_pixel_put(t_game *game, int x, int y, unsigned int color) // put the
 		*(unsigned int *)pixel_buffer = color;
 }
 
-int rgba_to_int(int r, int g, int b, int a)
-{
-	return (a << 24) | (r << 16) | (g << 8) | b;
-}
-
 void draw_ground(t_game *game, int ray, int bottom_pix)
 {
 	int y = bottom_pix;
 
 	while (y < WIN_HEIGHT)
 	{
-		my_mlx_pixel_put(game, ray, y, GROUND_COLOR);
+		my_mlx_pixel_put(game, ray, y, game->map.floor_color);
 		y++;
 	}
 }
@@ -45,7 +40,7 @@ void draw_sky(t_game *game, int ray, int top_pix)
 
 	while (y < top_pix)
 	{
-		my_mlx_pixel_put(game, ray, y, SKY_COLOR);
+		my_mlx_pixel_put(game, ray, y, game->map.ceiling_color);
 		y++;
 	}
 }

@@ -1,20 +1,24 @@
 
 #######  TODO  #######
 
-Floodfill from Playerposition is nessessary
-To check if there is a hole in the boundary
-or if the player is outside
+MAP:
+1. The map must be closed/surrounded by walls, if not the program must return
+an error.
+	Floodfill from Playerposition is nessessary
+	To check if there is a hole in the boundary
+	or if the player is outside
 
-11  S11
+11  S11			This map works but should not
 1001111
 1000001
 1111111
 
+2. Except for the map, each type of information from an element can be separated
+by one or more space(s).
+
+
 MAKEFILE:
 if minilibx-linux is empty --> delete empty folder before checking for folder
-
-TEXTURE:
-gets strong fisheye when close to the wall.
 
 Texture file should be checked if file exist.
 	open file to check?
@@ -26,3 +30,7 @@ need own image to scale it correctly
 MALLOC:
 all free?
 
+BONUS:
+needs own rule in MAKEFILE
+	Minimap
+	wall collision

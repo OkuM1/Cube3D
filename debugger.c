@@ -51,8 +51,8 @@ void print_map(t_game *game) {
     printf("s_text: %s\n", map->s_text);
     printf("w_text: %s\n", map->w_text);
     printf("e_text: %s\n", map->e_text);
-    printf("floor_color: [%d, %d, %d]\n", map->floor_color[0], map->floor_color[1], map->floor_color[2]);
-    printf("ceiling_color: [%d, %d, %d]\n", map->ceiling_color[0], map->ceiling_color[1], map->ceiling_color[2]);
+    printf("floor_color: %d\n", map->floor_color);
+    printf("ceiling_color: %d\n", map->ceiling_color);
     printf("level_height: %d\n", map->level_height);
     printf("level_width: %d\n", map->level_width);
     for (int i = 0; i < map->level_height; i++) {
