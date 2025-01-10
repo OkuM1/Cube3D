@@ -119,15 +119,9 @@ double	get_v_inter(t_game *game)
 void	cast_rays(t_game *game)
 {
 	int		ray;
-	int		side;
 	double	current_angle;
-	double	camera_x;
 
 	ray = 0;
-	side = 0;
-	camera_x = 0;
-	// game->ray.plane_x = sin(game->player.angle) * 0.66; // Perpendicular to dirX
-	// game->ray.plane_y = -cos(game->player.angle) * 0.66; // Perpendicular to dirY
 	game->ray.angle = game->player.angle - (game->view.fov / 2);
 	current_angle = game->ray.angle;
 	while (ray < game->view.width) // Cast one ray for each screen column

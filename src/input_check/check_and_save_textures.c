@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_and_save_textures.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
+/*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 18:14:15 by chris             #+#    #+#             */
-/*   Updated: 2025/01/09 15:53:09 by cwick            ###   ########.fr       */
+/*   Updated: 2025/01/10 11:41:01 by chris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ void save_texture(t_game *game, t_map *map)
 		if (ft_strncmp(map->file[i], "NO", 2) == 0)
 			game->map.n_text = remove_newline(ft_strdup(map->file[i] + 3));
 		else if (ft_strncmp(map->file[i], "SO", 2) == 0)
-			game->map.s_text = ft_strdup(map->file[i] + 3);
+			game->map.s_text = remove_newline(ft_strdup(map->file[i] + 3));
 		else if (ft_strncmp(map->file[i], "WE", 2) == 0)
-			game->map.w_text = ft_strdup(map->file[i] + 3);
+			game->map.w_text = remove_newline(ft_strdup(map->file[i] + 3));
 		else if (ft_strncmp(map->file[i], "EA", 2) == 0)
-			game->map.e_text = ft_strdup(map->file[i] + 3);
+			game->map.e_text = remove_newline(ft_strdup(map->file[i] + 3));
 		i++;
 	}
 }

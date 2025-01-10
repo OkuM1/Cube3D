@@ -3,27 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   walls.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
+/*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 16:12:34 by mokutucu          #+#    #+#             */
-/*   Updated: 2025/01/09 17:55:49 by cwick            ###   ########.fr       */
+/*   Updated: 2025/01/10 12:33:46 by chris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
-
-// int get_color(t_game *game) // get the color of the wall
-// {
-// 	if (game->ray.wall_side == 'w')
-// 		return (rgba_to_int(234,182,118,255)); // west wall
-// 	else if (game->ray.wall_side == 'e')
-// 		return (rgba_to_int(238,238,228,255)); // east wall
-// 	if (game->ray.wall_side == 's')
-// 		return (rgba_to_int(25,118,162,255)); // south wall
-// 	else if (game->ray.wall_side == 'n')
-// 		return (rgba_to_int(128,57,30,255)); // north wall
-// 	return (0);
-// }
 
 void my_mlx_pixel_put(t_game *game, int x, int y, unsigned int color) // put the pixel
 {
@@ -68,10 +55,10 @@ void load_textures(t_game *game)
 	int i;
 
 	i = 0;
-	game->img.textures[0] = mlx_xpm_file_to_image(game->img.mlx, "textures/dark_texture.xpm", &game->img.tex_width, &game->img.tex_height);
-	game->img.textures[1] = mlx_xpm_file_to_image(game->img.mlx, "textures/green_texture.xpm", &game->img.tex_width, &game->img.tex_height);
-	game->img.textures[2] = mlx_xpm_file_to_image(game->img.mlx, "textures/orange_texture.xpm", &game->img.tex_width, &game->img.tex_height);
-	game->img.textures[3] = mlx_xpm_file_to_image(game->img.mlx, "textures/purple_texture.xpm", &game->img.tex_width, &game->img.tex_height);
+	game->img.textures[0] = mlx_xpm_file_to_image(game->img.mlx, game->map.w_text, &game->img.tex_width, &game->img.tex_height);
+	game->img.textures[1] = mlx_xpm_file_to_image(game->img.mlx, game->map.e_text, &game->img.tex_width, &game->img.tex_height);
+	game->img.textures[2] = mlx_xpm_file_to_image(game->img.mlx, game->map.s_text, &game->img.tex_width, &game->img.tex_height);
+	game->img.textures[3] = mlx_xpm_file_to_image(game->img.mlx, game->map.n_text, &game->img.tex_width, &game->img.tex_height);
 	while (i < 4)
 	{
 		if (!game->img.textures[i])
@@ -82,7 +69,6 @@ void load_textures(t_game *game)
 		i++;
 	}
 }
-
 
 void	*get_texture(t_game *game)
 {	
@@ -111,35 +97,24 @@ double texture_wall_hit(t_game *game)
 		wall_hit_x = game->ray.vert_y / TILE_SIZE;
 		wall_hit_x -= floor(wall_hit_x);
 	}
-	else
-		wall_hit_x = 0;
-	return wall_hit_x;
+	return (wall_hit_x);
 }
 
 void draw_wall(t_game *game, int ray, int top_pix, int bottom_pix)
 {
 	int		y;
-	int		tex_y;
-	int		tex_x;
-	char	*addr;
-	void	*texture;
-	int		bpp;
-	int		line_length;
-	int		endian;
-	int		color;
-	char	*pixel;
 	
 	y = top_pix;
 	game->ray.wall_hit_x = texture_wall_hit(game);
-	texture = get_texture(game);
-	addr = mlx_get_data_addr(texture, &bpp, &line_length, &endian);
-	tex_x = (int)(game->ray.wall_hit_x * game->img.tex_width) % game->img.tex_width;
+	game->tex.texture = get_texture(game);
+	game->tex.addr = mlx_get_data_addr(game->tex.texture, &game->tex.bpp, &game->tex.line_length, &game->tex.endian);
+	game->tex.x = (int)(game->ray.wall_hit_x * game->img.tex_width) % game->img.tex_width;
 	while (y < bottom_pix)
 	{
-		tex_y = ((y - top_pix) * game->img.tex_height) / (bottom_pix - top_pix);
-		pixel = addr + (tex_y * line_length + tex_x * (bpp / 8));
-		color = *(int *)pixel;
-		my_mlx_pixel_put(game, ray, y, color);
+		game->tex.y = (int)((double)(y - top_pix) / (bottom_pix - top_pix)  * game->img.tex_height);
+		game->tex.pixel = game->tex.addr + (game->tex.y * game->tex.line_length + game->tex.x * (game->tex.bpp / 8));
+		game->tex.color = *(int *)game->tex.pixel;
+		my_mlx_pixel_put(game, ray, y, game->tex.color);
 		y++;
 	}
 }
@@ -170,9 +145,11 @@ void render_wall(t_game *game, int ray)
 	top_pix = 0;
 	bottom_pix = 0;
 	game->ray.wall_dist *= cos(game->ray.angle - game->player.angle); // fix the fisheye
-	game->ray.wall_heigt = (TILE_SIZE / game->ray.wall_dist) * ((WIN_WIDTH / 2) / tan(game->view.fov / 2)); // get the wall height
-	top_pix = (WIN_HEIGHT / 2) - (game->ray.wall_heigt / 2); // get the top pixel
-	bottom_pix = (WIN_HEIGHT / 2) + (game->ray.wall_heigt / 2); // get the bottom pixel
+	if (game->ray.wall_dist < 0.1)
+		game->ray.wall_dist = 0.1;
+	game->ray.wall_heigt = (TILE_SIZE / game->ray.wall_dist) * ((WIN_WIDTH / 2) / tan(game->view.fov / 2));
+	top_pix = (WIN_HEIGHT / 2) - (game->ray.wall_heigt / 2);
+	bottom_pix = (WIN_HEIGHT / 2) + (game->ray.wall_heigt / 2);
 	if (top_pix < 0)
 		top_pix = 0;
 	if (bottom_pix > WIN_HEIGHT)

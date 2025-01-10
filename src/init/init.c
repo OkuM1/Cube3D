@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
+/*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 15:32:57 by mokutucu          #+#    #+#             */
-/*   Updated: 2025/01/09 14:00:51 by cwick            ###   ########.fr       */
+/*   Updated: 2025/01/10 12:06:03 by chris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
+
+void	init_texture(t_game *game)
+{
+	game->tex.y = 0;
+	game->tex.x = 0;
+	game->tex.bpp = 0;
+	game->tex.line_length = 0;
+	game->tex.endian = 0;
+	game->tex.color = 0;
+	game->tex.addr = NULL;
+	game->tex.pixel = NULL;
+	game->tex.texture = NULL;
+}
 
 void	init_ray(t_game *game)
 {

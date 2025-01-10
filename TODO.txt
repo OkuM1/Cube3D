@@ -1,0 +1,25 @@
+
+#######  TODO  #######
+
+Floodfill from Playerposition is nessessary
+To check if there is a hole in the boundary
+or if the player is outside
+
+11  S11
+1001111
+1000001
+1111111
+
+MAKEFILE:
+if minilibx-linux is empty --> delete empty folder before checking for folder
+
+TEXTURE:
+gets strong fisheye when close to the wall.
+
+Texture file should be checked if file exist.
+	open file to check?
+
+MINIMAP:
+need own image to scale it correctly
+// game->img.img = mlx_new_image(game->img.mlx, WIN_WIDTH, WIN_HEIGHT);
+

@@ -6,7 +6,7 @@
 /*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:14:29 by chris             #+#    #+#             */
-/*   Updated: 2025/01/05 18:09:51 by chris            ###   ########.fr       */
+/*   Updated: 2025/01/10 11:33:25 by chris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ void	move_player(t_game *game, double move_x, double move_y)
 	{
 		if (game->map.level[map_pos_y][map_pos_x] != '1') // Wall collision
 		{
-			game->player.x = move_x;
-			game->player.y = move_y;
+			game->player.x += (move_x - game->player.x);
+			game->player.y += (move_y - game->player.y);
 		}
 	}
 	game->player.x_grid = game->player.x / TILE_SIZE;

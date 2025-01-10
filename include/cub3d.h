@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
+/*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:20:48 by mokutucu          #+#    #+#             */
-/*   Updated: 2025/01/09 17:57:09 by cwick            ###   ########.fr       */
+/*   Updated: 2025/01/10 12:00:54 by chris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,15 @@ typedef struct s_ray
 
 typedef struct s_texture
 {
-	
+	int		y;
+	int		x;
+	int		bpp;
+	int		line_length;
+	int		endian;
+	int		color;
+	char	*addr;
+	char	*pixel;
+	void	*texture;
 }	t_texture;
 
 typedef struct s_view
@@ -147,6 +155,7 @@ typedef struct s_game
 	t_map		map;
 	t_player	player;
 	t_ray		ray;
+	t_texture	tex;
 }	t_game;
 
 
