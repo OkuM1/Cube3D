@@ -6,7 +6,7 @@
 /*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:20:48 by mokutucu          #+#    #+#             */
-/*   Updated: 2025/01/10 12:00:54 by chris            ###   ########.fr       */
+/*   Updated: 2025/01/10 14:08:59 by chris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ typedef struct s_ray
 	char	wall_side;
 	double	wall_heigt;
 	double	wall_hit_x;
+	int		hit_side;
 }	t_ray;
 
 typedef struct s_texture

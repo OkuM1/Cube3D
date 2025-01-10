@@ -6,7 +6,7 @@
 /*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 16:12:34 by mokutucu          #+#    #+#             */
-/*   Updated: 2025/01/10 12:33:46 by chris            ###   ########.fr       */
+/*   Updated: 2025/01/10 14:56:22 by chris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,35 +83,44 @@ void	*get_texture(t_game *game)
 	return (NULL);
 }
 
-double texture_wall_hit(t_game *game)
+void	texture_wall_hit(t_game *game)
 {
-	double wall_hit_x;
-
-	if (game->ray.h_inter < game->ray.v_inter)
-	{
-		wall_hit_x = game->ray.hor_x / TILE_SIZE;
-		wall_hit_x -= floor(wall_hit_x);
-	}
-	else if (game->ray.v_inter < game->ray.h_inter)
-	{
-		wall_hit_x = game->ray.vert_y / TILE_SIZE;
-		wall_hit_x -= floor(wall_hit_x);
-	}
-	return (wall_hit_x);
+	if (game->ray.hit_side == 1)
+		game->ray.wall_hit_x = fmod(game->ray.hor_x, TILE_SIZE) / TILE_SIZE;
+	else
+		game->ray.wall_hit_x = fmod(game->ray.vert_y, TILE_SIZE) / TILE_SIZE;
+	game->ray.wall_hit_x -= floor(game->ray.wall_hit_x);
 }
+
 
 void draw_wall(t_game *game, int ray, int top_pix, int bottom_pix)
 {
 	int		y;
+	double	tex_pos;
+	double	tex_step;
 	
 	y = top_pix;
-	game->ray.wall_hit_x = texture_wall_hit(game);
+	tex_pos = 0;
+	texture_wall_hit(game);
 	game->tex.texture = get_texture(game);
 	game->tex.addr = mlx_get_data_addr(game->tex.texture, &game->tex.bpp, &game->tex.line_length, &game->tex.endian);
-	game->tex.x = (int)(game->ray.wall_hit_x * game->img.tex_width) % game->img.tex_width;
-	while (y < bottom_pix)
+	game->tex.x = (int)(game->ray.wall_hit_x * game->img.tex_width);
+	if (game->ray.wall_side == 'w' || game->ray.wall_side == 's')	//flip texture
+		game->tex.x = game->img.tex_width - game->tex.x - 1;
+	tex_step = (double)game->img.tex_height / game->ray.wall_heigt;
+	if (top_pix < 0)
 	{
-		game->tex.y = (int)((double)(y - top_pix) / (bottom_pix - top_pix)  * game->img.tex_height);
+		tex_pos = -top_pix * tex_step;
+		y = 0;
+	}	
+	while (y < bottom_pix && y < WIN_HEIGHT)
+	{
+		game->tex.y = (int)tex_pos;
+		if (game->tex.y < 0)
+			game->tex.y = 0;
+		else if (game->tex.y >= game->img.tex_height)
+			game->tex.y = game->img.tex_height - 1;
+		tex_pos += tex_step;
 		game->tex.pixel = game->tex.addr + (game->tex.y * game->tex.line_length + game->tex.x * (game->tex.bpp / 8));
 		game->tex.color = *(int *)game->tex.pixel;
 		my_mlx_pixel_put(game, ray, y, game->tex.color);
@@ -127,6 +136,7 @@ void	check_wall_dir(t_game *game, double h_inter, double v_inter)
 			game->ray.wall_side = 's';
 		else
 			game->ray.wall_side = 'n';
+		game->ray.hit_side = 1;
 	}
 	else if (v_inter < h_inter)
 	{
@@ -134,6 +144,7 @@ void	check_wall_dir(t_game *game, double h_inter, double v_inter)
 			game->ray.wall_side = 'w';
 		else
 			game->ray.wall_side = 'e';
+		game->ray.hit_side = 0;
 	}
 }
 
@@ -147,13 +158,9 @@ void render_wall(t_game *game, int ray)
 	game->ray.wall_dist *= cos(game->ray.angle - game->player.angle); // fix the fisheye
 	if (game->ray.wall_dist < 0.1)
 		game->ray.wall_dist = 0.1;
-	game->ray.wall_heigt = (TILE_SIZE / game->ray.wall_dist) * ((WIN_WIDTH / 2) / tan(game->view.fov / 2));
+	game->ray.wall_heigt = (TILE_SIZE / game->ray.wall_dist) * (WIN_WIDTH / 2) / tan(game->view.fov / 2);
 	top_pix = (WIN_HEIGHT / 2) - (game->ray.wall_heigt / 2);
 	bottom_pix = (WIN_HEIGHT / 2) + (game->ray.wall_heigt / 2);
-	if (top_pix < 0)
-		top_pix = 0;
-	if (bottom_pix > WIN_HEIGHT)
-		bottom_pix = WIN_HEIGHT;
 	check_wall_dir(game, game->ray.h_inter, game->ray.v_inter);
 	draw_wall(game, ray, top_pix, bottom_pix);
 	draw_sky(game, ray, top_pix);

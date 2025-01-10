@@ -146,56 +146,9 @@ void	create_image(t_game *game)
 {
 	clear_image(game);
 	cast_rays(game);
-	// create_minimap(game);
+	// if (game->player.key_m == 1)
+	// {
+		// create_minimap(game);
+	// }
 	// mlx_put_image_to_window(game->img.mlx, game->img.mlx_win, game->img.img, 0, 0);
 }
-
-// void	cast_ray(t_game *game, int *side)
-// {
-// 	double	pos_x;
-// 	double	pos_y;
-
-// 	pos_x = game->player.x;
-// 	pos_y = game->player.y;
-// 	calc_ray_params(game);
-// 	check_raydirection(game, pos_x, pos_y);
-// 	check_wallhit(game, pos_x, pos_y, side);
-// }
-
-// void	draw_rays(t_game *game)
-// {
-// 	int		ray;
-// 	int		side;
-// 	double	camera_x;
-// 	double	hit_x;
-// 	double	hit_y;
-// 	// int		line_height;
-
-// 	ray = 0;
-// 	side = 0;
-// 	// line_height = 0;
-// 	camera_x = 0;
-// 	// game->ray.plane_x = sin(game->player.angle) * 0.66; // Perpendicular to dirX
-// 	// game->ray.plane_y = -cos(game->player.angle) * 0.66; // Perpendicular to dirY
-// 	game->ray.angle = game->player.angle - M_PI / 6;
-	
-// 	while (ray < 20) // Cast one ray for each screen column
-// 	{
-// 		camera_x = 2 * ray / (double)WIN_WIDTH - 1; // Map ray index to camera plane
-// 		game->ray.dir_x = cos(game->player.angle) + game->ray.plane_x * camera_x;
-// 		game->ray.dir_y = sin(game->player.angle) + game->ray.plane_y * camera_x;
-
-// 		// Draw rays as lines
-// 		cast_ray(game, &side);
-
-// 		hit_x = game->player.x + game->ray.dir_x * 500; // 500 is just the length of the ray
-//         hit_y = game->player.y + game->ray.dir_y * 500;
-// 		// if (side == 0)
-// 		// 	line_height = (int)(WIN_HEIGHT / (game->ray.dir_x - game->player.x));
-// 		// else
-// 		// 	line_height = (int)(WIN_HEIGHT / (game->ray.dir_y - game->player.y));
-// 		draw_line(game, (int)hit_x, (int)hit_y, 0xFF0000);
-// 		game->ray.angle += deg_to_rad('3');
-// 		ray++;
-// 	}
-// }

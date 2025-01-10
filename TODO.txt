@@ -23,3 +23,6 @@ MINIMAP:
 need own image to scale it correctly
 // game->img.img = mlx_new_image(game->img.mlx, WIN_WIDTH, WIN_HEIGHT);
 
+MALLOC:
+all free?
+

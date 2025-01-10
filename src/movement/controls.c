@@ -6,7 +6,7 @@
 /*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:14:29 by chris             #+#    #+#             */
-/*   Updated: 2025/01/10 11:33:25 by chris            ###   ########.fr       */
+/*   Updated: 2025/01/10 15:18:33 by chris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,13 @@ void	rotate_player(t_game *game, int direction)
 	game->player.dir_y = sin(game->player.angle);
 }
 
+int	too_close_to_wall(t_game *game)
+{
+	if (game->ray.wall_dist < 15)
+		return (1);
+	return (0);
+}
+
 void	move_player(t_game *game, double move_x, double move_y)
 {
 	int	map_pos_x;
@@ -35,8 +42,13 @@ void	move_player(t_game *game, double move_x, double move_y)
 	{
 		if (game->map.level[map_pos_y][map_pos_x] != '1') // Wall collision
 		{
-			game->player.x += (move_x - game->player.x);
-			game->player.y += (move_y - game->player.y);
+			if (too_close_to_wall(game) == 1 && game->player.u_d == 1)
+				return ;
+			else
+			{
+				game->player.x += (move_x - game->player.x);
+				game->player.y += (move_y - game->player.y);
+			}
 		}
 	}
 	game->player.x_grid = game->player.x / TILE_SIZE;
