@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   raycast.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/12 14:25:47 by chris             #+#    #+#             */
+/*   Updated: 2025/01/12 14:58:07 by chris            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
@@ -26,7 +36,7 @@ double	deg_to_rad(double a)
 }
 
 // normalize the angle
-void nor_angle(double *angle)
+void	nor_angle(double *angle)
 {
 	while (*angle < 0)
 		*angle += 2 * M_PI;
@@ -55,8 +65,6 @@ int	check_wall_hit(t_game *game, char c, double ray_y, double ray_x)
 		else
 			map_x = (int)(ray_x + 10) / TILE_SIZE;
 	}
-	else
-		return (0);
 	if (map_x < 0 || map_y < 0
 		|| map_x >= game->map.level_width || map_y >= game->map.level_height
 		|| game->map.level[map_y][map_x] == '1')
@@ -64,6 +72,29 @@ int	check_wall_hit(t_game *game, char c, double ray_y, double ray_x)
 	return (0);
 }
 
+int	check_boundaries(t_game *game, char c)
+{
+	if (c == 'h')
+	{
+		if (game->ray.hor_x < 0
+			|| game->ray.hor_x >= game->map.level_width * TILE_SIZE
+			|| game->ray.hor_y < 0
+			|| game->ray.hor_y >= game->map.level_height * TILE_SIZE)
+			return (1);
+	}
+	if (c == 'v')
+	{
+		if (game->ray.vert_x < 0
+			|| game->ray.vert_x >= game->map.level_width * TILE_SIZE
+			|| game->ray.vert_y < 0
+			|| game->ray.vert_y >= game->map.level_height * TILE_SIZE)
+			return (1);
+	}
+	return (0);
+}
+
+// get the next horizontal intersection
+// return value is pythagoras theorem
 double	get_h_inter(t_game *game)
 {
 	if (game->ray.dir_y < 0)
@@ -73,23 +104,28 @@ double	get_h_inter(t_game *game)
 	}
 	else
 	{
-		game->ray.hor_y = floor(game->player.y / TILE_SIZE) * TILE_SIZE + TILE_SIZE;
+		game->ray.hor_y = floor(game->player.y / TILE_SIZE)
+			* TILE_SIZE + TILE_SIZE;
 		game->ray.step_y = TILE_SIZE;
 	}
-	game->ray.hor_x = game->player.x + (game->ray.hor_y - game->player.y) * (game->ray.dir_x / game->ray.dir_y);
+	game->ray.hor_x = game->player.x + (game->ray.hor_y - game->player.y)
+		* (game->ray.dir_x / game->ray.dir_y);
 	while (1)
 	{
 		if (check_wall_hit(game, 'h', game->ray.hor_y, game->ray.hor_x) == 1)
 			break ;
 		game->ray.hor_y += game->ray.step_y;
-    	game->ray.hor_x += game->ray.step_y * (game->ray.dir_x / game->ray.dir_y);
-		if (game->ray.hor_x < 0 || game->ray.hor_x >= game->map.level_width * TILE_SIZE
-			|| game->ray.hor_y < 0 || game->ray.hor_y >= game->map.level_height * TILE_SIZE)
+		game->ray.hor_x += game->ray.step_y
+			* (game->ray.dir_x / game->ray.dir_y);
+		if (check_boundaries(game, 'h') == 1)
 			return (HUGE_VAL);
 	}
-	return (sqrt(pow(game->ray.hor_x - game->player.x, 2) + pow(game->ray.hor_y - game->player.y, 2))); // get the distance
+	return (sqrt(pow(game->ray.hor_x - game->player.x, 2)
+			+ pow(game->ray.hor_y - game->player.y, 2)));
 }
 
+// get the next vertical intersection
+// return value is pythagoras theorem
 double	get_v_inter(t_game *game)
 {
 	if (game->ray.dir_x < 0)
@@ -99,21 +135,24 @@ double	get_v_inter(t_game *game)
 	}
 	else
 	{
-		game->ray.vert_x = floor(game->player.x / TILE_SIZE) * TILE_SIZE + TILE_SIZE;
+		game->ray.vert_x = floor(game->player.x / TILE_SIZE)
+			* TILE_SIZE + TILE_SIZE;
 		game->ray.step_x = TILE_SIZE;
 	}
-	game->ray.vert_y = game->player.y + (game->ray.vert_x - game->player.x) * (game->ray.dir_y / game->ray.dir_x);
+	game->ray.vert_y = game->player.y + (game->ray.vert_x - game->player.x)
+		* (game->ray.dir_y / game->ray.dir_x);
 	while (1)
 	{
 		if (check_wall_hit(game, 'v', game->ray.vert_y, game->ray.vert_x) == 1)
 			break ;
 		game->ray.vert_x += game->ray.step_x;
-		game->ray.vert_y += game->ray.step_x * (game->ray.dir_y / game->ray.dir_x);
-		if (game->ray.vert_x < 0 || game->ray.vert_x >= game->map.level_width * TILE_SIZE
-			|| game->ray.vert_y < 0 || game->ray.vert_y >= game->map.level_height * TILE_SIZE)
-			return (HUGE_VAL) ;
+		game->ray.vert_y += game->ray.step_x
+			* (game->ray.dir_y / game->ray.dir_x);
+		if (check_boundaries(game, 'v') == 1)
+			return (HUGE_VAL);
 	}
-	return (sqrt(pow(game->ray.vert_x - game->player.x, 2) + pow(game->ray.vert_y - game->player.y, 2))); // get the distance
+	return (sqrt(pow(game->ray.vert_x - game->player.x, 2)
+			+ pow(game->ray.vert_y - game->player.y, 2)));
 }
 
 void	cast_rays(t_game *game)
@@ -124,7 +163,7 @@ void	cast_rays(t_game *game)
 	ray = 0;
 	game->ray.angle = game->player.angle - (game->view.fov / 2);
 	current_angle = game->ray.angle;
-	while (ray < game->view.width) // Cast one ray for each screen column
+	while (ray < game->view.width)
 	{
 		game->ray.dir_x = cos(current_angle);
 		game->ray.dir_y = sin(current_angle);
@@ -133,7 +172,7 @@ void	cast_rays(t_game *game)
 		if (game->ray.v_inter < game->ray.h_inter)
 			game->ray.wall_dist = game->ray.v_inter;
 		else if (game->ray.h_inter < game->ray.v_inter)
-			game->ray.wall_dist = game->ray.h_inter;		
+			game->ray.wall_dist = game->ray.h_inter;
 		game->ray.angle = current_angle;
 		nor_angle(&game->ray.angle);
 		render_wall(game, ray);
@@ -146,9 +185,10 @@ void	create_image(t_game *game)
 {
 	clear_image(game);
 	cast_rays(game);
+}
+
 	// if (game->player.key_m == 1)
 	// {
 		// create_minimap(game);
 	// }
 	// mlx_put_image_to_window(game->img.mlx, game->img.mlx_win, game->img.img, 0, 0);
-}

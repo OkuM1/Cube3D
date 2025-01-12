@@ -6,13 +6,19 @@
 /*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 18:14:15 by chris             #+#    #+#             */
-/*   Updated: 2025/01/10 11:41:01 by chris            ###   ########.fr       */
+/*   Updated: 2025/01/12 15:00:23 by chris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"../../include/cub3d.h"
 
-char *remove_newline(char *string)
+void	skip_spaces(char **str)
+{
+	while (**str == ' ' || **str == '\t')
+		*str += 1;
+}
+
+char	*remove_newline(char *string)
 {
 	int i;
 
@@ -32,14 +38,32 @@ void save_texture(t_game *game, t_map *map)
 	i = 0;
 	while (map->file[i])
 	{
+		skip_spaces(&map->file[i]);
 		if (ft_strncmp(map->file[i], "NO", 2) == 0)
-			game->map.n_text = remove_newline(ft_strdup(map->file[i] + 3));
+		{
+			map->file[i] += 2;
+			skip_spaces(&map->file[i]);
+			game->map.n_text = remove_newline(ft_strdup(map->file[i]));
+
+		}
 		else if (ft_strncmp(map->file[i], "SO", 2) == 0)
-			game->map.s_text = remove_newline(ft_strdup(map->file[i] + 3));
+		{
+			map->file[i] += 2;
+			skip_spaces(&map->file[i]);
+			game->map.s_text = remove_newline(ft_strdup(map->file[i]));
+		}
 		else if (ft_strncmp(map->file[i], "WE", 2) == 0)
-			game->map.w_text = remove_newline(ft_strdup(map->file[i] + 3));
+		{
+			map->file[i] += 2;
+			skip_spaces(&map->file[i]);
+			game->map.w_text = remove_newline(ft_strdup(map->file[i]));
+		}
 		else if (ft_strncmp(map->file[i], "EA", 2) == 0)
-			game->map.e_text = remove_newline(ft_strdup(map->file[i] + 3));
+		{
+			map->file[i] += 2;
+			skip_spaces(&map->file[i]);
+			game->map.e_text = remove_newline(ft_strdup(map->file[i]));
+		}
 		i++;
 	}
 }
@@ -53,6 +77,7 @@ int	check_and_save_textures(t_game *game, t_map *map)
 	texture_check = 0;
 	while (map->file[i])
 	{
+		skip_spaces (&map->file[i]);
 		if (ft_strncmp(map->file[i], "NO", 2) == 0)
 			texture_check |= (1 << 0); // Set bit 0 for NO
 		else if (ft_strncmp(map->file[i], "SO", 2) == 0)
