@@ -6,7 +6,7 @@
 /*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:20:48 by mokutucu          #+#    #+#             */
-/*   Updated: 2025/01/16 18:29:35 by cwick            ###   ########.fr       */
+/*   Updated: 2025/01/16 18:45:11 by cwick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,6 @@ typedef struct s_view
 typedef struct s_map
 {
 	char	**file;
-	char	**org_file_p;
 	int		map_size;
 	char	*n_text;
 	char	*s_text;
@@ -155,7 +154,6 @@ typedef struct s_game
 	t_ray		ray;
 	t_texture	tex;
 }	t_game;
-
 
 // Init
 void	init_all(t_game *game);

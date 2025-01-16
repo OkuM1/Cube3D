@@ -6,7 +6,7 @@
 /*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 15:04:03 by mokutucu          #+#    #+#             */
-/*   Updated: 2025/01/16 18:40:02 by cwick            ###   ########.fr       */
+/*   Updated: 2025/01/16 18:42:52 by cwick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,6 @@ int game_exit(t_game *game)
 	game->map.w_text = NULL;
 	free(game->map.e_text);
 	game->map.e_text = NULL;
-	// while (game->map.org_file_p[i])
-	// {
-	// 	free(game->map.org_file_p[i]);
-	// 	i++;
-	// }	
 	while (game->map.file[i])
 	{
 		free(game->map.file[i]);

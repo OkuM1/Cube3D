@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 15:32:57 by mokutucu          #+#    #+#             */
-/*   Updated: 2025/01/10 16:13:30 by chris            ###   ########.fr       */
+/*   Updated: 2025/01/16 18:44:03 by cwick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ void	init_ray(t_game *game)
 	game->ray.hor_y = 0;
 	game->ray.vert_x = 0;
 	game->ray.vert_y = 0;
-	// game->ray.plane_x = 0;
-	// game->ray.plane_y = 0;
 	game->ray.wall_dist = 0;
 	game->ray.wall_side = 0;
 	game->ray.wall_heigt = 0;
@@ -83,12 +81,6 @@ void	init_game(t_game *game)
 	game->map.e_text = NULL;
 	game->map.floor_color = 0;
 	game->map.ceiling_color = 0;
-	// game->map.floor_color[0] = -1;
-	// game->map.floor_color[1] = -1;
-	// game->map.floor_color[2] = -1;
-	// game->map.ceiling_color[0] = -1;
-	// game->map.ceiling_color[1] = -1;
-	// game->map.ceiling_color[2] = -1;
 	game->map.map_size = 0;
 	game->map.level = NULL;
 	game->map.level_height = 0;
