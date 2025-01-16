@@ -6,7 +6,7 @@
 /*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:14:29 by chris             #+#    #+#             */
-/*   Updated: 2025/01/16 11:38:41 by cwick            ###   ########.fr       */
+/*   Updated: 2025/01/16 18:53:53 by cwick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void	move_player(t_game *game, double move_x, double move_y)
 	}
 	game->player.x_grid = game->player.x / TILE_SIZE;
 	game->player.y_grid = game->player.y / TILE_SIZE;
-	// debugger(game, "player");
 }
 
 void	controls(t_game *game)
@@ -63,26 +62,26 @@ void	controls(t_game *game)
 
 	move_x = game->player.x;
 	move_y = game->player.y;
-	if (game->player.rot == 1) //rotate left
+	if (game->player.rot == 1)
 		rotate_player(game, 1);
-	if (game->player.rot == -1) //rotate right
+	if (game->player.rot == -1)
 		rotate_player(game, -1);
-	if (game->player.u_d == 1) // Move forward
+	if (game->player.u_d == 1)
 	{
 		move_x += game->player.dir_x * PLAYER_SPEED;
 		move_y += game->player.dir_y * PLAYER_SPEED;
 	}
-	if (game->player.u_d == -1) // Move backward
+	if (game->player.u_d == -1)
 	{
 		move_x -= game->player.dir_x * PLAYER_SPEED;
 		move_y -= game->player.dir_y * PLAYER_SPEED;
 	}
-	if (game->player.l_r == 1) // move right
+	if (game->player.l_r == 1)
 	{
 		move_x -= game->player.dir_y * PLAYER_SPEED;
 		move_y += game->player.dir_x * PLAYER_SPEED;
 	}
-	if (game->player.l_r == -1) // move left
+	if (game->player.l_r == -1)
 	{
 		move_x += game->player.dir_y * PLAYER_SPEED;
 		move_y -= game->player.dir_x * PLAYER_SPEED;
