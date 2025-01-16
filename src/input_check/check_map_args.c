@@ -6,7 +6,7 @@
 /*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 10:03:52 by chris             #+#    #+#             */
-/*   Updated: 2025/01/16 17:37:37 by cwick            ###   ########.fr       */
+/*   Updated: 2025/01/16 18:54:08 by cwick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ int	create_file_arr(char **av, t_map *map)
 	}
 	map->file[i] = NULL;
 	close(fd);
-	map->org_file_p = map->file;
 	return (0);
 }
 
