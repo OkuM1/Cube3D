@@ -3,68 +3,57 @@
 /*                                                        :::      ::::::::   */
 /*   player_position.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
+/*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 15:07:33 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/12/10 16:11:04 by cwick            ###   ########.fr       */
+/*   Updated: 2025/01/04 06:04:39 by chris            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-// int    set_player_angle(t_game *game, char cardinal_direction)
-// {
-//     if (cardinal_direction != 'N' && cardinal_direction != 'E'
-//         && cardinal_direction != 'S' && cardinal_direction != 'W')
-//         return (1);
-//     if (cardinal_direction == 'N')
-//         game->player.player_angle = M_PI / 2;  // Facing North (90 degrees)
-//     else if (cardinal_direction == 'S')
-//         game->player.player_angle = 3 * M_PI / 2;  // Facing South (270 degrees)
-//     else if (cardinal_direction == 'W')
-//         game->player.player_angle = M_PI;  // Facing West (180 degrees)
-//     else if (cardinal_direction == 'E')
-//         game->player.player_angle = 0;
-//     return (0);
-// }
-
-int    set_player_angle(t_game *game, char cardinal_direction)
+int	set_player_angle(t_game *game, char cardinal_direction)
 {
-    if (cardinal_direction != 'N' && cardinal_direction != 'E'
-        && cardinal_direction != 'S' && cardinal_direction != 'W')
-        return (1);
-    if (cardinal_direction == 'N')
-        game->player.player_angle = 3 * M_PI / 2;  // Facing North (270 degrees)
-    else if (cardinal_direction == 'S')
-        game->player.player_angle = M_PI / 2;  // Facing South (90 degrees)
-    else if (cardinal_direction == 'W')
-        game->player.player_angle = M_PI;  // Facing West (180 degrees)
-    else if (cardinal_direction == 'E')
-        game->player.player_angle = 0;
-    return (0);
+	if (cardinal_direction != 'N' && cardinal_direction != 'E'
+		&& cardinal_direction != 'S' && cardinal_direction != 'W')
+		return (1);
+	if (cardinal_direction == 'N')
+		game->player.angle = 3 * M_PI / 2;
+	else if (cardinal_direction == 'S')
+		game->player.angle = M_PI / 2;
+	else if (cardinal_direction == 'W')
+		game->player.angle = M_PI;
+	else if (cardinal_direction == 'E')
+		game->player.angle = 0;
+	game->player.dir_x = cos(game->player.angle);
+	game->player.dir_y = sin(game->player.angle);
+	return (0);
 }
+
 int find_player_start(t_game *game)
 {
-    int i;
-    int j;
+	int y;
+	int x;
 
-    i = 0;
-    while (game->map.level[i] != NULL)
-    {
-        j = 0;
-        while (game->map.level[i][j] != '\0')
-        {
-            if (game->map.level[i][j] == 'N' || game->map.level[i][j] == 'S' ||
-                game->map.level[i][j] == 'W' || game->map.level[i][j] == 'E')
-            {
-                game->player.x = j * TILE_SIZE + TILE_SIZE / 2;
-                game->player.y = i * TILE_SIZE + TILE_SIZE / 2;
-                if (set_player_angle(game, game->map.level[i][j]) == 1)
-                    return (1);
-            }
-            j++;
-        }
-        i++;
-    }
-    return (0);
+	y = 0;
+	while (game->map.level[y] != NULL)
+	{
+		x = 0;
+		while (game->map.level[y][x] != '\0')
+		{
+			if (game->map.level[y][x] == 'N' || game->map.level[y][x] == 'S' ||
+				game->map.level[y][x] == 'W' || game->map.level[y][x] == 'E')
+			{
+				game->player.x = x * TILE_SIZE + (TILE_SIZE / 2);
+				game->player.y = y * TILE_SIZE + (TILE_SIZE / 2);
+				game->player.x_grid = x;
+				game->player.y_grid = y;
+				if (set_player_angle(game, game->map.level[y][x]) == 1)
+					return (1);
+			}
+			x++;
+		}
+		y++;
+	}
+	return (0);
 }

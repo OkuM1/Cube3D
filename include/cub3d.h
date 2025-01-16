@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:20:48 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/12/19 10:16:42 by mokutucu         ###   ########.fr       */
+/*   Updated: 2025/01/16 18:45:11 by cwick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,28 +29,31 @@
 # define A			97
 # define S			115
 # define D			100
-# define L_ARROW	37
-# define R_ARROW	39
+# define L_ARROW	65361
+# define R_ARROW	65363
 # define SHIFT		16
 
 # ifndef M_PI
 #  define M_PI 3.14159265358979323846
 # endif
 
-# define TILE_SIZE 64
+# define TILE_SIZE		64
+# define TILE_SIZE_MM	16
 
-# define ROTATION_SPEED 0.045
-# define PLAYER_SPEED 4
+# define ROTATION_SPEED 0.01
+# define PLAYER_SPEED 1
 # define WIN_WIDTH	800
 # define WIN_HEIGHT	600
-# define SKY_COLOR 0x87CEEB  // Light blue 
-# define GROUND_COLOR 0x800111  // Brown
+# define PLAYER_COLOR 0x5cf700
 
 typedef struct s_img
 {
 	void	*mlx;
 	void	*mlx_win;
 	void	*img;
+    void    *textures[4];
+    int     tex_width;
+    int     tex_height; 
 	char	*img_address;
 	int		bpp;
 	int		line_length;
@@ -65,14 +68,42 @@ typedef struct s_img
 
 typedef struct s_ray
 {
-	double	ray_angle;
+	double	angle;
 	double	wall_dist;
 	double	hor_x;
 	double	hor_y;
 	double	vert_x;
 	double	vert_y;
-	int		wall_flag;
+	double	dir_x;
+	double	dir_y;
+	double	h_inter;
+	double	v_inter;
+	int		delta_x;
+	int		delta_y;
+	int		hor_x_map;
+	int		hor_y_map;
+	int		vert_x_map;
+	int		vert_y_map;
+	double	step_x;
+	double	step_y;
+	char	wall_side;
+	double	wall_heigt;
+	double	wall_hit_x;
+	int		hit_side;
 }	t_ray;
+
+typedef struct s_texture
+{
+	int		y;
+	int		x;
+	int		bpp;
+	int		line_length;
+	int		endian;
+	int		color;
+	char	*addr;
+	char	*pixel;
+	void	*texture;
+}	t_texture;
 
 typedef struct s_view
 {
@@ -92,8 +123,8 @@ typedef struct s_map
 	char	*s_text;
 	char	*w_text;
 	char	*e_text;
-	int		floor_color[3];
-	int		ceiling_color[3];
+	int		floor_color;
+	int		ceiling_color;
 	char	**level;
 	int		level_height;
 	int		level_width;
@@ -104,9 +135,14 @@ typedef struct s_player
 	int		player_id;
 	double	x;
 	double	y;
-	double	player_angle;
-	double	move_speed;
-	double	rotation_speed;
+	double	angle;
+	double	dir_x;
+	double	dir_y;
+	int		x_grid;
+	int		y_grid;
+	int		l_r;
+	int		u_d;
+	int		rot;
 }	t_player;
 
 typedef struct s_game
@@ -116,8 +152,8 @@ typedef struct s_game
 	t_map		map;
 	t_player	player;
 	t_ray		ray;
+	t_texture	tex;
 }	t_game;
-
 
 // Init
 void	init_all(t_game *game);
@@ -133,25 +169,48 @@ int		check_and_save_textures(t_game *game, t_map *map);
 int		check_and_save_color(t_game *game, t_map *map, char identifier);
 int		check_and_save_level(t_map *map);
 int		find_player_start(t_game *game);
+int		rgba_to_int(int r, int g, int b, int a);
+char	*remove_newline(char *string);
+int		space_counter(char *str);
+// void	skip_spaces(char **str);
 
-
-
-// Parser
+// Raycaster
 void	save_texture(t_game *game, t_map *map);
-
-float	nor_angle(float angle);
+void	load_textures(t_game *game);
+void	create_image(t_game *game);
+double	get_v_inter(t_game *game);
+double	get_h_inter(t_game *game);
+int		check_wall_hit(t_game *game, char c, double ray_y, double ray_x);
+void	nor_angle(double *angle);
+double	deg_to_rad(double a);
+void	cast_ray(t_game *game, int *side);
 void	render_wall(t_game *game, int ray);
-void	cast_rays(t_game *game);
 void	my_mlx_pixel_put(t_game *game, int x, int y, unsigned int color);
+void	clear_image(t_game *game);
 
 // Hooks
-int		key_hook(int keycode, t_game *game);
-int		refresh_game(t_game *game);
+int		refresh_game(void *param);
+int		handle_keypress(int keycode, void *param);
+int		handle_keyrelease(int keycode, void *param);
+
+// Controls
+void	controls(t_game *game);
+void	move_player(t_game *game, double move_x, double move_y);
+void	rotate_player(t_game *game, int direction);
 
 // Exit
 int		game_exit(t_game *game);
 
 // Error
 int		error(char *message);
+void	debugger(t_game *game, char *struct_name);
+
+// Bonus Minimap
+void	create_minimap(t_game *game);
+void	draw_map2d(t_game *game);
+void	draw_rectangle(t_game *game, int x_len, int y_len, unsigned int color);
+void	draw_player(t_game *game);
+void	draw_player_direction(t_game *game);
+void	draw_line(t_game *game, int end_x, int end_y, int color);
 
 #endif

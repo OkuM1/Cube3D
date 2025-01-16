@@ -6,7 +6,7 @@
 /*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 16:12:34 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/12/19 11:44:56 by mokutucu         ###   ########.fr       */
+/*   Updated: 2025/01/16 18:58:11 by mokutucu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,132 +14,152 @@
 
 void my_mlx_pixel_put(t_game *game, int x, int y, unsigned int color) // put the pixel
 {
-	char	*dst;
+	char	*pixel_buffer;
 
 	if (x < 0 || x >= WIN_WIDTH || y < 0 || y >= WIN_HEIGHT)
 		return ;
-	dst = game->img.img_address + (y * game->img.line_length) + (x * (game->img.bpp / 8));
-	if (dst)
-		*(unsigned int *)dst = color;
-}
-
-float nor_angle(float angle) // normalize the angle
-{
-	if (angle < 0)
-		angle += (2 * M_PI);
-	if (angle > (2 * M_PI))
-		angle -= (2 * M_PI);
-	return (angle);
-}
-
-int rgba_to_int(int r, int g, int b, int a) {
-    return (a << 24) | (r << 16) | (g << 8) | b;
-}
-
-void draw_floor_ceiling(t_game *game, int ray, int t_pix, int b_pix)
-{
-	int	i;
-	int	floor_color;
-	int	ceiling_color;
-
-	i = b_pix;
-	floor_color = rgba_to_int(95,203,249,255);
-	ceiling_color = rgba_to_int(69,123,5,255);
-	while (i > WIN_HEIGHT / 2)
-	{
-		my_mlx_pixel_put(game->img.mlx, ray, i, floor_color); //floor
-		i++;
-	}
-	i = t_pix;
-	while (i < b_pix / 2)
-	{
-		my_mlx_pixel_put(game->img.mlx, ray, i, ceiling_color); // ceiling
-		i++;
-	}
-}
-
-int get_color(t_game *game, int flag) // get the color of the wall
-{
-	game->ray.ray_angle = nor_angle(game->ray.ray_angle); // normalize the angle
-	if (flag == 0)
-	{
-		if (game->ray.ray_angle > M_PI / 2 && game->ray.ray_angle < 3 * (M_PI / 2))
-			return (rgba_to_int(234,182,118,255)); // west wall
-		else
-			return (rgba_to_int(238,238,228,255)); // east wall
-	}
-	else
-	{
-		if (game->ray.ray_angle > 0 && game->ray.ray_angle < M_PI)
-			return (rgba_to_int(25,118,162,255)); // south wall
-		else
-			return (rgba_to_int(128,57,30,255)); // north wall
-	}
-}
-
-void draw_wall(t_game *game, int ray, int top_pix, int bottom_pix) // draw the wall
-{
-	int	y;
-	unsigned int	color;
-	// int	texture;
-	y = top_pix;
-	color = 0;
-	// texture = get_texture(game, game->ray.wall_flag);
-	color = get_color(game, game->ray.wall_flag);
-	if (y < bottom_pix)
-	{
-		while (y < bottom_pix)
-		{
-			my_mlx_pixel_put(game, ray, y, color);
-			y++;
-		}
-	}
-	printf("Ray: %d, Top: %d, Bottom: %d, Color: %u\n", ray, top_pix, bottom_pix, color);
-}
-
-void draw_sky(t_game *game, int ray, int top_pix)
-{
-    int y = 0;
-    while (y < top_pix)
-    {
-        my_mlx_pixel_put(game, ray, y, SKY_COLOR);
-        y++;
-    }
+	pixel_buffer = game->img.img_address + (y * game->img.line_length) + (x * game->img.bpp / 8);
+	if (pixel_buffer)
+		*(unsigned int *)pixel_buffer = color;
 }
 
 void draw_ground(t_game *game, int ray, int bottom_pix)
 {
-    int y = bottom_pix;
-    while (y < WIN_HEIGHT)
-    {
-        my_mlx_pixel_put(game, ray, y, GROUND_COLOR);
-        y++;
-    }
+	int y = bottom_pix;
+
+	while (y < WIN_HEIGHT)
+	{
+		my_mlx_pixel_put(game, ray, y, game->map.floor_color);
+		y++;
+	}
 }
 
-void render_wall(t_game *game, int ray) // render the wall
+void draw_sky(t_game *game, int ray, int top_pix)
 {
-	double wall_h;
-	double bottom_pix;
-	double top_pix;
+	int y = 0;
 
-	game->ray.wall_dist *= cos(nor_angle(game->ray.ray_angle - game->player.player_angle)); // fix the fisheye
-	wall_h = (TILE_SIZE / game->ray.wall_dist) * ((WIN_WIDTH / 2) / tan(game->view.fov / 2)); // get the wall height
-	printf("wall_h: %lf\n", wall_h);
-	bottom_pix = (WIN_HEIGHT / 2) + (wall_h / 2); // get the bottom pixel
-	top_pix = (WIN_HEIGHT / 2) - (wall_h / 2); // get the top pixel
-	printf("Ray: %d, Top: %f, Bottom: %f, Wall_H: %f\n", ray, top_pix, bottom_pix, wall_h);
-	if (bottom_pix > WIN_HEIGHT)
-		bottom_pix = WIN_HEIGHT;
-	if (top_pix < 0)
-		top_pix = 0;
+	while (y < top_pix)
+	{
+		my_mlx_pixel_put(game, ray, y, game->map.ceiling_color);
+		y++;
+	}
+}
 
-	// Draw the sky and ground
-    draw_sky(game, ray, top_pix);
-    draw_ground(game, ray, bottom_pix);
+void load_textures(t_game *game)
+{
+	int i;
+
+	i = 0;
+	game->img.textures[0] = mlx_xpm_file_to_image(game->img.mlx, game->map.w_text, &game->img.tex_width, &game->img.tex_height);
+	game->img.textures[1] = mlx_xpm_file_to_image(game->img.mlx, game->map.e_text, &game->img.tex_width, &game->img.tex_height);
+	game->img.textures[2] = mlx_xpm_file_to_image(game->img.mlx, game->map.s_text, &game->img.tex_width, &game->img.tex_height);
+	game->img.textures[3] = mlx_xpm_file_to_image(game->img.mlx, game->map.n_text, &game->img.tex_width, &game->img.tex_height);
+	while (i < 4)
+	{
+		if (!game->img.textures[i])
+		{
+			printf("Failed to load texture %d\n", i);
+			exit(EXIT_FAILURE);
+		}
+		i++;
+	}
+}
+
+void	*get_texture(t_game *game)
+{	
+	if (game->ray.wall_side == 'w')
+		return game->img.textures[0];
+	else if (game->ray.wall_side == 'e')
+		return game->img.textures[1];
+	else if (game->ray.wall_side == 's')
+		return game->img.textures[2];
+	else if (game->ray.wall_side == 'n')
+		return game->img.textures[3];
+	return (NULL);
+}
+
+void	texture_wall_hit(t_game *game)
+{
+	if (game->ray.hit_side == 1)
+		game->ray.wall_hit_x = fmod(game->ray.hor_x, TILE_SIZE) / TILE_SIZE;
+	else
+		game->ray.wall_hit_x = fmod(game->ray.vert_y, TILE_SIZE) / TILE_SIZE;
+	game->ray.wall_hit_x -= floor(game->ray.wall_hit_x);
+}
+
+
+void draw_wall(t_game *game, int ray, int top_pix, int bottom_pix)
+{
+	int		y;
+	double	tex_pos;
+	double	tex_step;
 	
+	y = top_pix;
+	tex_pos = 0;
+	texture_wall_hit(game);
+	game->tex.texture = get_texture(game);
+	game->tex.addr = mlx_get_data_addr(game->tex.texture, &game->tex.bpp, &game->tex.line_length, &game->tex.endian);
+	game->tex.x = (int)(game->ray.wall_hit_x * game->img.tex_width);
+	if (game->ray.wall_side == 'w' || game->ray.wall_side == 's')	//flip texture
+		game->tex.x = game->img.tex_width - game->tex.x - 1;
+	tex_step = (double)game->img.tex_height / game->ray.wall_heigt;
+	if (top_pix < 0)
+	{
+		tex_pos = -top_pix * tex_step;
+		y = 0;
+	}	
+	while (y < bottom_pix && y < WIN_HEIGHT)
+	{
+		game->tex.y = (int)tex_pos;
+		if (game->tex.y < 0)
+			game->tex.y = 0;
+		else if (game->tex.y >= game->img.tex_height)
+			game->tex.y = game->img.tex_height - 1;
+		tex_pos += tex_step;
+		game->tex.pixel = game->tex.addr + (game->tex.y * game->tex.line_length + game->tex.x * (game->tex.bpp / 8));
+		game->tex.color = *(int *)game->tex.pixel;
+		my_mlx_pixel_put(game, ray, y, game->tex.color);
+		y++;
+	}
+}
+
+void	check_wall_dir(t_game *game, double h_inter, double v_inter)
+{
+	if (h_inter < v_inter)
+	{
+		if (game->ray.angle > 0 && game->ray.angle < M_PI)
+			game->ray.wall_side = 's';
+		else
+			game->ray.wall_side = 'n';
+		game->ray.hit_side = 1;
+	}
+	else if (v_inter < h_inter)
+	{
+		if (game->ray.angle > M_PI / 2 && game->ray.angle < 3 * M_PI / 2)
+			game->ray.wall_side = 'w';
+		else
+			game->ray.wall_side = 'e';
+		game->ray.hit_side = 0;
+	}
+}
+
+void render_wall(t_game *game, int ray)
+{
+	double top_pix;
+	double bottom_pix;
+
+	top_pix = 0;
+	bottom_pix = 0;
+	game->ray.wall_dist *= cos(game->ray.angle - game->player.angle); // fix the fisheye
+	if (game->ray.wall_dist < 0.1)
+		game->ray.wall_dist = 0.1;
+	game->ray.wall_heigt = (TILE_SIZE / game->ray.wall_dist) * (WIN_WIDTH / 2) / tan(game->view.fov / 2);
+	top_pix = (WIN_HEIGHT / 2) - (game->ray.wall_heigt / 2);
+	bottom_pix = (WIN_HEIGHT / 2) + (game->ray.wall_heigt / 2);
+	check_wall_dir(game, game->ray.h_inter, game->ray.v_inter);
 	draw_wall(game, ray, top_pix, bottom_pix);
-	// draw_floor_ceiling(game, ray, top_pix, bottom_pix); // draw the floor and the ceiling
+	draw_sky(game, ray, top_pix);
+	draw_ground(game, ray, bottom_pix);
 }
 
 // rgb(234,182,118) //beige

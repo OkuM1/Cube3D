@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+         #
+#    By: chris <chris@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/07 14:51:22 by mokutucu          #+#    #+#              #
-#    Updated: 2024/12/09 16:23:36 by mokutucu         ###   ########.fr        #
+#    Updated: 2025/01/10 17:04:22 by chris            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,10 @@ SRCS	= src/main.c \
 		src/raycast/player_position.c \
 		src/raycast/raycast.c \
 		src/raycast/walls.c \
-		src/init/init.c
+		src/init/init.c \
+		src/movement/controls.c \
+		debugger.c \
+		src/raycast/minimap.c
 
 OBJS	= $(patsubst $(SRC_DIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
 
@@ -48,15 +51,22 @@ LIBFT   = $(LIBDIR)/libft.a
 MLX     = $(MLX_DIR)/libmlx.a
 MLX_REPO = https://github.com/42Paris/minilibx-linux.git
 
+
 # Targets
 all: $(MLX) $(LIBFT) $(NAME)
 
-# Check if MLX_DIR exits, if not download from MLX_REPO
 check_directory:
-	@if [ ! -d "$(MLX_DIR)" ]; then \
+	@if [ -d "$(MLX_DIR)" ]; then \
+		if [ -z "$$(find $(MLX_DIR) -type f)" ]; then \
+			echo "minilibx folder is empty"; \
+			rm -rf $(MLX_DIR); \
+		fi; \
+	fi; \
+	if [ ! -d "$(MLX_DIR)" ]; then \
 		echo "Directory does not exist, downloading file..."; \
 		git clone $(MLX_REPO) $(MLX_DIR); \
 	fi
+
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LDFLAGS)
@@ -70,7 +80,6 @@ $(LIBFT):
 	make -C $(LIBDIR)
 
 $(MLX): check_directory
-#	git -C $(MLX_DIR) pull || git clone $(MLX_REPO) $(MLX_DIR)
 	make -C $(MLX_DIR)
 
 # Clean up

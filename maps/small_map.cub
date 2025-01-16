@@ -1,16 +1,15 @@
-NO ./textures/dark_texture.xpm
-SO ./textures/green_texture.xpm
-WE ./textures/orange_texture.xpm
-EA ./textures/purple_texture.xpm
+    NO     ./textures/north_texture.xpm
+SO        ./textures/south_texture.xpm
+      WE ./textures/west_texture.xpm
+EA ./textures/east_texture.xpm
 
-F 225, 252, 225
-C 168, 169, 167
+F      70,      64,      57
+     C       162, 216    , 234
 
-11111111111
-10000000001
-111111000W1
-10111100001
-10111110011
-10000110001
-10000000011
-11111111111
+11111111
+10000001
+100 1 001
+100 1 001
+110 1 001
+10000N001
+111111111
