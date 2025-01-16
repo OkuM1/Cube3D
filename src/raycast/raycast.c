@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:25:47 by chris             #+#    #+#             */
-/*   Updated: 2025/01/12 14:58:07 by chris            ###   ########.fr       */
+/*   Updated: 2025/01/16 11:19:37 by cwick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int	check_wall_hit(t_game *game, char c, double ray_y, double ray_x)
 	int	map_x;
 	int	map_y;
 
+	map_x = 0;
+	map_y = 0;
 	if (c == 'h')
 	{
 		map_x = (int)ray_x / TILE_SIZE;

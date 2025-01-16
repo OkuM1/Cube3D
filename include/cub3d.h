@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:20:48 by mokutucu          #+#    #+#             */
-/*   Updated: 2025/01/10 16:09:35 by chris            ###   ########.fr       */
+/*   Updated: 2025/01/16 18:29:35 by cwick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@
 # define WIN_WIDTH	800
 # define WIN_HEIGHT	600
 # define PLAYER_COLOR 0x5cf700
-// # define SKY_COLOR 0x87CEEB  // Light blue 
-// # define GROUND_COLOR 0x778899	// grey
 
 typedef struct s_img
 {
@@ -88,8 +86,6 @@ typedef struct s_ray
 	int		vert_y_map;
 	double	step_x;
 	double	step_y;
-	// double	plane_x;
-	// double	plane_y;
 	char	wall_side;
 	double	wall_heigt;
 	double	wall_hit_x;
@@ -122,6 +118,7 @@ typedef struct s_view
 typedef struct s_map
 {
 	char	**file;
+	char	**org_file_p;
 	int		map_size;
 	char	*n_text;
 	char	*s_text;
@@ -175,6 +172,9 @@ int		check_and_save_color(t_game *game, t_map *map, char identifier);
 int		check_and_save_level(t_map *map);
 int		find_player_start(t_game *game);
 int		rgba_to_int(int r, int g, int b, int a);
+char	*remove_newline(char *string);
+int		space_counter(char *str);
+// void	skip_spaces(char **str);
 
 // Raycaster
 void	save_texture(t_game *game, t_map *map);

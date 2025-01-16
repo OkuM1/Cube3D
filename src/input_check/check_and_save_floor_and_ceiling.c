@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_and_save_floor_and_ceiling.c                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chris <chris@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 18:22:06 by chris             #+#    #+#             */
-/*   Updated: 2025/01/10 16:30:25 by chris            ###   ########.fr       */
+/*   Updated: 2025/01/16 18:36:35 by cwick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int validate_and_save_color(t_game *game, char *line, char identifier)
 	int i;
 	int value;
 
-	nums = ft_split(line + 2, ',');
+	nums = ft_split(line, ',');
 	if (!nums)
 	{
 		error("Error: Failed to split color string.");
@@ -80,6 +80,7 @@ int validate_and_save_color(t_game *game, char *line, char identifier)
 int check_and_save_color(t_game *game, t_map *map, char identifier)
 {
 	int i;
+	int	skip;
 
 	if (!map || !map->file)
 	{
@@ -89,10 +90,12 @@ int check_and_save_color(t_game *game, t_map *map, char identifier)
 	i = 0;
 	while (map->file[i])
 	{
-		// Check if the line starts with the identifier F or C
-		if (ft_strncmp(map->file[i], &identifier, 1) == 0)
+		skip = 0;
+		skip = space_counter(map->file[i]);
+		if (ft_strncmp(map->file[i] + skip, &identifier, 1) == 0)
 		{
-			return (validate_and_save_color(game, map->file[i], identifier));
+			skip += 1 + space_counter(map->file[i] + skip + 1);
+			return (validate_and_save_color(game, map->file[i] + skip, identifier));
 		}
 		i++;
 	}
