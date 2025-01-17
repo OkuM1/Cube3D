@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:25:45 by mokutucu          #+#    #+#             */
-/*   Updated: 2025/01/17 13:30:48 by cwick            ###   ########.fr       */
+/*   Updated: 2025/01/17 16:17:12 by mokutucu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 int	error(char *message)
 {
-	perror (message);
+	ft_putstr_fd(message, 2);
 	exit(1);
 }

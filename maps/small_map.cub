@@ -1,15 +1,17 @@
+F      70,      64,      57
+     C       162, 216    , 234
+
+
     NO     ./textures/north_texture.xpm
 SO        ./textures/south_texture.xpm
       WE ./textures/west_texture.xpm
 EA ./textures/east_texture.xpm
 
-F      70,      64,      57
-     C       162, 216    , 234
 
 11111111
 10000001
 1001001
-1001001
-11010001
+10010011
+11 01000
 10000N001
 111111111

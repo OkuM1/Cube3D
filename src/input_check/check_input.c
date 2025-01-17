@@ -6,7 +6,7 @@
 /*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 13:50:04 by chris             #+#    #+#             */
-/*   Updated: 2025/01/17 16:08:23 by mokutucu         ###   ########.fr       */
+/*   Updated: 2025/01/17 16:15:27 by mokutucu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	flood_check(t_game *game, char ***map, int y, int x)
 		if (flood_check(game, map, y, x + 1) == 1)
 			return (1);
 	}
-	if ((*map)[y][x] == '\n' || (*map)[y][x] == '\0' || (*map)[y][x] == ' ')
+	if ((*map)[y][x] == '\n' || (*map)[y][x] == '\0')
 		return (1);
 	return (0);
 }
@@ -97,7 +97,10 @@ int	check_input(int ac, char **av, t_game *game)
 		return (1);
 	copy_level(game, &map);
 	if (flood_check(game, &map, game->player.y_grid, game->player.x_grid) == 1)
+	{
+		error("Error: level is invalid\n");
 		return (1);
+	}
 	free_array(map);
 	return (0);
 }
