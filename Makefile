@@ -6,7 +6,7 @@
 #    By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/07 14:51:22 by mokutucu          #+#    #+#              #
-#    Updated: 2025/01/17 13:52:17 by mokutucu         ###   ########.fr        #
+#    Updated: 2025/01/17 14:20:44 by mokutucu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,10 +41,16 @@ SRCS	= src/main.c \
 		src/input_check/level_utils.c \
 		src/raycast/player_position.c \
 		src/raycast/raycast.c \
+		src/raycast/raycast_utils.c \
 		src/raycast/walls.c \
+		src/raycast/walls_utils.c \
 		src/init/init.c \
+		src/init/init_2.c \
 		src/movement/controls.c \
-		debugger.c \
+		src/movement/controls_utils.c \
+		src/error/error.c \
+		src/error/debugger.c \
+		src/error/debugger_2.c \
 		src/raycast/minimap.c
 
 OBJS	= $(patsubst $(SRC_DIR)/%.c, $(OBJDIR)/%.o, $(SRCS))

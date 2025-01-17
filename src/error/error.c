@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:25:45 by mokutucu          #+#    #+#             */
-/*   Updated: 2024/11/20 13:39:28 by mokutucu         ###   ########.fr       */
+/*   Updated: 2025/01/17 13:30:48 by cwick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-int error(char *message)
+int	error(char *message)
 {
-    perror (message);
-    exit(1);
+	perror (message);
+	exit(1);
 }

@@ -6,49 +6,15 @@
 /*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 15:32:57 by mokutucu          #+#    #+#             */
-/*   Updated: 2025/01/16 18:44:03 by cwick            ###   ########.fr       */
+/*   Updated: 2025/01/17 14:15:18 by cwick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-void	init_texture(t_game *game)
-{
-	game->tex.y = 0;
-	game->tex.x = 0;
-	game->tex.bpp = 0;
-	game->tex.line_length = 0;
-	game->tex.endian = 0;
-	game->tex.color = 0;
-	game->tex.addr = NULL;
-	game->tex.pixel = NULL;
-	game->tex.texture = NULL;
-}
-
-void	init_ray(t_game *game)
-{
-	game->ray.angle = 0;
-	game->ray.delta_x = 0;
-	game->ray.delta_y = 0;
-	game->ray.dir_x = 0;
-	game->ray.dir_y = 0;
-	game->ray.hor_x = 0;
-	game->ray.hor_y = 0;
-	game->ray.vert_x = 0;
-	game->ray.vert_y = 0;
-	game->ray.wall_dist = 0;
-	game->ray.wall_side = 0;
-	game->ray.wall_heigt = 0;
-	game->ray.hor_x_map = 0;
-	game->ray.hor_y_map = 0;
-	game->ray.vert_x_map = 0;
-	game->ray.vert_y_map = 0;
-	game->ray.step_x = 0;
-	game->ray.step_y = 0;
-}
-
 void	init_player(t_game *game)
 {
+	game->player.player_id = 0;
 	game->player.x = 0;
 	game->player.y = 0;
 	game->player.dir_x = 0;
@@ -61,7 +27,7 @@ void	init_player(t_game *game)
 	game->player.rot = 0;
 }
 
-void	init_mlx(t_game *game)
+void	init_img(t_game *game)
 {
 	game->img.mlx = NULL;
 	game->img.mlx_win = NULL;
@@ -70,9 +36,15 @@ void	init_mlx(t_game *game)
 	game->img.bpp = 0;
 	game->img.line_length = 0;
 	game->img.endian = 0;
+	game->img.width = WIN_WIDTH;
+	game->img.height = WIN_HEIGHT;
+	game->img.n_texture_add = NULL;
+	game->img.s_texture_add = NULL;
+	game->img.w_texture_add = NULL;
+	game->img.e_texture_add = NULL;
 }
 
-void	init_game(t_game *game)
+void	init_map(t_game *game)
 {
 	game->map.file = NULL;
 	game->map.n_text = NULL;
@@ -87,21 +59,21 @@ void	init_game(t_game *game)
 	game->map.level_width = 0;
 }
 
-void    init_view(t_game *game)
+void	init_view(t_game *game)
 {
 	game->view.fov = M_PI / 3;
 	game->view.x = WIN_WIDTH / 2;
 	game->view.y = WIN_HEIGHT / 2;
-    game->view.height = WIN_HEIGHT;
-    game->view.width = WIN_WIDTH;
-    game->view.zoom = 1.0;
+	game->view.height = WIN_HEIGHT;
+	game->view.width = WIN_WIDTH;
+	game->view.zoom = 1.0;
 }
 
 void	init_all(t_game *game)
 {
 	init_view(game);
-	init_game(game);
-	init_mlx(game);
+	init_map(game);
+	init_img(game);
 	init_player(game);
 	init_ray(game);
 }

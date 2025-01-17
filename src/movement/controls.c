@@ -6,29 +6,11 @@
 /*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 12:14:29 by chris             #+#    #+#             */
-/*   Updated: 2025/01/16 18:53:53 by cwick            ###   ########.fr       */
+/*   Updated: 2025/01/17 13:21:45 by cwick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
-
-void	rotate_player(t_game *game, int direction)
-{
-	if (direction == 1)		//rotate right
-		game->player.angle += ROTATION_SPEED;
-	if (direction == -1)	// rotate left
-		game->player.angle -= ROTATION_SPEED;
-	nor_angle(&game->player.angle);
-	game->player.dir_x = cos(game->player.angle);
-	game->player.dir_y = sin(game->player.angle);
-}
-
-int	too_close_to_wall(t_game *game)
-{
-	if (game->ray.wall_dist < 15)
-		return (1);
-	return (0);
-}
 
 void	move_player(t_game *game, double move_x, double move_y)
 {
@@ -62,29 +44,8 @@ void	controls(t_game *game)
 
 	move_x = game->player.x;
 	move_y = game->player.y;
-	if (game->player.rot == 1)
-		rotate_player(game, 1);
-	if (game->player.rot == -1)
-		rotate_player(game, -1);
-	if (game->player.u_d == 1)
-	{
-		move_x += game->player.dir_x * PLAYER_SPEED;
-		move_y += game->player.dir_y * PLAYER_SPEED;
-	}
-	if (game->player.u_d == -1)
-	{
-		move_x -= game->player.dir_x * PLAYER_SPEED;
-		move_y -= game->player.dir_y * PLAYER_SPEED;
-	}
-	if (game->player.l_r == 1)
-	{
-		move_x -= game->player.dir_y * PLAYER_SPEED;
-		move_y += game->player.dir_x * PLAYER_SPEED;
-	}
-	if (game->player.l_r == -1)
-	{
-		move_x += game->player.dir_y * PLAYER_SPEED;
-		move_y -= game->player.dir_x * PLAYER_SPEED;
-	}
-	move_player(game, move_x, move_y);	
+	rotate_player(game);
+	calc_u_d(game, &move_x, &move_y);
+	calc_l_r(game, &move_x, &move_y);
+	move_player(game, move_x, move_y);
 }
