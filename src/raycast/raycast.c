@@ -6,43 +6,11 @@
 /*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:25:47 by chris             #+#    #+#             */
-/*   Updated: 2025/01/16 11:19:37 by cwick            ###   ########.fr       */
+/*   Updated: 2025/01/17 13:03:24 by cwick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
-
-void	clear_image(t_game *game)
-{
-	int		i;
-	int		total_pixels;
-	char	*pixel_buffer;
-
-	i = 0;
-	total_pixels = WIN_WIDTH * WIN_HEIGHT;
-	pixel_buffer = game->img.img_address;
-	while (i < total_pixels)
-	{
-		*(unsigned int *)pixel_buffer = 0x000000;
-		pixel_buffer += (game->img.bpp / 8);
-		i++;
-	}
-}
-
-// transfers degree to radians
-double	deg_to_rad(double a)
-{
-	return (a * M_PI / 180);
-}
-
-// normalize the angle
-void	nor_angle(double *angle)
-{
-	while (*angle < 0)
-		*angle += 2 * M_PI;
-	while (*angle > 2 * M_PI)
-		*angle -= 2 * M_PI;
-}
 
 int	check_wall_hit(t_game *game, char c, double ray_y, double ray_x)
 {
@@ -67,36 +35,11 @@ int	check_wall_hit(t_game *game, char c, double ray_y, double ray_x)
 		else
 			map_x = (int)(ray_x + 10) / TILE_SIZE;
 	}
-	if (map_x < 0 || map_y < 0
-		|| map_x >= game->map.level_width || map_y >= game->map.level_height
-		|| game->map.level[map_y][map_x] == '1')
+	if (control_wall_hit(game, map_x, map_y) == 1)
 		return (1);
 	return (0);
 }
 
-int	check_boundaries(t_game *game, char c)
-{
-	if (c == 'h')
-	{
-		if (game->ray.hor_x < 0
-			|| game->ray.hor_x >= game->map.level_width * TILE_SIZE
-			|| game->ray.hor_y < 0
-			|| game->ray.hor_y >= game->map.level_height * TILE_SIZE)
-			return (1);
-	}
-	if (c == 'v')
-	{
-		if (game->ray.vert_x < 0
-			|| game->ray.vert_x >= game->map.level_width * TILE_SIZE
-			|| game->ray.vert_y < 0
-			|| game->ray.vert_y >= game->map.level_height * TILE_SIZE)
-			return (1);
-	}
-	return (0);
-}
-
-// get the next horizontal intersection
-// return value is pythagoras theorem
 double	get_h_inter(t_game *game)
 {
 	if (game->ray.dir_y < 0)
@@ -126,8 +69,6 @@ double	get_h_inter(t_game *game)
 			+ pow(game->ray.hor_y - game->player.y, 2)));
 }
 
-// get the next vertical intersection
-// return value is pythagoras theorem
 double	get_v_inter(t_game *game)
 {
 	if (game->ray.dir_x < 0)
@@ -193,4 +134,3 @@ void	create_image(t_game *game)
 	// {
 		// create_minimap(game);
 	// }
-	// mlx_put_image_to_window(game->img.mlx, game->img.mlx_win, game->img.img, 0, 0);

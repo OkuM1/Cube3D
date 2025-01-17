@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: chris <chris@student.42.fr>                +#+  +:+       +#+         #
+#    By: cwick <cwick@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/07 14:51:22 by mokutucu          #+#    #+#              #
-#    Updated: 2025/01/10 17:04:22 by chris            ###   ########.fr        #
+#    Updated: 2025/01/17 13:58:29 by cwick            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,10 +38,16 @@ SRCS	= src/main.c \
 		src/input_check/check_and_save_level.c \
 		src/raycast/player_position.c \
 		src/raycast/raycast.c \
+		src/raycast/raycast_utils.c \
 		src/raycast/walls.c \
+		src/raycast/walls_utils.c \
 		src/init/init.c \
+		src/init/init_2.c \
 		src/movement/controls.c \
-		debugger.c \
+		src/movement/controls_utils.c \
+		src/error/error.c \
+		src/error/debugger.c \
+		src/error/debugger_2.c \
 		src/raycast/minimap.c
 
 OBJS	= $(patsubst $(SRC_DIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
