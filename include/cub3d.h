@@ -6,7 +6,7 @@
 /*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:20:48 by mokutucu          #+#    #+#             */
-/*   Updated: 2025/01/17 13:57:28 by cwick            ###   ########.fr       */
+/*   Updated: 2025/01/17 14:17:34 by cwick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,8 +157,8 @@ typedef struct s_game
 // Init
 void	init_all(t_game *game);
 void	init_view(t_game *game);
-void	init_game(t_game *game);
-void	init_mlx(t_game *game);
+void	init_map(t_game *game);
+void	init_img(t_game *game);
 void	init_player(t_game *game);
 void	init_ray(t_game *game);
 void	init_texture(t_game *game);

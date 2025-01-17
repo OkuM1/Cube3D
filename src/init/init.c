@@ -6,7 +6,7 @@
 /*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 15:32:57 by mokutucu          #+#    #+#             */
-/*   Updated: 2025/01/17 13:48:47 by cwick            ###   ########.fr       */
+/*   Updated: 2025/01/17 14:15:18 by cwick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	init_player(t_game *game)
 {
+	game->player.player_id = 0;
 	game->player.x = 0;
 	game->player.y = 0;
 	game->player.dir_x = 0;
@@ -26,7 +27,7 @@ void	init_player(t_game *game)
 	game->player.rot = 0;
 }
 
-void	init_mlx(t_game *game)
+void	init_img(t_game *game)
 {
 	game->img.mlx = NULL;
 	game->img.mlx_win = NULL;
@@ -35,9 +36,15 @@ void	init_mlx(t_game *game)
 	game->img.bpp = 0;
 	game->img.line_length = 0;
 	game->img.endian = 0;
+	game->img.width = WIN_WIDTH;
+	game->img.height = WIN_HEIGHT;
+	game->img.n_texture_add = NULL;
+	game->img.s_texture_add = NULL;
+	game->img.w_texture_add = NULL;
+	game->img.e_texture_add = NULL;
 }
 
-void	init_game(t_game *game)
+void	init_map(t_game *game)
 {
 	game->map.file = NULL;
 	game->map.n_text = NULL;
@@ -65,8 +72,8 @@ void	init_view(t_game *game)
 void	init_all(t_game *game)
 {
 	init_view(game);
-	init_game(game);
-	init_mlx(game);
+	init_map(game);
+	init_img(game);
 	init_player(game);
 	init_ray(game);
 }

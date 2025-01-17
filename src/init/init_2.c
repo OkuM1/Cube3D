@@ -6,7 +6,7 @@
 /*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 13:44:42 by cwick             #+#    #+#             */
-/*   Updated: 2025/01/17 13:47:33 by cwick            ###   ########.fr       */
+/*   Updated: 2025/01/17 14:17:28 by cwick            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	init_ray(t_game *game)
 	game->ray.hor_y = 0;
 	game->ray.vert_x = 0;
 	game->ray.vert_y = 0;
+	game->ray.h_inter = 0;
+	game->ray.v_inter = 0;
 	game->ray.wall_dist = 0;
 	game->ray.wall_side = 0;
 	game->ray.wall_heigt = 0;
@@ -45,4 +47,5 @@ void	init_ray(t_game *game)
 	game->ray.vert_y_map = 0;
 	game->ray.step_x = 0;
 	game->ray.step_y = 0;
+	game->ray.wall_hit_x = 0;
 }
