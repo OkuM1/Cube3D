@@ -5,11 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/17 14:22:32 by mokutucu         ###   ########.fr       */
+/*   Created: 2025/01/17 14:24:49 by mokutucu          #+#    #+#             */
+/*   Updated: 2025/01/17 14:24:52 by mokutucu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../include/cub3d.h"
 

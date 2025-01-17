@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debugger.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 13:49:21 by cwick             #+#    #+#             */
-/*   Updated: 2025/01/17 13:59:12 by cwick            ###   ########.fr       */
+/*   Updated: 2025/01/17 15:46:10 by mokutucu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	print_map(t_game *game)
 	printf("level_width: %d\n", map->level_width);
 	while (i < map->level_height)
 	{
-		printf("level[%d]: %s\n", i, map->level[i]);
+		printf("level[%d]: %s", i, map->level[i]);
 		i++;
 	}
 }
