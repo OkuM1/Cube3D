@@ -3,30 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   check_and_save_floor_and_ceiling.c                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 18:22:06 by chris             #+#    #+#             */
-/*   Updated: 2025/01/16 18:36:35 by cwick            ###   ########.fr       */
+/*   Updated: 2025/01/17 14:11:34 by mokutucu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-void free_array(char **arr)
+int	is_valid_digits(char *str)
 {
-	int i = 0;
+	int	i;
 
-	if (!arr) 
-		return;
-	while (arr[i])
-		free(arr[i++]);
-	free(arr);
-}
-
-int is_valid_digits(char *str)
-{
-	int i;
-	
 	i = 0;
 	if (!str || str[0] == '\0')
 		return (0);
@@ -39,24 +28,35 @@ int is_valid_digits(char *str)
 	return (1);
 }
 
-int rgba_to_int(int r, int g, int b, int a)
+void	process_colors(t_game *game, char **nums, char identifier)
 {
-	return ((a << 24) | (r << 16) | (g << 8) | b);
+	if (identifier == 'F')
+		game->map.floor_color = rgba_int(ft_atoi(nums[0]), 
+				ft_atoi(nums[1]), ft_atoi(nums[2]), 255);
+	else if (identifier == 'C')
+		game->map.ceiling_color = rgba_int(ft_atoi(nums[0]), 
+				ft_atoi(nums[1]), ft_atoi(nums[2]), 255);
 }
 
-int validate_and_save_color(t_game *game, char *line, char identifier)
+int	handle_split_error(char **nums)
 {
-	char **nums;
-	int i;
-	int value;
-
-	nums = ft_split(line, ',');
 	if (!nums)
 	{
 		error("Error: Failed to split color string.");
 		free_array(nums);
 		return (1);
 	}
+	return (0);
+}
+
+int	val_save_color(t_game *game, char *line, char identifier)
+{
+	char	**nums;
+	int		i;
+	int		value;
+
+	nums = ft_split(line, ',');
+	handle_split_error(nums);
 	i = 0;
 	while (nums[i] && i < 3)
 	{
@@ -69,17 +69,14 @@ int validate_and_save_color(t_game *game, char *line, char identifier)
 		}
 		i++;
 	}
-	if (identifier == 'F')
-		game->map.floor_color = rgba_to_int(ft_atoi(nums[0]), ft_atoi(nums[1]), ft_atoi(nums[2]), 255);
-	if (identifier == 'C')
-		game->map.ceiling_color = rgba_to_int(ft_atoi(nums[0]), ft_atoi(nums[1]), ft_atoi(nums[2]), 255);
+	process_colors(game, nums, identifier);
 	free_array(nums);
 	return (0);
 }
 
-int check_and_save_color(t_game *game, t_map *map, char identifier)
+int	check_and_save_color(t_game *game, t_map *map, char identifier)
 {
-	int i;
+	int	i;
 	int	skip;
 
 	if (!map || !map->file)
@@ -95,7 +92,7 @@ int check_and_save_color(t_game *game, t_map *map, char identifier)
 		if (ft_strncmp(map->file[i] + skip, &identifier, 1) == 0)
 		{
 			skip += 1 + space_counter(map->file[i] + skip + 1);
-			return (validate_and_save_color(game, map->file[i] + skip, identifier));
+			return (val_save_color(game, map->file[i] + skip, identifier));
 		}
 		i++;
 	}

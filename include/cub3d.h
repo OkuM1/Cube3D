@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:20:48 by mokutucu          #+#    #+#             */
-/*   Updated: 2025/01/16 18:45:11 by cwick            ###   ########.fr       */
+/*   Updated: 2025/01/17 14:04:38 by mokutucu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,11 +168,15 @@ int		get_arr_size_and_malloc(int fd, t_map *map);
 int		check_and_save_textures(t_game *game, t_map *map);
 int		check_and_save_color(t_game *game, t_map *map, char identifier);
 int		check_and_save_level(t_map *map);
+int		find_level_start(char **map);
+int		find_level_end(char **map);
+int		is_level_line(char *line);
 int		find_player_start(t_game *game);
 int		rgba_to_int(int r, int g, int b, int a);
 char	*remove_newline(char *string);
 int		space_counter(char *str);
-// void	skip_spaces(char **str);
+void	free_array(char **arr);
+int		rgba_int(int r, int g, int b, int a);
 
 // Raycaster
 void	save_texture(t_game *game, t_map *map);

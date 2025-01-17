@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: chris <chris@student.42.fr>                +#+  +:+       +#+         #
+#    By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/07 14:51:22 by mokutucu          #+#    #+#              #
-#    Updated: 2025/01/10 17:04:22 by chris            ###   ########.fr        #
+#    Updated: 2025/01/17 13:52:17 by mokutucu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,9 +33,12 @@ SRCS	= src/main.c \
 		src/hooks/refresh.c \
 		src/input_check/check_input.c \
 		src/input_check/check_map_args.c \
+		src/input_check/create_file_array.c \
 		src/input_check/check_and_save_textures.c \
 		src/input_check/check_and_save_floor_and_ceiling.c \
 		src/input_check/check_and_save_level.c \
+		src/input_check/input_utils.c \
+		src/input_check/level_utils.c \
 		src/raycast/player_position.c \
 		src/raycast/raycast.c \
 		src/raycast/walls.c \

@@ -3,77 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   check_and_save_textures.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwick <cwick@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mokutucu <mokutucu@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 18:14:15 by chris             #+#    #+#             */
-/*   Updated: 2025/01/16 18:23:44 by cwick            ###   ########.fr       */
+/*   Updated: 2025/01/17 14:12:44 by mokutucu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include	"../../include/cub3d.h"
-/* 
-void	skip_spaces(char **str)
-{
-	
-	while (**str == ' ' || **str == '\t')
-		*str += 1;
-} */
+#include "../../include/cub3d.h"
 
-int space_counter(char *str)
+void	process_texture(char **texture, char *line, int skip)
 {
-	int i;
-	
-	i = 0;
-	while (str[i] == ' ' || str[i] == '\t') 
-		i++;
-	return (i);
+	skip += 2 + space_counter(line + skip + 2);
+	*texture = remove_newline(ft_strdup(line + skip));
 }
 
-char	*remove_newline(char *string)
-{
-	int i;
-
-	i = 0;
-	while (string[i] && string[i] != '\n')
-		i++;
-	
-	if (string[i] == '\n')
-		string [i] = '\0';
-	return (string);
-}
-
-void save_texture(t_game *game, t_map *map)
+void	save_texture(t_game *game, t_map *map)
 {
 	int	i;
 	int	skip;
-	
+
 	i = 0;
-	skip = 0;
 	while (map->file[i])
 	{
 		skip = space_counter(map->file[i]);
 		if (ft_strncmp(map->file[i] + skip, "NO", 2) == 0)
-		{
-			skip += 2 + space_counter(map->file[i] + skip + 2);
-			game->map.n_text = remove_newline(ft_strdup(map->file[i] + skip));
-		}
+			process_texture(&game->map.n_text, map->file[i], skip);
 		else if (ft_strncmp(map->file[i] + skip, "SO", 2) == 0)
-		{
-			skip += 2 + space_counter(map->file[i] + skip + 2);
-			game->map.s_text = remove_newline(ft_strdup(map->file[i] + skip));
-		}
+			process_texture(&game->map.s_text, map->file[i], skip);
 		else if (ft_strncmp(map->file[i] + skip, "WE", 2) == 0)
-		{
-			skip += 2 + space_counter(map->file[i] + skip + 2);
-			game->map.w_text = remove_newline(ft_strdup(map->file[i] + skip));
-		}
+			process_texture(&game->map.w_text, map->file[i], skip);
 		else if (ft_strncmp(map->file[i] + skip, "EA", 2) == 0)
-		{
-			skip += 2 + space_counter(map->file[i] + skip + 2);
-			game->map.e_text = remove_newline(ft_strdup(map->file[i] + skip));
-		}
+			process_texture(&game->map.e_text, map->file[i], skip);
 		i++;
 	}
+}
+
+int	texture_missing(int a)
+{
+	if (a != 15)
+	{
+		error("Error: One mapfile is missing!");
+		return (1);
+	}
+	return (0);
 }
 
 int	check_and_save_textures(t_game *game, t_map *map)
@@ -89,20 +62,17 @@ int	check_and_save_textures(t_game *game, t_map *map)
 		skip = 0;
 		skip = space_counter(map->file[i]);
 		if (ft_strncmp(map->file[i] + skip, "NO", 2) == 0)
-			texture_check |= (1 << 0); // Set bit 0 for NO
+			texture_check |= (1 << 0);
 		else if (ft_strncmp(map->file[i] + skip, "SO", 2) == 0)
-			texture_check |= (1 << 1); // Set bit 1 for SO
+			texture_check |= (1 << 1);
 		else if (ft_strncmp(map->file[i] + skip, "WE", 2) == 0)
-			texture_check |= (1 << 2); // Set bit 2 for WE
+			texture_check |= (1 << 2);
 		else if (ft_strncmp(map->file[i] + skip, "EA", 2) == 0)
-			texture_check |= (1 << 3); // Set bit 3 for EA
+			texture_check |= (1 << 3);
 		i++;
 	}
-	if (texture_check != 15)
-	{
-		error("Error: One mapfile is missing!");
+	if (texture_missing(texture_check) != 0)
 		return (1);
-	}
 	save_texture(game, map);
 	return (0);
 }
