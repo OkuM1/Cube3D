@@ -61,12 +61,12 @@ Example Map:
 1000000001
 1111111111
 
-What I Learned
+What I Learned:
 
-    Manual implementation of a basic 3D engine using mathematics and geometry
+Manual implementation of a basic 3D engine using mathematics and geometry
 
-    Understanding of raycasting, projection planes, and camera rotation
+Understanding of raycasting, projection planes, and camera rotation
 
-    Handling manual pixel manipulation with limited graphics APIs
+Handling manual pixel manipulation with limited graphics APIs
 
-    Dealing with parsing, memory leaks, and performance bottleneck
+Dealing with parsing, memory leaks, and performance bottleneck
